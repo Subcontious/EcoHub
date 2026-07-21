@@ -1,0 +1,32 @@
+[
+  {
+    "id": "user-001",
+    "fullName": "Marcos Silva",
+    "email": "marcos@ecoplan.com",
+    "username": "marcos",
+    "password": "123456",
+    "isMaster": false,
+    "isActive": true,
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "user-002",
+    "fullName": "Ana Costa",
+    "email": "ana@ecoplan.com",
+    "username": "ana",
+    "password": "123456",
+    "isMaster": false,
+    "isActive": true,
+    "createdAt": "2024-02-20"
+  },
+  {
+    "id": "user-003",
+    "fullName": "Pedro Henrique",
+    "email": "pedro@ecoplan.com",
+    "username": "pedro",
+    "password": "123456",
+    "isMaster": true,
+    "isActive": true,
+    "createdAt": "2024-03-10"
+  }
+]

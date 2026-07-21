@@ -1,0 +1,340 @@
+/**
+ * EcoHUB Animations
+ * Transições, animações e efeitos visuais
+ * 
+ * Timing:
+ * - Microinterações: 100-150ms
+ * - Hover: 180ms
+ * - Abrir Modal: 250ms
+ * - Troca de página: 300ms
+ * 
+ * Curva: Ease-out (desaceleração natural)
+ */
+
+/* ========================================
+   TRANSITIONS BÁSICAS
+   ======================================== */
+
+.transition-fast {
+  transition: var(--transition-fast);
+}
+
+.transition-normal {
+  transition: var(--transition-normal);
+}
+
+.transition-colors {
+  transition: background-color, border-color, color var(--duration-fast) var(--ease-out);
+}
+
+.transition-transform {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.transition-all {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* ========================================
+   FADE IN/OUT
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.fade-out {
+  animation: fadeOut var(--duration-normal) var(--ease-out) forwards;
+}
+
+/* ========================================
+   SCALE
+   ======================================== */
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.scale-in {
+  animation: scaleIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.scale-out {
+  animation: scaleOut var(--duration-normal) var(--ease-out) forwards;
+}
+
+/* ========================================
+   SLIDE IN/OUT
+   ======================================== */
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp var(--duration-normal) var(--ease-out) forwards;
+}
+
+.slide-in-down {
+  animation: slideInDown var(--duration-normal) var(--ease-out) forwards;
+}
+
+.slide-out-down {
+  animation: slideOutDown var(--duration-normal) var(--ease-out) forwards;
+}
+
+/* ========================================
+   BOUNCE
+   ======================================== */
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bounce {
+  animation: bounce 1s infinite;
+}
+
+/* ========================================
+   PULSE (Loading)
+   ======================================== */
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s var(--ease-in-out) infinite;
+}
+
+/* ========================================
+   SHIMMER (Skeleton Loading)
+   ======================================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-line) 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ========================================
+   SPIN (Loader)
+   ======================================== */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ========================================
+   VIBRATE (Error)
+   ======================================== */
+
+@keyframes vibrate {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(2px);
+  }
+}
+
+.vibrate {
+  animation: vibrate 0.4s ease-in-out;
+}
+
+/* ========================================
+   GLOW (Hover effect)
+   ======================================== */
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(232, 89, 12, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(232, 89, 12, 0.5);
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* ========================================
+   BLUR IN/OUT
+   ======================================== */
+
+@keyframes blurIn {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+.blur-in {
+  animation: blurIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+/* ========================================
+   BACKDROP BLUR (Dark overlay)
+   ======================================== */
+
+@keyframes backdropIn {
+  from {
+    backdrop-filter: blur(0px);
+  }
+  to {
+    backdrop-filter: blur(4px);
+  }
+}
+
+.backdrop-blur-in {
+  animation: backdropIn var(--duration-normal) var(--ease-out) forwards;
+  backdrop-filter: blur(4px);
+}
+
+/* ========================================
+   STAGGER (Para listas)
+   ======================================== */
+
+.stagger-item {
+  animation: slideInUp var(--duration-normal) var(--ease-out) forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0ms; }
+.stagger-item:nth-child(2) { animation-delay: 50ms; }
+.stagger-item:nth-child(3) { animation-delay: 100ms; }
+.stagger-item:nth-child(4) { animation-delay: 150ms; }
+.stagger-item:nth-child(5) { animation-delay: 200ms; }
+.stagger-item:nth-child(n+6) { animation-delay: 250ms; }
+
+/* ========================================
+   REVEAL (Para lazy loading)
+   ======================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideInUp 0.6s var(--ease-out) forwards;
+}
+
+.reveal.d1 { animation-delay: 0ms; }
+.reveal.d2 { animation-delay: 100ms; }
+.reveal.d3 { animation-delay: 200ms; }
+.reveal.d4 { animation-delay: 300ms; }
+
+/* ========================================
+   RESPEITANDO PREFERÊNCIAS DO USUÁRIO
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

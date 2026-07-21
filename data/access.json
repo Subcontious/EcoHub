@@ -1,0 +1,23 @@
+{
+  "marcos": {
+    "digidoc-ad": {
+      "001": { "isActive": true }
+    },
+    "digidoc-rh": {
+      "004": { "isActive": true }
+    },
+    "digidoc-pat": {
+      "001": { "isActive": true }
+    }
+  },
+  "ana": {
+    "digidoc-ad": {
+      "005": { "isActive": true }
+    }
+  },
+  "pedro": {
+    "digidoc-rh": {
+      "007": { "isActive": true }
+    }
+  }
+}

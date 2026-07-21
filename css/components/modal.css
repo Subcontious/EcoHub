@@ -1,0 +1,335 @@
+/**
+ * EcoHUB Modal Component
+ * 
+ * Modal de autenticação que aparece ao clicar em um card
+ * 
+ * Animação:
+ * 1. Card cresce
+ * 2. Tela desfoca (backdrop blur)
+ * 3. Modal nasce do Card
+ * 4. Campo Município recebe foco
+ */
+
+/* ========================================
+   OVERLAY (Backdrop)
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal-overlay);
+  
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
+  
+  /* Melhorar performance */
+  will-change: backdrop-filter;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* ========================================
+   MODAL (Janela Principal)
+   ======================================== */
+
+.modal {
+  position: relative;
+  width: 90%;
+  max-width: 440px;
+  
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-xl);
+  
+  animation: scaleIn var(--duration-normal) var(--ease-out) forwards;
+  
+  /* Glassmorphism sutil */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal.opening {
+  animation: modalScaleIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.modal.closing {
+  animation: scaleOut var(--duration-fast) var(--ease-out) forwards;
+}
+
+/* ========================================
+   BOTÃO FECHAR
+   ======================================== */
+
+.modal-close {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 1;
+  
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  
+  background-color: transparent;
+  color: var(--color-text);
+  border: none;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+  background-color: var(--color-surface);
+  color: var(--color-orange);
+}
+
+.modal-close:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+.modal-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========================================
+   CONTEÚDO DO MODAL
+   ======================================== */
+
+.modal-content {
+  padding: var(--space-2xl);
+}
+
+.modal-header {
+  margin-bottom: var(--space-2xl);
+  text-align: center;
+}
+
+.modal-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.modal-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-soft);
+  margin: 0;
+}
+
+/* ========================================
+   FORMULÁRIO
+   ======================================== */
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ========================================
+   FORM GROUP (Campo)
+   ======================================== */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+  transition: var(--transition-fast);
+
+  /* Remover styles padrão */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-input:hover {
+  border-color: var(--color-line);
+  background-color: var(--color-surface-2);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-orange);
+  background-color: var(--color-surface-2);
+  box-shadow: 0 0 0 3px var(--color-orange-tint);
+}
+
+.form-input:disabled {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Select specific styling */
+select.form-input {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B5BAC2' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right var(--space-md) center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/* ========================================
+   MENSAGEM DE ERRO
+   ======================================== */
+
+.form-error {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  animation: slideInUp var(--duration-normal) var(--ease-out) forwards;
+}
+
+.form-error[hidden] {
+  display: none;
+}
+
+.form-error::before {
+  content: '⚠';
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   AÇÕES DO FORMULÁRIO
+   ======================================== */
+
+.form-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.form-actions .btn-primary {
+  order: 1;
+}
+
+.form-actions .btn-secondary {
+  order: 2;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 640px) {
+  .modal {
+    width: 95%;
+    max-width: 100%;
+  }
+  
+  .modal-content {
+    padding: var(--space-lg);
+  }
+  
+  .form-label {
+    font-size: var(--font-size-xs);
+  }
+  
+  .form-input {
+    padding: var(--space-md);
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay {
+    animation: none;
+  }
+  
+  .modal {
+    animation: none;
+  }
+  
+  .form-error {
+    animation: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .modal {
+    border-width: 2px;
+  }
+  
+  .form-input:focus {
+    outline: 3px solid var(--color-orange);
+  }
+}

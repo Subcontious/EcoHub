@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Área do Cliente — Ecoplan Contabilidade Pública</title>
+<meta name="description" content="Acesse os portais Eco Administração, Eco Cliente e EcoDoc — soluções integradas de gestão pública da Ecoplan." />
+<meta name="theme-color" content="#1B1D22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+/* ---- Estilos exclusivos da Área do Cliente ---- */
+
+.portals-hero {
+  padding-top: clamp(64px,9vw,108px);
+  padding-bottom: clamp(48px,6vw,72px);
+  text-align: center;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.portals-hero::before {
+  content: ""; position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,89,12,.08) 0%, transparent 65%);
+  top: -220px; left: 50%; transform: translateX(-50%);
+  filter: blur(24px); pointer-events: none; z-index: 0;
+}
+.portals-hero .wrap { position: relative; z-index: 1 }
+.portals-hero h1 {
+  font-size: clamp(32px,5vw,58px); letter-spacing: -.03em;
+  margin-top: 16px; max-width: 640px; margin-inline: auto;
+}
+.portals-hero h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--orange) }
+.portals-hero-lede {
+  margin-top: 16px; font-size: clamp(15px,1.7vw,18px);
+  color: var(--ink-soft); max-width: 480px; margin-inline: auto; line-height: 1.68;
+}
+
+.portals-section {
+  padding-block: clamp(48px,7vw,80px);
+  background: var(--surface-2);
+}
+[data-theme="dark"] .portals-section { background: var(--bg) }
+
+.portals-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: clamp(20px,2.5vw,30px);
+}
+.portal-card {
+  background: var(--surface); border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--shadow-md); border: 1px solid var(--line);
+  transition: transform .4s var(--ease), box-shadow .4s;
+  display: flex; flex-direction: column;
+}
+.portal-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg) }
+.portal-visual {
+  height: clamp(200px,19vw,260px); position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.portal-visual::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 24px 24px; pointer-events: none;
+}
+.pv-admin  { background: linear-gradient(140deg, #122648, #1B3E7A) }
+.pv-cliente{ background: linear-gradient(140deg, #9E3405, #D44C0C) }
+.pv-doc    { background: linear-gradient(140deg, #083C34, #0F5A51) }
+.portal-art { position: relative; z-index: 1; filter: drop-shadow(0 6px 24px rgba(0,0,0,.30)) }
+.portal-body { padding: clamp(24px,3vw,36px); flex: 1; display: flex; flex-direction: column }
+.portal-tag {
+  font-family: var(--display); font-size: 11px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+}
+.portal-name {
+  font-family: var(--display); font-size: clamp(19px,2vw,23px);
+  font-weight: 800; letter-spacing: -.025em; color: var(--ink);
+  line-height: 1.12; margin-bottom: 12px;
+}
+.portal-desc { font-size: 14.5px; color: var(--ink-soft); line-height: 1.68; flex: 1; margin-bottom: 26px }
+.portal-card .btn { align-self: flex-start; padding: 12px 22px; font-size: 14.5px }
+
+.support-band {
+  background: linear-gradient(160deg, #17202E, #1D2D3F);
+  padding: clamp(56px,8vw,88px) 0;
+  text-align: center; color: #fff; position: relative; overflow: hidden;
+}
+.support-band::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 36px 36px; pointer-events: none;
+}
+.support-band .wrap { position: relative; z-index: 1 }
+.support-band h3 { font-size: clamp(18px,2.5vw,26px); color: #fff; font-weight: 700; margin-bottom: 10px }
+.support-band p { font-size: 15px; color: rgba(255,255,255,.50); margin-bottom: 30px; max-width: 400px; margin-inline: auto; line-height: 1.68 }
+
+@media (max-width: 960px) {
+  .portals-grid { grid-template-columns: 1fr 1fr }
+  .portal-card:nth-child(3) { grid-column: 1/-1; max-width: 480px; margin: 0 auto; width: 100% }
+}
+@media (max-width: 600px) {
+  .portals-grid { grid-template-columns: 1fr }
+  .portal-card:nth-child(3) { grid-column: auto; max-width: none; margin: 0 }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+
+<!-- HEADER -->
+<header class="header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="Ecoplan - Home Redesign.html" aria-label="Ecoplan — Página inicial">
+        <img id="brandLogo" src="Logo_Ecoplan.png" alt="Ecoplan" height="40" style="width:auto;display:block;" />
+      </a>
+      <div class="nav-links">
+        <a href="Ecoplan - Home Redesign.html">Início</a>
+        <a href="Ecoplan - Sobre Nos.html">Sobre</a>
+        <a href="Ecoplan - Clientes.html">Clientes</a>
+        <a href="Ecoplan - Home Redesign.html#familia">Família Ecoplan</a>
+        <a href="Ecoplan - Home Redesign.html#contato">Contato</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="Ecoplan - Area do Cliente.html" aria-current="page">Área do Cliente</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Navegação mobile">
+  <a href="Ecoplan - Home Redesign.html">Início</a>
+  <a href="Ecoplan - Sobre Nos.html">Sobre</a>
+  <a href="Ecoplan - Clientes.html">Clientes</a>
+  <a href="Ecoplan - Home Redesign.html#familia">Família Ecoplan</a>
+  <a href="Ecoplan - Home Redesign.html#contato">Contato</a>
+  <div class="mobile-theme-row">
+    <span id="themeLabel">Modo escuro</span>
+    <button class="theme-toggle theme-toggle-mobile" aria-label="Alternar tema">
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+  <a class="btn btn-primary" href="Ecoplan - Area do Cliente.html">Área do Cliente</a>
+</nav>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="portals-hero">
+  <div class="wrap">
+    <span class="eyebrow center reveal">Acesso seguro</span>
+    <h1 class="reveal d1">Seu espaço <em>integrado</em><br>na Ecoplan</h1>
+    <p class="portals-hero-lede reveal d2">Acesse os sistemas da Ecoplan — gerencie comunicados, acompanhe demandas e consulte documentos com segurança e agilidade.</p>
+  </div>
+</section>
+
+<!-- PORTAIS -->
+<section class="portals-section" id="portals">
+  <div class="wrap">
+    <div class="portals-grid">
+
+      <!-- ECO ADMINISTRAÇÃO -->
+      <div class="portal-card reveal">
+        <div class="portal-visual pv-admin">
+          <svg class="portal-art" width="220" height="168" viewBox="0 0 220 168" fill="none" aria-hidden="true">
+            <rect x="12" y="14" width="196" height="126" rx="13" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.17)" stroke-width="1.5"/>
+            <rect x="12" y="14" width="196" height="34" rx="13" fill="rgba(255,255,255,.06)"/>
+            <rect x="12" y="34" width="196" height="14" fill="rgba(255,255,255,.06)"/>
+            <circle cx="33" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <circle cx="49" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <circle cx="65" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <rect x="84" y="26" width="52" height="10" rx="5" fill="rgba(255,255,255,.1)"/>
+            <line x1="28" y1="120" x2="194" y2="120" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="106" x2="194" y2="106" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="92" x2="194" y2="92" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="78" x2="194" y2="78" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="34" y="98" width="20" height="22" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="60" y="84" width="20" height="36" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="86" y="104" width="20" height="16" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="112" y="72" width="20" height="48" rx="5" fill="#E8590C"/>
+            <rect x="138" y="88" width="20" height="32" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="164" y="78" width="20" height="42" rx="5" fill="rgba(255,255,255,.17)"/>
+            <path d="M44 94 L70 82 L96 100 L122 70 L148 86 L174 76" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="122" cy="70" r="5" fill="#FF8A4C"/>
+            <circle cx="122" cy="70" r="9" fill="rgba(255,140,70,.22)"/>
+            <rect x="150" y="50" width="44" height="24" rx="7" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
+            <rect x="157" y="57" width="18" height="4" rx="2" fill="rgba(255,255,255,.28)"/>
+            <rect x="157" y="65" width="12" height="4" rx="2" fill="#E8590C" opacity=".9"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Gestão de artigos</div>
+          <h2 class="portal-name">Eco Administração</h2>
+          <p class="portal-desc">Sistema integrado de controle e publicação de comunicados para gestores da Ecoplan.</p>
+          <a href="Ecoplan - Eco Administracao.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ECO CLIENTE -->
+      <div class="portal-card reveal d1">
+        <div class="portal-visual pv-cliente">
+          <svg class="portal-art" width="200" height="168" viewBox="0 0 200 168" fill="none" aria-hidden="true">
+            <rect x="28" y="16" width="144" height="130" rx="16" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <circle cx="100" cy="64" r="30" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.25)" stroke-width="1.8"/>
+            <circle cx="100" cy="53" r="13" fill="rgba(255,255,255,.55)"/>
+            <path d="M72 88 C72 76 128 76 128 88" fill="rgba(255,255,255,.50)"/>
+            <circle cx="123" cy="42" r="12" fill="#A83605"/>
+            <circle cx="123" cy="42" r="12" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <path d="M118 42 L121.5 45.5 L128 37.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="66" y="104" width="68" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
+            <rect x="77" y="118" width="46" height="6" rx="3" fill="rgba(255,255,255,.20)"/>
+            <rect x="38" y="134" width="48" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+            <rect x="114" y="134" width="48" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Portal de Acesso</div>
+          <h2 class="portal-name">Eco Cliente</h2>
+          <p class="portal-desc">Acompanhe demandas, documentos e comunicados da sua entidade junto à equipe técnica da Ecoplan.</p>
+          <a href="Ecoplan - Eco Cliente.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ECODOC -->
+      <div class="portal-card reveal d2">
+        <div class="portal-visual pv-doc">
+          <svg class="portal-art" width="200" height="168" viewBox="0 0 200 168" fill="none" aria-hidden="true">
+            <rect x="54" y="28" width="96" height="116" rx="10" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.11)" stroke-width="1.5" transform="rotate(-7 102 86)"/>
+            <rect x="52" y="24" width="96" height="116" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.14)" stroke-width="1.5" transform="rotate(-3 100 82)"/>
+            <rect x="50" y="18" width="98" height="122" rx="10" fill="rgba(255,255,255,.13)" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <path d="M124 18 L148 42 L124 42 Z" fill="rgba(255,255,255,.12)"/>
+            <path d="M124 18 L148 42" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <rect x="62" y="54" width="62" height="7" rx="3.5" fill="rgba(255,255,255,.40)"/>
+            <rect x="62" y="67" width="50" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="78" width="56" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="89" width="42" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="100" width="60" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <line x1="62" y1="114" x2="144" y2="114" stroke="rgba(255,255,255,.10)" stroke-width="1"/>
+            <circle cx="130" cy="128" r="20" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <circle cx="130" cy="128" r="13" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+            <path d="M123 128 L128 133 L137 121" stroke="#4DD9B8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Gestão Documental</div>
+          <h2 class="portal-name">EcoDoc</h2>
+          <p class="portal-desc">Repositório centralizado de documentos contábeis, contratos e licitações, com acesso seguro à nuvem.</p>
+          <a href="#" class="btn btn-ghost" tabindex="-1" aria-disabled="true" style="opacity:.55;pointer-events:none;">Em breve</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SUPORTE -->
+<div class="support-band">
+  <div class="wrap">
+    <h3>Precisa de ajuda?</h3>
+    <p>Nossa equipe está disponível de segunda a sexta, das 8h às 17h.</p>
+    <a class="btn" href="https://wa.me/5583999190100" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com a equipe
+    </a>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="Ecoplan - Home Redesign.html" aria-label="Ecoplan — início">
+          <img src="Logo_Ecoplan_Dark.png" alt="Ecoplan" style="height:40px;width:auto;display:block;">
+        </a>
+        <p class="footer-about">Contabilidade pública com excelência técnica e compromisso com gestores e municípios, desde 1982.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/5583999190100" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="Ecoplan - Home Redesign.html">Início</a></li>
+          <li><a href="Ecoplan - Sobre Nos.html">Sobre a Ecoplan</a></li>
+          <li><a href="Ecoplan - Clientes.html">Clientes</a></li>
+          <li><a href="Ecoplan - Home Redesign.html#familia">Família Ecoplan</a></li>
+          <li><a href="Ecoplan - Home Redesign.html#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>Paraíba</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAP</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAI</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>Pernambuco</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">e-Sfinge</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> Ecoplan Contabilidade Pública desde 1982. Todos os direitos reservados.</p>
+      <p class="verse">"…minha rocha…" — Salmo 144:1</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

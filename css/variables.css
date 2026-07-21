@@ -1,0 +1,200 @@
+/**
+ * EcoHUB Design System — Variáveis CSS
+ * 
+ * Este arquivo define TODOS os tokens de design usado na plataforma.
+ * Nunca use valores "mágicos" espalhados pelo código.
+ * Se algo precisa mudar, muda AQUI.
+ */
+
+:root {
+  /* ========================================
+     CORES PRIMÁRIAS
+     ======================================== */
+  
+  /* Laranja Institucional - Destaque principal */
+  --color-orange: #E8590C;
+  --color-orange-dark: #C84808;
+  --color-orange-light: #F07D3A;
+  --color-orange-tint: rgba(232, 89, 12, 0.08);
+  --color-orange-tint-hover: rgba(232, 89, 12, 0.12);
+  
+  /* Azul Institucional - Links e informações */
+  --color-blue: #0066CC;
+  --color-blue-dark: #0052A3;
+  --color-blue-light: #3385E6;
+  --color-blue-tint: rgba(0, 102, 204, 0.08);
+  
+  /* ========================================
+     NEUTROS (EcoHUB é somente dark mode)
+     ======================================== */
+
+  /* Texto */
+  --color-text: #FFFFFF;         /* Texto principal */
+  --color-text-soft: #B5BAC2;    /* Texto secundário */
+  --color-text-muted: #8B949E;   /* Texto desabilitado */
+  --color-text-white: #FFFFFF;
+
+  /* Superfícies */
+  --color-bg: #0F1117;           /* Fundo principal */
+  --color-surface: #1A1D23;      /* Cards, containers secundários */
+  --color-surface-2: #25282F;    /* Fundos ainda mais claros */
+
+  /* Bordas */
+  --color-line: #30363D;         /* Bordas normais */
+  --color-line-soft: #1A1D23;    /* Bordas suaves */
+  
+  /* ========================================
+     ESTADOS
+     ======================================== */
+  
+  --color-success: #10B981;      /* Verde - Sucesso */
+  --color-warning: #F59E0B;      /* Amarelo - Avisos */
+  --color-error: #EF4444;        /* Vermelho - Erros */
+  --color-info: #3B82F6;         /* Azul - Informações */
+  
+  /* ========================================
+     DARK MODE
+     ======================================== */
+  
+  --color-dark-bg: #0F1117;
+  --color-dark-surface: #1A1D23;
+  --color-dark-surface-2: #25282F;
+  --color-dark-text: #FFFFFF;
+  --color-dark-text-soft: #B5BAC2;
+  --color-dark-line: #30363D;
+  
+  /* ========================================
+     ESPAÇAMENTO (Múltiplos de 8px)
+     ======================================== */
+  
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+  --space-5xl: 80px;
+  
+  /* Atalhos para padding/margin comuns */
+  --padding-sm: 12px;
+  --padding-md: 16px;
+  --padding-lg: 24px;
+  --padding-xl: 32px;
+  
+  /* ========================================
+     TIPOGRAFIA
+     ======================================== */
+  
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Tamanhos (escala harmônica) */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 32px;
+  --font-size-5xl: 36px;
+  
+  /* Line-height (Leitura confortável) */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* ========================================
+     BORDAS (Border-radius)
+     ======================================== */
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+  
+  /* ========================================
+     SOMBRAS (Box-shadow suaves)
+     ======================================== */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* ========================================
+     TRANSIÇÕES & ANIMAÇÕES
+     ======================================== */
+  
+  /* Durações padrão (em ms) */
+  --duration-micro: 75ms;
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  
+  /* Curves de animação */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Transições comuns */
+  --transition-fast: all var(--duration-fast) var(--ease-out);
+  --transition-normal: all var(--duration-normal) var(--ease-out);
+  
+  /* ========================================
+     LAYOUT
+     ======================================== */
+  
+  /* Largura máxima dos containers */
+  --max-width-full: 100%;
+  --max-width-sm: 600px;
+  --max-width-md: 800px;
+  --max-width-lg: 1200px;
+  --max-width-xl: 1400px;
+  
+  /* Breakpoints responsivos */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1536px;
+  
+  /* Profundidade (z-index) */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-overlay: 400;
+  --z-modal: 500;
+  --z-tooltip: 600;
+}
+
+/* ========================================
+   REDUÇÃO DE MOVIMENTO
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-orange: #FF7A33;
+    --color-blue: #4DA3FF;
+    --color-text: #FFFFFF;
+    --color-line: #6B7280;
+  }
+}

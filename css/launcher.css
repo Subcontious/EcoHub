@@ -1,0 +1,803 @@
+/**
+ * EcoHUB Launcher — Premium Hub Styles
+ * Tela principal de seleção de sistemas (sem sidebar).
+ * Usa CSS custom properties por card para escalar para qualquer nº de sistemas.
+ */
+
+/* =====================================================
+   BACKGROUND AMBIENTE
+   ===================================================== */
+
+.launcher-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.launcher-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.052) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.launcher-bg::after {
+  content: '';
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,89,12,.12) 0%, transparent 60%);
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  filter: blur(52px);
+}
+
+/* =====================================================
+   WRAPPER PRINCIPAL
+   ===================================================== */
+
+.launcher {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 24px 96px;
+}
+
+/* =====================================================
+   HERO / CABEÇALHO
+   ===================================================== */
+
+.launcher-hero {
+  text-align: center;
+  margin-bottom: 44px;
+  animation: fadeUp .55s cubic-bezier(.16,1,.3,1) both;
+}
+
+.launcher-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 28px;
+  text-decoration: none;
+}
+
+.launcher-logo-mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #F07D3A, #C84808);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 28px rgba(232,89,12,.45);
+  flex-shrink: 0;
+}
+
+.launcher-logo-text {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--color-text);
+}
+
+.launcher-hero h1 {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  margin: 0 0 10px;
+  line-height: 1.08;
+}
+
+.launcher-hero p {
+  font-size: 16px;
+  color: var(--color-text-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   BARRA DE PESQUISA (glassmorphism)
+   ===================================================== */
+
+.launcher-search {
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 56px;
+  position: relative;
+  animation: fadeUp .55s cubic-bezier(.16,1,.3,1) 80ms both;
+}
+
+.launcher-search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+  transition: color .2s ease;
+}
+
+.launcher-search:focus-within .launcher-search-icon {
+  color: var(--color-orange);
+}
+
+.launcher-search-input {
+  width: 100%;
+  padding: 16px 22px 16px 54px;
+  background: rgba(255,255,255,.055);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 18px;
+  font-size: 15px;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  outline: none;
+  transition: background .25s, border-color .25s, box-shadow .25s;
+}
+
+.launcher-search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.launcher-search-input:hover {
+  border-color: rgba(232,89,12,.28);
+  background: rgba(255,255,255,.075);
+}
+
+.launcher-search-input:focus {
+  border-color: rgba(232,89,12,.48);
+  background: rgba(255,255,255,.08);
+  box-shadow: 0 0 0 3px rgba(232,89,12,.10), 0 8px 32px rgba(0,0,0,.25);
+}
+
+/* =====================================================
+   SEÇÕES (Portais / Sistemas)
+   ===================================================== */
+
+.launcher-section {
+  width: 100%;
+  max-width: 1180px;
+  margin-bottom: 52px;
+}
+
+.launcher-section:last-child {
+  margin-bottom: 0;
+}
+
+.launcher-section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.launcher-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.launcher-section-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,.07);
+}
+
+/* =====================================================
+   GRID DE CARDS
+   ===================================================== */
+
+.launcher-cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* =====================================================
+   LAUNCHER CARD
+   Usa --card-color e --card-glow como custom properties
+   definidas inline em cada card HTML para escalar para
+   qualquer nº de sistemas sem regras CSS adicionais.
+   ===================================================== */
+
+.launcher-card {
+  /* Custom properties com fallbacks */
+  --card-color: #E8590C;
+  --card-glow: rgba(232,89,12,.52);
+  --card-border-hover: rgba(232,89,12,.38);
+
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.07);
+  background: var(--color-surface);
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform .42s cubic-bezier(.16,1,.3,1),
+    box-shadow .42s cubic-bezier(.16,1,.3,1),
+    border-color .3s ease;
+
+  animation: cardIn .55s cubic-bezier(.16,1,.3,1) both;
+}
+
+/* Stagger de entrada — funciona em ambas as grades */
+.launcher-cards .launcher-card:nth-child(1) { animation-delay:  80ms }
+.launcher-cards .launcher-card:nth-child(2) { animation-delay: 150ms }
+.launcher-cards .launcher-card:nth-child(3) { animation-delay: 220ms }
+.launcher-cards .launcher-card:nth-child(4) { animation-delay: 290ms }
+.launcher-cards .launcher-card:nth-child(5) { animation-delay: 360ms }
+.launcher-cards .launcher-card:nth-child(6) { animation-delay: 430ms }
+
+.launcher-card:focus-visible {
+  outline: 2px solid var(--card-color);
+  outline-offset: 3px;
+}
+
+/* Hover genérico — cor vem das custom properties do card */
+.launcher-card:not([aria-disabled="true"]):hover {
+  transform: translateY(-16px) scale(1.016);
+  box-shadow: 0 28px 64px -12px var(--card-glow), 0 8px 24px rgba(0,0,0,.4);
+  border-color: var(--card-border-hover);
+}
+
+/* Card desabilitado (EcoDoc / "em breve") */
+.launcher-card[aria-disabled="true"] {
+  cursor: default;
+  opacity: .72;
+}
+
+.launcher-card[aria-disabled="true"]:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px -8px var(--card-glow), 0 4px 12px rgba(0,0,0,.3);
+  border-color: var(--card-border-hover);
+}
+
+/* =====================================================
+   ÁREA VISUAL DO CARD (ilustração SVG)
+   ===================================================== */
+
+.card-visual {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Grade de pontos sobre a ilustração */
+.card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.038) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+
+/* Gradientes de fundo por sistema */
+.pv-admin   { background: linear-gradient(148deg, #0A1829 0%, #112040 40%, #1B3E7A 100%) }
+.pv-cliente { background: linear-gradient(148deg, #3D1100 0%, #6B2203 40%, #C84808 100%) }
+.pv-doc     { background: linear-gradient(148deg, #031A17 0%, #053028 40%, #0D4D42 100%) }
+.pv-ad      { background: linear-gradient(148deg, #0A0A2A 0%, #16167A 40%, #2D2FA8 100%) }
+.pv-rh      { background: linear-gradient(148deg, #1A0520 0%, #3D0A55 40%, #7A128A 100%) }
+.pv-pat     { background: linear-gradient(148deg, #050F1E 0%, #091E3D 40%, #0A3875 100%) }
+.pv-legis   { background: linear-gradient(148deg, #1A0D00 0%, #3D1F00 40%, #7A3D00 100%) }
+.pv-diglegis{ background: linear-gradient(148deg, #021A0E 0%, #043320 40%, #065A38 100%) }
+.pv-imposi  { background: linear-gradient(148deg, #1A0408 0%, #3D0A14 40%, #7A1428 100%) }
+
+.card-art {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 10px 32px rgba(0,0,0,.38));
+  transition: transform .42s cubic-bezier(.16,1,.3,1), filter .3s ease;
+}
+
+.launcher-card:hover .card-art {
+  transform: scale(1.1) translateY(-5px);
+  filter: drop-shadow(0 20px 48px rgba(0,0,0,.55));
+}
+
+/* =====================================================
+   CORPO DO CARD
+   ===================================================== */
+
+.card-info {
+  padding: 24px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-top: 1px solid rgba(255,255,255,.055);
+}
+
+.card-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--card-color);
+  margin-bottom: 6px;
+}
+
+.card-name {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin: 0 0 8px;
+  line-height: 1.2;
+  transition: color .25s ease;
+}
+
+/* Cor do nome no hover — usa a custom property do card */
+.launcher-card:hover .card-name {
+  color: color-mix(in srgb, var(--card-color) 85%, white 15%);
+}
+
+.card-desc {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin: 0 0 20px;
+  flex: 1;
+}
+
+/* =====================================================
+   BOTÃO CTA DO CARD
+   ===================================================== */
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  /* Aparece no hover (slide-up) */
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .35s cubic-bezier(.16,1,.3,1), filter .2s;
+  /* Cor vem da custom property do card */
+  background: var(--card-color);
+  color: #fff;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--card-color) 40%, transparent);
+}
+
+.launcher-card:hover .card-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-cta:hover {
+  filter: brightness(1.12);
+}
+
+/* Botão "Em breve" — desabilitado */
+.card-cta-disabled {
+  background: rgba(255,255,255,.06) !important;
+  color: var(--color-text-muted) !important;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: none !important;
+  cursor: default;
+  filter: none !important;
+  letter-spacing: .05em;
+  opacity: .65 !important;
+  transform: translateY(0) !important;
+}
+
+.launcher-card[aria-disabled="true"] .card-cta {
+  opacity: .65;
+  transform: translateY(0);
+}
+
+/* Seta do CTA */
+.cta-arrow {
+  flex-shrink: 0;
+  transition: transform .22s ease;
+}
+
+.card-cta:not(.card-cta-disabled):hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* =====================================================
+   LINK ADMIN (canto inferior direito)
+   ===================================================== */
+
+.hub-admin-link {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  z-index: 10;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+
+.hub-admin-link:hover {
+  background: rgba(255,255,255,.10);
+  color: var(--color-orange);
+  border-color: rgba(232,89,12,.28);
+  transform: scale(1.06);
+}
+
+.hub-admin-link:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   MODAL DE LOGIN (2 colunas)
+   ===================================================== */
+
+.launcher-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: var(--z-modal-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn .22s ease;
+}
+
+.launcher-modal-overlay[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+.login-modal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 800px;
+  max-height: 92vh;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 40px 100px rgba(0,0,0,.6);
+  animation: slideUp .38s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px) scale(.96) }
+  to   { opacity: 1; transform: translateY(0) scale(1) }
+}
+
+/* ---- Lado esquerdo: formulário ---- */
+.login-form-side {
+  background: var(--color-surface);
+  padding: 44px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.07);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  transition: background .2s, color .2s;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255,255,255,.10);
+  color: var(--color-text);
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+.modal-sys-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+  margin-bottom: 6px;
+}
+
+.modal-sys-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  margin: 0 0 32px;
+  line-height: 1.15;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
+}
+
+.lf-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lf-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-soft);
+}
+
+.lf-input {
+  padding: 13px 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 13px;
+  font-size: 15px;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  outline: none;
+  width: 100%;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+}
+
+.lf-input:hover {
+  border-color: rgba(255,255,255,.14);
+}
+
+.lf-input:focus {
+  border-color: rgba(232,89,12,.45);
+  background: rgba(255,255,255,.065);
+  box-shadow: 0 0 0 3px rgba(232,89,12,.10);
+}
+
+.lf-input::placeholder { color: var(--color-text-muted) }
+
+select.lf-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238B949E' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 42px;
+}
+
+select.lf-input option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.lf-error {
+  padding: 11px 15px;
+  background: rgba(239,68,68,.10);
+  border: 1px solid rgba(239,68,68,.22);
+  border-radius: 11px;
+  font-size: 13px;
+  color: #F87171;
+  line-height: 1.5;
+}
+
+.lf-error[hidden] { display: none }
+
+.lf-success {
+  padding: 11px 15px;
+  background: rgba(16,185,129,.10);
+  border: 1px solid rgba(16,185,129,.24);
+  border-radius: 11px;
+  font-size: 13px;
+  color: #34D399;
+  line-height: 1.5;
+}
+
+.lf-success[hidden] { display: none }
+
+.lf-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.lf-submit {
+  flex: 1;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #E8590C, #C84808);
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .2s, box-shadow .2s, transform .2s;
+  box-shadow: 0 4px 16px rgba(232,89,12,.38);
+}
+
+.lf-submit:hover {
+  background: linear-gradient(135deg, #F07D3A, #E8590C);
+  box-shadow: 0 6px 24px rgba(232,89,12,.55);
+  transform: translateY(-1px);
+}
+
+.lf-submit:active { transform: translateY(0) }
+
+.lf-submit:disabled {
+  opacity: .6;
+  pointer-events: none;
+}
+
+.lf-cancel {
+  padding: 14px 18px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--color-text-soft);
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.lf-cancel:hover {
+  background: rgba(255,255,255,.09);
+  color: var(--color-text);
+}
+
+/* ---- Lado direito: ilustração ---- */
+.login-art-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+
+.login-art-side::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.login-art-svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 14px 48px rgba(0,0,0,.45));
+  transform: scale(1.12);
+}
+
+/* =====================================================
+   KEYFRAMES
+   ===================================================== */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+
+/* =====================================================
+   ACESSIBILIDADE — MOTION REDUZIDO
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .launcher-hero, .launcher-search, .launcher-card,
+  .login-modal, .launcher-modal-overlay {
+    animation: none;
+  }
+  .launcher-card:hover, .launcher-card:hover .card-art {
+    transition: none;
+  }
+  .card-art { transition: none; }
+  .card-cta { opacity: 1 !important; transform: translateY(0) !important; }
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 1060px) {
+  .launcher-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .launcher {
+    padding: 44px 16px 72px;
+  }
+
+  .launcher-hero { margin-bottom: 32px }
+  .launcher-search { margin-bottom: 44px }
+
+  .launcher-cards {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  /* No mobile, botão sempre visível */
+  .card-cta {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .login-modal {
+    grid-template-columns: 1fr;
+    max-height: 95vh;
+  }
+
+  .login-art-side { display: none }
+
+  .login-form-side {
+    padding: 36px 26px 32px;
+  }
+
+  .hub-admin-link {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .launcher-logo-text { font-size: 20px }
+  .card-visual { height: 180px }
+  .card-info { padding: 20px 20px 18px }
+}

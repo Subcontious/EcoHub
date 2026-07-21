@@ -1,0 +1,224 @@
+/**
+ * EcoHUB Table Component
+ * Estilos para tabelas administrativas
+ */
+
+.table-container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.admin-table thead {
+  background-color: var(--color-surface-2);
+  border-bottom: 2px solid var(--color-line);
+}
+
+.admin-table th {
+  padding: var(--space-md) var(--space-lg);
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+}
+
+/* ========================================
+   ROWS
+   ======================================== */
+
+.admin-table tbody tr {
+  border-bottom: 1px solid var(--color-line-soft);
+  transition: var(--transition-fast);
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--color-surface-2);
+}
+
+.admin-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin-table td {
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+/* ========================================
+   CÉLULAS ESPECIAIS
+   ======================================== */
+
+/* Células com status */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  
+  background-color: var(--color-success);
+  color: white;
+}
+
+.status-badge.inactive {
+  background-color: var(--color-line);
+  color: var(--color-text-muted);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Célula com ícone/emoji */
+.icon-cell {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ========================================
+   AÇÕES
+   ======================================== */
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: var(--transition-fast);
+}
+
+.action-btn:hover {
+  background-color: var(--color-orange-tint);
+  color: var(--color-orange);
+}
+
+.action-btn.delete:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .admin-table {
+    font-size: var(--font-size-xs);
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Converter tabela em cards em mobile */
+  .admin-table {
+    display: block;
+    border: none;
+  }
+  
+  .admin-table thead {
+    display: none;
+  }
+  
+  .admin-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .admin-table tr {
+    display: flex;
+    flex-direction: column;
+    
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    gap: var(--space-sm);
+  }
+  
+  .admin-table td {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--space-md);
+    align-items: center;
+  }
+  
+  .admin-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--color-text-soft);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .admin-table tr:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-orange);
+  }
+  
+  .table-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+@media (prefers-contrast: more) {
+  .admin-table th {
+    border-bottom-width: 3px;
+  }
+  
+  .admin-table tbody tr {
+    border-bottom-width: 2px;
+  }
+}

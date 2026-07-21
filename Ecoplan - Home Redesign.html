@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ecoplan Contabilidade Pública — Excelência em contabilidade pública e empresarial</title>
+<meta name="description" content="Desde 1982, a Ecoplan une tradição e tecnologia em assessoria contábil para o setor público e privado. Assessoria, auditoria e treinamentos com eficiência, confiança e visão de futuro." />
+<meta name="theme-color" content="#1B1D22" />
+<meta property="og:title" content="Ecoplan Contabilidade Pública" />
+<meta property="og:description" content="Um novo conceito em assessoria contábil — mais humana, tecnológica e estratégica. Setor público e privado." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+/* ---- Estilos exclusivos da Home ---- */
+
+/* Hero */
+.hero { position: relative; padding-top: clamp(40px,7vw,80px); padding-bottom: clamp(56px,8vw,100px); overflow: hidden }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(40px,6vw,80px); align-items: center }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 16px 8px 10px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  box-shadow: var(--shadow-sm); font-family: var(--display); white-space: nowrap;
+}
+.hero-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+  box-shadow: 0 0 0 4px var(--orange-tint);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { box-shadow: 0 0 0 4px var(--orange-tint) }
+  50%      { box-shadow: 0 0 0 7px rgba(232,89,12,.08) }
+}
+.hero h1 { font-size: clamp(38px,6.2vw,72px); margin-top: 26px; letter-spacing: -.03em }
+.hero h1 em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--orange); letter-spacing: -.01em }
+.hero-lede { margin-top: 26px; font-size: clamp(17px,2.1vw,20px); color: var(--ink-soft); max-width: 540px; line-height: 1.7 }
+.hero-trust { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 48px; padding-top: 34px; border-top: 1px solid var(--line) }
+.hero-trust .stat b { font-family: var(--display); font-weight: 800; font-size: 30px; letter-spacing: -.02em; display: block; line-height: 1 }
+.hero-trust .stat span { font-size: 13.5px; color: var(--muted); font-weight: 500; margin-top: 6px; display: block }
+
+.hero-visual { position: relative }
+.hero-photo {
+  position: relative; border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 4/4.7;
+  box-shadow: var(--shadow-lg); background: var(--surface-2); border: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-scripture {
+  position: relative; margin: 0 18px 18px;
+  background: rgba(14,15,18,.88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: #fff; border-radius: var(--r-md); padding: 20px 22px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.hero-scripture p { font-family: var(--serif); font-style: italic; font-size: 15.5px; line-height: 1.55; color: rgba(255,255,255,.92) }
+.hero-scripture cite { display: block; margin-top: 10px; font-family: var(--display); font-style: normal; font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--orange) }
+.hero-chip {
+  position: absolute; right: -20px; top: 28px;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 16px 20px; box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 14px;
+}
+.hero-chip .yr { font-family: var(--display); font-weight: 800; font-size: 26px; color: var(--orange); line-height: 1 }
+.hero-chip .tx { font-size: 12.5px; color: var(--ink-soft); font-weight: 500; line-height: 1.35 }
+.hero-glow {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,89,12,.11) 0%, transparent 65%);
+  top: -160px; right: -120px; z-index: -1; filter: blur(16px); pointer-events: none;
+}
+
+/* Benefícios */
+.benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 56px }
+.benefit {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 34px 30px;
+  box-shadow: var(--shadow-sm);
+  transition: transform .3s var(--ease), box-shadow .3s, border-color .3s;
+}
+.benefit:hover { transform: translateY(-7px); box-shadow: var(--shadow-md); border-color: #DEDAD2 }
+.benefit .ic {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--orange-tint); color: var(--orange);
+  display: grid; place-items: center; margin-bottom: 22px;
+  transition: transform .3s var(--ease);
+}
+.benefit:hover .ic { transform: scale(1.08) }
+.benefit h3 { font-size: 21px; margin-bottom: 10px }
+.benefit p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.68 }
+
+/* Serviços */
+.services { background: var(--surface-2) }
+.svc-toggle {
+  display: inline-flex; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 5px; margin-top: 30px; box-shadow: var(--shadow-sm); gap: 4px;
+}
+.svc-toggle button {
+  font-family: var(--display); font-weight: 600; font-size: 14.5px;
+  padding: 11px 26px; border-radius: 999px; color: var(--ink-soft); white-space: nowrap;
+  transition: color .25s, background .25s, box-shadow .25s;
+}
+.svc-toggle button:hover { color: var(--ink) }
+.svc-toggle button.active { color: #fff; background: var(--orange); box-shadow: 0 4px 14px rgba(232,89,12,.30) }
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 44px }
+.svc-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px 30px;
+  box-shadow: var(--shadow-sm); transition: transform .3s var(--ease), box-shadow .3s; position: relative; overflow: hidden;
+}
+.svc-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(180deg,transparent,rgba(232,89,12,.04)); opacity: 0; transition: opacity .3s;
+}
+.svc-card:hover { transform: translateY(-7px); box-shadow: var(--shadow-md) }
+.svc-card:hover::after { opacity: 1 }
+.svc-card .ic {
+  width: 48px; height: 48px; border-radius: 13px;
+  background: var(--graphite); color: #fff;
+  display: grid; place-items: center; margin-bottom: 20px;
+  transition: background .25s, transform .25s var(--ease);
+}
+.svc-card:hover .ic { background: var(--orange); transform: scale(1.06) }
+.svc-card h3 { font-size: 20px; margin-bottom: 9px }
+.svc-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.68 }
+.svc-card .more {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 18px;
+  font-family: var(--display); font-weight: 600; font-size: 14px; color: var(--orange);
+}
+.svc-card .more svg { transition: transform .22s var(--ease) }
+.svc-card:hover .more svg { transform: translateX(5px) }
+
+/* Diferenciais (dark) */
+.differ { background: var(--graphite); color: #fff; position: relative; overflow: hidden }
+.differ .eyebrow { color: #FF8A4C }
+.differ .eyebrow::before { background: #FF8A4C }
+.differ h2 { color: #fff }
+.differ-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(40px,6vw,80px); align-items: center }
+.differ-lede { color: rgba(255,255,255,.60); margin-top: 22px; font-size: 17.5px; max-width: 480px; line-height: 1.72 }
+.differ-list { margin-top: 38px; display: flex; flex-direction: column; gap: 4px }
+.differ-item { display: flex; gap: 18px; padding: 22px 0; border-top: 1px solid var(--graphite-line) }
+.differ-item:last-child { border-bottom: 1px solid var(--graphite-line) }
+.differ-item .n { font-family: var(--display); font-weight: 800; font-size: 15px; color: #FF8A4C; flex-shrink: 0; width: 34px }
+.differ-item h4 { font-size: 19px; color: #fff; margin-bottom: 6px }
+.differ-item p { color: rgba(255,255,255,.56); font-size: 15px; line-height: 1.68 }
+.differ-photo {
+  border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 4/4.6;
+  background: linear-gradient(160deg,#2A2D34,#202329);
+  border: 1px solid var(--graphite-line); position: relative; display: grid; place-items: end stretch;
+}
+.differ-photo .cap {
+  padding: 22px; font-family: var(--serif); font-style: italic;
+  font-size: 17px; color: rgba(255,255,255,.85);
+  background: linear-gradient(transparent, rgba(0,0,0,.55));
+}
+
+/* Processo */
+.process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 56px; counter-reset: step }
+.step { position: relative; padding-top: 30px }
+.step::before { content: ""; position: absolute; top: 14px; left: 0; right: 0; height: 1.5px; background: var(--line) }
+.step::after {
+  counter-increment: step; content: counter(step,decimal-leading-zero);
+  position: absolute; top: 14px; left: 0; width: 30px; height: 30px;
+  background: var(--orange); color: #fff; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 700; font-size: 13px;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 12px rgba(232,89,12,.30);
+}
+.step h4 { font-size: 19px; margin-bottom: 8px; margin-top: 6px }
+.step p { color: var(--ink-soft); font-size: 15px; line-height: 1.68 }
+
+/* Depoimentos */
+.testi { background: var(--surface-2) }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 52px }
+.quote {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px 30px;
+  box-shadow: var(--shadow-sm); display: flex; flex-direction: column;
+  transition: transform .3s var(--ease), box-shadow .3s;
+}
+.quote:hover { transform: translateY(-6px); box-shadow: var(--shadow-md) }
+.quote .stars { display: flex; gap: 3px; color: var(--orange); margin-bottom: 18px; font-size: 14px }
+.quote blockquote { font-family: var(--serif); font-style: italic; font-size: 18px; line-height: 1.58; color: var(--ink); flex: 1 }
+.quote .who { display: flex; align-items: center; gap: 13px; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line-soft) }
+.quote .av {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--graphite); color: #fff;
+  display: grid; place-items: center;
+  font-family: var(--display); font-weight: 700; font-size: 16px; flex-shrink: 0;
+}
+.quote .who b { font-family: var(--display); font-size: 15px; display: block }
+.quote .who span { font-size: 13px; color: var(--muted) }
+
+/* Localização */
+.location { background: var(--surface-2); border-top: 1px solid var(--line) }
+.location-grid {
+  display: grid; grid-template-columns: 1fr 1.4fr;
+  gap: clamp(40px,6vw,80px); align-items: stretch;
+  padding-block: clamp(64px,9vw,112px);
+}
+.location-info h2 { font-size: clamp(26px,3.8vw,42px); margin-top: 18px }
+.location-info p { color: var(--ink-soft); font-size: 16px; margin-top: 16px; line-height: 1.72 }
+.location-cards { display: flex; flex-direction: column; gap: 14px; margin-top: 36px }
+.location-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: 18px 20px; display: flex; align-items: flex-start; gap: 15px;
+  box-shadow: var(--shadow-sm); transition: transform .25s var(--ease), box-shadow .25s;
+}
+.location-card:hover { transform: translateX(6px); box-shadow: var(--shadow-md) }
+.location-card .loc-ic { width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0; background: var(--orange-tint); color: var(--orange); display: grid; place-items: center }
+.location-card-body strong { font-family: var(--display); font-weight: 700; font-size: 14px; display: block; margin-bottom: 3px }
+.location-card-body span { font-size: 14px; color: var(--ink-soft); line-height: 1.5 }
+.location-map-wrap {
+  border-radius: var(--r-xl); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+  min-height: 420px; position: relative; background: var(--surface-2);
+}
+.location-map-wrap iframe { width: 100%; height: 100%; position: absolute; inset: 0; border: none; display: block }
+
+/* Responsivo */
+@media (max-width: 1000px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 48px }
+  .hero-visual { max-width: 480px; margin-inline: auto; width: 100% }
+  .hero-chip { right: 0 }
+  .differ-grid { grid-template-columns: 1fr; gap: 48px }
+  .differ-photo { max-width: 480px }
+  .location-grid { grid-template-columns: 1fr }
+  .location-map-wrap { min-height: 320px }
+}
+@media (max-width: 860px) {
+  .benefits-grid, .services-grid, .testi-grid { grid-template-columns: 1fr 1fr }
+  .process-grid { grid-template-columns: 1fr 1fr; gap: 36px 20px }
+}
+@media (max-width: 600px) {
+  .benefits-grid, .services-grid, .testi-grid, .process-grid { grid-template-columns: 1fr }
+  .hero-trust { gap: 24px }
+  .hero h1 { font-size: clamp(34px,9vw,48px) }
+  .hero-chip { right: 0; top: auto; bottom: 20px }
+}
+
+/* Dark mode — Home */
+[data-theme="dark"] .hero-badge { background: var(--surface) }
+[data-theme="dark"] .hero-chip { background: var(--surface) }
+[data-theme="dark"] .hero-photo { border-color: var(--line) }
+[data-theme="dark"] .location { background: var(--surface-2); border-top-color: var(--line) }
+[data-theme="dark"] .location-map-wrap { border-color: var(--line) }
+[data-theme="dark"] .benefit { background: var(--surface) }
+[data-theme="dark"] .svc-card { background: var(--surface) }
+[data-theme="dark"] .quote { background: var(--surface) }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="#top" aria-label="Ecoplan — início">
+        <img id="brandLogo" src="Logo_Ecoplan.png" alt="Ecoplan" style="height:44px;width:auto;display:block;">
+      </a>
+      <div class="nav-links">
+        <a href="#top" class="active">Início</a>
+        <a href="Ecoplan - Sobre Nos.html">Sobre</a>
+        <a href="Ecoplan - Clientes.html">Clientes</a>
+        <a href="#familia">Família Ecoplan</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="Ecoplan - Area do Cliente.html">Área do Cliente</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro">
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Navegação mobile">
+  <a href="#top">Início</a>
+  <a href="Ecoplan - Sobre Nos.html">Sobre</a>
+  <a href="Ecoplan - Clientes.html">Clientes</a>
+  <a href="#familia">Família Ecoplan</a>
+  <a href="#contato">Contato</a>
+  <a class="btn btn-primary" href="Ecoplan - Area do Cliente.html">Área do Cliente</a>
+  <div class="mobile-theme-row">
+    <button class="theme-toggle theme-toggle-mobile" aria-label="Alternar modo escuro">
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <span id="themeLabel">Modo escuro</span>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="hero-badge reveal"><span class="dot" aria-hidden="true"></span>Desde 1982 — Referência no Nordeste</span>
+        <h1 class="reveal d1">Excelência em contabilidade <em>pública e empresarial</em></h1>
+        <p class="hero-lede reveal d2">Unimos a experiência de quem construiu uma história sólida com a inovação de quem projeta o futuro. Uma assessoria contábil mais humana, tecnológica e estratégica, comprometida com a eficiência de municípios e empresas.</p>
+        <div class="hero-actions reveal d3">
+          <a class="btn btn-primary" href="#contato">
+            Fale com um especialista
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#servicos">Conhecer serviços</a>
+        </div>
+        <div class="hero-trust reveal d3">
+          <div class="stat"><b data-count="44" data-suffix="+">0+</b><span>anos de história</span></div>
+          <div class="stat"><b>PB · PE</b><span>atuação regional</span></div>
+          <div class="stat"><b data-count="100" data-suffix="%">0%</b><span>foco em conformidade</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal d2">
+        <div class="hero-photo">
+          <img src="Eco_Local.png" alt="Escritório Ecoplan em Patos, PB" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+          <div class="hero-scripture" style="position:relative;z-index:1">
+            <p>"Bendito seja o Senhor, minha rocha, que adestra as minhas mãos para a batalha e os meus dedos para a guerra."</p>
+            <cite>Salmo 144:1</cite>
+          </div>
+        </div>
+        <div class="hero-chip" aria-hidden="true">
+          <span class="yr">1982</span>
+          <span class="tx">Tradição que<br>constrói o futuro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAIXA DE RECONHECIMENTO ===================== -->
+<div class="proof">
+  <div class="wrap">
+    <div class="proof-inner">
+      <span class="proof-label">Atuação reconhecida junto a</span>
+      <span class="proof-item">TCE-PB</span>
+      <span class="proof-item">TCE-PE</span>
+      <span class="proof-item">SIAFI</span>
+      <span class="proof-item">SAGRES</span>
+      <span class="proof-item">RECEITA FEDERAL</span>
+      <span class="proof-item">CAUC</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BENEFÍCIOS ===================== -->
+<section class="section" id="sobre">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Por que a Ecoplan?</span>
+      <h2>Um novo conceito em assessoria contábil</h2>
+      <p>Cada resultado reflete nossa essência: tradição, confiança e visão de futuro. Veja o que nos torna a escolha certa para órgãos públicos e empresas.</p>
+    </div>
+    <div class="benefits-grid">
+      <article class="benefit reveal d1">
+        <div class="ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>Segurança e conformidade</h3>
+        <p>Rotinas alinhadas às exigências dos Tribunais de Contas e da legislação vigente, reduzindo riscos e garantindo prestações de contas regulares.</p>
+      </article>
+      <article class="benefit reveal d2">
+        <div class="ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg>
+        </div>
+        <h3>Decisões orientadas por dados</h3>
+        <p>Tecnologia e relatórios claros que transformam números em informação estratégica para gestores públicos e empresários.</p>
+      </article>
+      <article class="benefit reveal d3">
+        <div class="ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Atendimento próximo</h3>
+        <p>A Ecoplan acompanha cada cliente de perto, com a proximidade de quem entende o seu contexto e a seriedade de quem responde por ele.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section class="section services" id="servicos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nossos serviços</span>
+      <h2>Um amplo portfólio especializado</h2>
+      <p>Serviços contábeis para atender órgãos públicos e empresas — da assessoria à auditoria e ao treinamento de equipes.</p>
+      <div class="svc-toggle" role="tablist" aria-label="Selecionar área de atuação">
+        <button role="tab" data-tab="publico" aria-selected="true" class="active">Setor Público</button>
+        <button role="tab" data-tab="privado" aria-selected="false">Setor Privado</button>
+      </div>
+    </div>
+
+    <div class="services-grid" data-panel="publico" role="tabpanel">
+      <article class="svc-card reveal d1">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg></div>
+        <h3>Assessoria contábil pública</h3>
+        <p>Escrituração, empenhos, prestação de contas e suporte completo à gestão orçamentária e financeira dos municípios.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d2">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Auditoria e conformidade</h3>
+        <p>Revisão de processos e contas com foco em transparência, atendimento ao TCE e mitigação de riscos de gestão.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d3">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <h3>Treinamento de equipes</h3>
+        <p>Capacitação prática para servidores e setores contábeis, elevando a autonomia e qualidade da gestão pública.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+
+    <div class="services-grid" data-panel="privado" hidden role="tabpanel">
+      <article class="svc-card reveal d1">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <h3>Abertura e contabilidade empresarial</h3>
+        <p>Constituição de empresas, escrituração e rotinas contábeis para empreendedores e pequenos e médios negócios.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d2">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Planejamento tributário</h3>
+        <p>Análise de regimes e estratégias para reduzir a carga tributária de forma segura e dentro da legalidade.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d3">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Folha e departamento pessoal</h3>
+        <p>Admissões, folha de pagamento e obrigações trabalhistas geridas com precisão para a sua equipe.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DIFERENCIAIS ===================== -->
+<section class="section differ" id="diferenciais">
+  <div class="wrap">
+    <div class="differ-grid">
+      <div class="differ-copy reveal">
+        <span class="eyebrow">Nossos diferenciais</span>
+        <h2>Tradição, confiança e visão de futuro</h2>
+        <p class="differ-lede">Construímos uma história sólida e a colocamos a serviço da inovação. É essa combinação que nos conduziu ao patamar de excelência em que estamos hoje.</p>
+        <div class="differ-list">
+          <div class="differ-item">
+            <span class="n">01</span>
+            <div>
+              <h4>Mais de 40 anos de história</h4>
+              <p>Desde 1982 ao lado de gestores e empresas, com a estabilidade de quem já viu o mercado mudar muitas vezes.</p>
+            </div>
+          </div>
+          <div class="differ-item">
+            <span class="n">02</span>
+            <div>
+              <h4>Tecnologia a favor da gestão</h4>
+              <p>Processos digitais e dados confiáveis que dão agilidade e clareza às decisões.</p>
+            </div>
+          </div>
+          <div class="differ-item">
+            <span class="n">03</span>
+            <div>
+              <h4>Equipe especializada e humana</h4>
+              <p>A Família Ecoplan — nosso maior patrimônio — atende com técnica, ética e proximidade.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="differ-photo reveal d2" id="familia">
+        <img src="Familia_Eco.png" alt="Família Ecoplan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+        <div class="cap">"Nossa equipe é o alicerce que nos conduziu à excelência."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="section" id="processo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Como atendemos</span>
+      <h2>Um processo claro do início ao fim</h2>
+      <p>Da primeira conversa ao acompanhamento contínuo, conduzimos cada etapa com método e transparência.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step reveal d1">
+        <h4>Diagnóstico</h4>
+        <p>Entendemos o seu contexto, necessidades e o estágio atual da sua contabilidade.</p>
+      </div>
+      <div class="step reveal d2">
+        <h4>Planejamento</h4>
+        <p>Desenhamos a estratégia e definimos rotinas, prazos e responsáveis.</p>
+      </div>
+      <div class="step reveal d3">
+        <h4>Execução</h4>
+        <p>Colocamos tudo em prática com tecnologia, precisão e conformidade.</p>
+      </div>
+      <div class="step reveal d4">
+        <h4>Acompanhamento</h4>
+        <p>Monitoramos resultados e ajustamos o caminho de forma contínua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DEPOIMENTOS ===================== -->
+<section class="section testi" id="depoimentos">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow center">O que dizem sobre nós</span>
+      <h2>A confiança de quem já faz parte da Ecoplan</h2>
+      <p>Gestores públicos e empresários que escolheram a Ecoplan como parceira estratégica.</p>
+    </div>
+    <div class="testi-grid">
+      <article class="quote reveal d1">
+        <div class="stars" aria-label="Avaliação 5 de 5 estrelas">★★★★★</div>
+        <blockquote>"A Ecoplan transformou a forma como gerenciamos a contabilidade do município. A segurança nas prestações de contas é outro nível."</blockquote>
+        <div class="who">
+          <div class="av" aria-hidden="true">JM</div>
+          <div>
+            <b>João Morais</b>
+            <span>Secretário de Finanças · Município de Bonito de Santa Fé</span>
+          </div>
+        </div>
+      </article>
+      <article class="quote reveal d2">
+        <div class="stars" aria-label="Avaliação 5 de 5 estrelas">★★★★★</div>
+        <blockquote>"Em mais de 10 anos com a Ecoplan, nunca tivemos problemas no TCE-PB. Equipe altamente capacitada e sempre presente quando precisamos."</blockquote>
+        <div class="who">
+          <div class="av" aria-hidden="true">AS</div>
+          <div>
+            <b>Ana Silva</b>
+            <span>Diretora Administrativa · Prefeitura de Igaracy</span>
+          </div>
+        </div>
+      </article>
+      <article class="quote reveal d3">
+        <div class="stars" aria-label="Avaliação 5 de 5 estrelas">★★★★★</div>
+        <blockquote>"O suporte técnico da Ecoplan é incomparável. Relatórios claros, prazos cumpridos e um atendimento que realmente entende a realidade do gestor público."</blockquote>
+        <div class="who">
+          <div class="av" aria-hidden="true">RC</div>
+          <div>
+            <b>Raimundo Costa</b>
+            <span>Prefeito · Catingueira, PB</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LOCALIZAÇÃO ===================== -->
+<section class="location" id="localizacao">
+  <div class="wrap">
+    <div class="location-grid">
+      <div class="location-info reveal">
+        <span class="eyebrow">Como nos encontrar</span>
+        <h2>Estamos em Patos, PB</h2>
+        <p>Atendemos presencialmente e à distância com a mesma qualidade técnica e compromisso, independentemente de onde você esteja.</p>
+        <div class="location-cards">
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>Sede — Paraíba</strong>
+              <span>Patos · PB<br>Paraíba, Nordeste do Brasil</span>
+            </div>
+          </div>
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>Telefone</strong>
+              <span>(83) 99919-0100<br>Segunda a sexta, 8h às 17h</span>
+            </div>
+          </div>
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>E-mail</strong>
+              <span>contato@ecoplancontabilidade.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-map-wrap reveal d1">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.8371959252777!2d-37.27671462495526!3d-7.028414392973417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7af61d63939b1d3%3A0x44b640912643fc13!2sEcoplan%20Contabilidade%20P%C3%BAblica!5e0!3m2!1spt-BR!2sbr!4v1781704837199!5m2!1spt-BR!2sbr"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Localização Ecoplan — Patos, PB"
+          style="filter:grayscale(15%) contrast(1.05)"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="cta-band" id="contato">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="inner">
+        <span class="eyebrow center">Vamos conversar</span>
+        <h2>Conheça um novo conceito em<br>assessoria contábil</h2>
+        <p>Fale com um especialista da Ecoplan e descubra como podemos cuidar da contabilidade do seu município ou da sua empresa com eficiência e confiança.</p>
+        <div class="cta-actions">
+          <a class="btn" href="https://wa.me/5583999190100" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Falar no WhatsApp
+          </a>
+          <a class="btn btn-outline-light" href="Ecoplan - Sobre Nos.html">Conhecer a Ecoplan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="Ecoplan — início">
+          <img src="Logo_Ecoplan_Dark.png" alt="Ecoplan" style="height:44px;width:auto;display:block;">
+        </a>
+        <p class="footer-about">Um novo conceito em assessoria contábil — mais humana, tecnológica e estratégica. Comprometida com a eficiência e o desenvolvimento de municípios e empresas desde 1982.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram @ecoplancontabilidade">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/5583999190100" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Links Úteis</h5>
+        <ul>
+          <li><a href="#">CRF · FGTS</a></li>
+          <li><a href="#">CND · Pedido</a></li>
+          <li><a href="#">CND · Receita Federal</a></li>
+          <li><a href="#">CNPJ · Situação</a></li>
+          <li><a href="#">CNDT · Pedido</a></li>
+          <li><a href="#">CAUC · Regul. Siafi</a></li>
+          <li><a href="#">CND · Estadual</a></li>
+          <li><a href="#">CNJ · Pedido</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>TCE-PB</h6>
+            <ul>
+              <li><a href="#">Portal do Gestor</a></li>
+              <li><a href="#">Sagres Cidadão</a></li>
+              <li><a href="#">Observatório</a></li>
+              <li><a href="#">Turmalina</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>TCE-PE</h6>
+            <ul>
+              <li><a href="#">Sagres</a></li>
+              <li><a href="#">Sagres Pessoal</a></li>
+              <li><a href="#">e-TCEPE</a></li>
+              <li><a href="#">Protocolo</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> Ecoplan Contabilidade Pública — desde 1982. Todos os direitos reservados.</p>
+      <p class="verse">"…minha rocha…" — Salmo 144:1</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

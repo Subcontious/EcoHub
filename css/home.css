@@ -1,0 +1,491 @@
+/**
+ * EcoHUB Home Page Styles
+ * Layout e estilos específicos da página inicial (sidebar + conteúdo).
+ *
+ * Observação: .header/.header-container/.header-logo/.logo-text também
+ * são usados por admin.html (topo do painel administrativo) — não remover.
+ */
+
+/* ========================================
+   HEADER (usado pelo admin.html)
+   ======================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed);
+
+  background-color: var(--color-bg);
+  background-color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-line);
+
+  padding: var(--space-md) 0;
+  transition: var(--transition-fast);
+}
+
+.header-container {
+  max-width: var(--max-width-lg);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  transition: var(--transition-fast);
+}
+
+.header-logo:hover {
+  color: var(--color-orange);
+}
+
+.header-logo svg {
+  color: var(--color-orange);
+  width: 28px;
+  height: 28px;
+}
+
+.logo-text {
+  font-family: var(--font-family);
+  letter-spacing: -0.01em;
+}
+
+/* ========================================
+   BARRA MOBILE (só a home usa)
+   ======================================== */
+
+.mobile-topbar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-fixed);
+  align-items: center;
+  gap: var(--space-md);
+
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+}
+
+.mobile-brand svg {
+  color: var(--color-orange);
+}
+
+.sidebar-toggle {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background-color: var(--color-surface);
+  color: var(--color-orange);
+}
+
+.sidebar-toggle:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   SHELL (sidebar + conteúdo)
+   ======================================== */
+
+.app-shell {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.app-sidebar {
+  position: sticky;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg) var(--space-md);
+
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-line);
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  margin-bottom: var(--space-xl);
+
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+}
+
+.sidebar-brand svg {
+  color: var(--color-orange);
+  flex-shrink: 0;
+}
+
+.app-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+
+  padding: 10px var(--space-sm);
+  border-radius: var(--radius-md);
+  color: var(--color-text-soft);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+}
+
+.nav-item:hover {
+  background-color: var(--color-line-soft);
+  color: var(--color-text);
+}
+
+.nav-item.active {
+  background-color: var(--color-blue-tint);
+  color: var(--color-blue);
+  font-weight: 600;
+}
+
+.nav-item[aria-disabled="true"] {
+  cursor: default;
+}
+
+.nav-item[aria-disabled="true"]:hover {
+  background-color: transparent;
+  color: var(--color-text-soft);
+}
+
+.nav-icon-tile {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-blue);
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* Scrim mobile (fecha a sidebar ao tocar fora) */
+.sidebar-scrim {
+  display: none;
+}
+
+/* ========================================
+   CONTEÚDO
+   ======================================== */
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2xl) var(--space-2xl) var(--space-4xl);
+}
+
+/* ========================================
+   BANNER DA PÁGINA
+   ======================================== */
+
+.page-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-xl);
+
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-line);
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-blue) 12%, var(--color-surface)) 0%,
+    color-mix(in srgb, #8B5CF6 10%, var(--color-surface)) 100%
+  );
+}
+
+.page-banner-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  background: linear-gradient(155deg, #60A5FA, #7C3AED);
+  box-shadow: 0 10px 24px -8px rgba(124, 58, 237, 0.5);
+}
+
+.page-banner-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0 0 4px 0;
+}
+
+.page-banner-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-soft);
+  margin: 0;
+}
+
+/* ========================================
+   SEARCH BAR
+   ======================================== */
+
+.search-bar {
+  margin-bottom: var(--space-xl);
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  padding-left: var(--space-2xl);
+
+  font-size: var(--font-size-base);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-input:hover {
+  border-color: var(--color-orange);
+  background-color: var(--color-surface-2);
+  box-shadow: var(--shadow-md);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-orange);
+  background-color: var(--color-surface-2);
+  box-shadow: 0 0 0 3px var(--color-orange-tint);
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+/* ========================================
+   APPS GRID
+   ======================================== */
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
+
+  /* Centralizar grid se houver poucos itens */
+  justify-content: center;
+}
+
+.apps-grid.full {
+  justify-content: start;
+}
+
+/* ========================================
+   ESTADO VAZIO
+   ======================================== */
+
+.empty-state {
+  grid-column: 1 / -1;
+
+  padding: var(--space-4xl) var(--space-md);
+  text-align: center;
+
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--color-line);
+
+  animation: slideInUp var(--duration-normal) var(--ease-out) forwards;
+}
+
+.empty-icon {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+  opacity: 0.5;
+}
+
+.empty-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.empty-message {
+  color: var(--color-text-soft);
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: var(--z-modal);
+
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+    transition: transform var(--duration-normal) var(--ease-out);
+  }
+
+  .app-sidebar.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: calc(var(--z-modal) - 1);
+    animation: fadeIn var(--duration-fast) var(--ease-out) forwards;
+  }
+
+  .sidebar-scrim[hidden] {
+    display: none;
+  }
+
+  .apps-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    padding: var(--space-lg) var(--space-lg) var(--space-3xl);
+  }
+
+  .page-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-lg);
+  }
+
+  .page-banner-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .apps-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 640px) {
+  .app-content {
+    padding: var(--space-md) var(--space-sm) var(--space-2xl);
+  }
+
+  .search-bar {
+    margin-bottom: var(--space-lg);
+  }
+
+  .apps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .search-input {
+    padding: var(--space-sm) var(--space-md);
+    padding-left: var(--space-xl);
+    font-size: var(--font-size-sm);
+  }
+
+  .empty-state {
+    padding: var(--space-2xl) var(--space-md);
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .app-sidebar {
+    transition: none;
+  }
+
+  .sidebar-scrim {
+    animation: none;
+  }
+}

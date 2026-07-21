@@ -1,0 +1,10 @@
+[
+  { "id": "001", "name": "Patos", "state": "PB", "ibgeCode": "2510070", "region": "Sertão" },
+  { "id": "002", "name": "Pombal", "state": "PB", "ibgeCode": "2511407", "region": "Sertão" },
+  { "id": "003", "name": "Sousa", "state": "PB", "ibgeCode": "2513906", "region": "Sertão" },
+  { "id": "004", "name": "Areia", "state": "PB", "ibgeCode": "2500271", "region": "Agreste" },
+  { "id": "005", "name": "João Pessoa", "state": "PB", "ibgeCode": "2507507", "region": "Litoral" },
+  { "id": "006", "name": "Campina Grande", "state": "PB", "ibgeCode": "2502207", "region": "Agreste" },
+  { "id": "007", "name": "Recife", "state": "PE", "ibgeCode": "2611606", "region": "Litoral" },
+  { "id": "008", "name": "Caruaru", "state": "PE", "ibgeCode": "2604106", "region": "Agreste" }
+]

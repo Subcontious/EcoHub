@@ -1,0 +1,47 @@
+[
+  {
+    "id": "perm-001",
+    "userId": "user-001",
+    "appId": "digidoc-rh",
+    "cityId": "001",
+    "destinationURL": "https://digidoc-rh.ecoplan.com.br/patos",
+    "isActive": true,
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "perm-002",
+    "userId": "user-001",
+    "appId": "digidoc-rh",
+    "cityId": "002",
+    "destinationURL": "https://digidoc-rh.ecoplan.com.br/pombal",
+    "isActive": true,
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "perm-003",
+    "userId": "user-001",
+    "appId": "digidoc-pat",
+    "cityId": "001",
+    "destinationURL": "https://digidoc-pat.ecoplan.com.br/patos",
+    "isActive": true,
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": "perm-004",
+    "userId": "user-002",
+    "appId": "digidoc-ad",
+    "cityId": "005",
+    "destinationURL": "https://digidoc-ad.ecoplan.com.br/joao-pessoa",
+    "isActive": true,
+    "createdAt": "2024-02-20"
+  },
+  {
+    "id": "perm-005",
+    "userId": "user-003",
+    "appId": "digidoc-rh",
+    "cityId": "007",
+    "destinationURL": "https://digidoc-rh.ecoplan.com.br/recife",
+    "isActive": true,
+    "createdAt": "2024-03-10"
+  }
+]

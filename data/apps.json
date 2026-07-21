@@ -1,0 +1,74 @@
+[
+  {
+    "id": "digidoc-ad",
+    "name": "DigidocAD",
+    "slug": "digidoc-ad",
+    "description": "Gestão de Atos e Decretos",
+    "icon": "⚖️",
+    "color": "#6366F1",
+    "displayOrder": 1,
+    "isActive": true,
+    "version": "2.1.0",
+    "category": "Administrativo"
+  },
+  {
+    "id": "digidoc-rh",
+    "name": "DigidocRH",
+    "slug": "digidoc-rh",
+    "description": "Gestão de Recursos Humanos",
+    "icon": "👥",
+    "color": "#C026D3",
+    "displayOrder": 2,
+    "isActive": true,
+    "version": "3.0.1",
+    "category": "Recursos Humanos"
+  },
+  {
+    "id": "digidoc-pat",
+    "name": "DigidocPAT",
+    "slug": "digidoc-pat",
+    "description": "Patrimônio e Ativos",
+    "icon": "🏢",
+    "color": "#0066CC",
+    "displayOrder": 3,
+    "isActive": true,
+    "version": "1.8.5",
+    "category": "Patrimônio"
+  },
+  {
+    "id": "legis-digital",
+    "name": "LegisDigital",
+    "slug": "legis-digital",
+    "description": "Gestão de Legislação",
+    "icon": "📋",
+    "color": "#F59E0B",
+    "displayOrder": 4,
+    "isActive": true,
+    "version": "2.5.0",
+    "category": "Legislação"
+  },
+  {
+    "id": "digidoc-legis",
+    "name": "DigidocLegis",
+    "slug": "digidoc-legis",
+    "description": "Publicações Oficiais",
+    "icon": "📰",
+    "color": "#10B981",
+    "displayOrder": 5,
+    "isActive": true,
+    "version": "1.2.0",
+    "category": "Publicações"
+  },
+  {
+    "id": "imposigov",
+    "name": "ImposiGov",
+    "slug": "imposigov",
+    "description": "Gestão de Impostos",
+    "icon": "💰",
+    "color": "#F43F5E",
+    "displayOrder": 6,
+    "isActive": true,
+    "version": "4.0.2",
+    "category": "Fiscal"
+  }
+]
