@@ -503,7 +503,7 @@
         <h2 class="modal-sys-title" id="modalTitle">Acessar Portal</h2>
 
         <form class="login-form" id="authForm" novalidate>
-          <div class="lf-group">
+          <div class="lf-group" id="municipalityGroup">
             <label for="municipality" class="lf-label">Município</label>
             <select id="municipality" class="lf-input" required aria-label="Selecione o município">
               <option value="">Selecione o município...</option>
@@ -797,6 +797,7 @@
   const loginArtSide  = document.getElementById('loginArtSide');
   const modalTag      = document.getElementById('modalTag');
   const modalTitle    = document.getElementById('modalTitle');
+  const municipalityGroup = document.getElementById('municipalityGroup');
   const municipalityEl= document.getElementById('municipality');
   const submitBtn     = document.getElementById('submitBtn');
   const submitText    = document.getElementById('submitText');
@@ -819,6 +820,19 @@
     formSuccess.hidden = true;
     submitText.textContent = 'Entrar';
     submitBtn.disabled = false;
+
+    // "Administração" usa login fixo (sem município) — os demais sistemas
+    // pedem município e autenticam contra data/users.json + data/access.json
+    const isAdmin = systemId === 'admin';
+    municipalityGroup.hidden = isAdmin;
+    municipalityEl.required = !isAdmin;
+
+    if (isAdmin) {
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => document.getElementById('username')?.focus());
+      return;
+    }
 
     // Popula municípios a partir de data/cities.json (via api.getMunicipalities)
     municipalityEl.innerHTML = '<option value="">Carregando municípios...</option>';
@@ -871,17 +885,23 @@
     if (e.key === 'Escape' && !overlay.hidden) closeModal();
   });
 
+  // Credencial fixa de acesso à Administração (não passa por users.json/access.json,
+  // e não precisa de município — é o próprio painel admin, não um sistema por cidade)
+  const ADMIN_LOGIN = 'Ecoplan';
+  const ADMIN_PASSWORD = 'mytfckg2';
+
   // ---- Submit ----
   authForm.addEventListener('submit', async e => {
     e.preventDefault();
     formError.hidden = true;
     formSuccess.hidden = true;
 
+    const isAdmin      = activeSystem === 'admin';
     const municipality = municipalityEl.value;
-    const username     = document.getElementById('username').value.trim();
-    const password     = document.getElementById('password').value;
+    const username      = document.getElementById('username').value.trim();
+    const password      = document.getElementById('password').value;
 
-    if (!municipality || !username || !password) {
+    if (!username || !password || (!isAdmin && !municipality)) {
       formError.textContent = 'Por favor, preencha todos os campos.';
       formError.hidden = false;
       return;
@@ -890,8 +910,26 @@
     submitText.textContent = 'Entrando...';
     submitBtn.disabled = true;
 
+    if (isAdmin) {
+      // Simula o mesmo delay de rede dos demais logins, sem passar por api.authenticate()
+      setTimeout(() => {
+        if (username === ADMIN_LOGIN && password === ADMIN_PASSWORD) {
+          formSuccess.textContent = 'Login com sucesso! Redirecionando...';
+          formSuccess.hidden = false;
+          submitText.textContent = 'Sucesso!';
+          setTimeout(() => { window.location.href = 'admin.html'; }, 900);
+        } else {
+          formError.textContent = 'Login incorreto. Verifique os dados e tente novamente.';
+          formError.hidden = false;
+          submitText.textContent = 'Entrar';
+          submitBtn.disabled = false;
+        }
+      }, 500);
+      return;
+    }
+
     try {
-      // Autentica contra data/users.json (usuário/senha) e data/permissions.json
+      // Autentica contra data/users.json (usuário/senha) e data/access.json
       // (usuário + sistema + município), definidos em js/api.js
       const session = await api.authenticate(activeSystem, municipality, username, password);
 
@@ -899,13 +937,8 @@
       formSuccess.hidden = false;
       submitText.textContent = 'Sucesso!';
 
-      // "Administração" é uma página real do EcoHUB — leva o usuário até ela.
       // Os demais sistemas são simulados (não existe destino real para navegar).
-      if (activeSystem === 'admin') {
-        setTimeout(() => { window.location.href = 'admin.html'; }, 900);
-      } else {
-        setTimeout(closeModal, 1400);
-      }
+      setTimeout(closeModal, 1400);
     } catch (err) {
       formError.textContent = err.message || 'Login incorreto. Verifique os dados e tente novamente.';
       formError.hidden = false;

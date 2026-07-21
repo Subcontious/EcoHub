@@ -174,7 +174,7 @@ ecohub-project/
 │
 ├── 📁 data/                           # Dados iniciais ("seed") — só valem quando localStorage está vazio
 │   ├── apps.json                      # 6 sistemas, cada um com cor própria (usada em ícones/gradientes)
-│   ├── cities.json                    # 8 municípios; cada um pode ganhar `linkOverrides` via admin
+│   ├── cities.json                    # 24 municípios; cada um pode ganhar `linkOverrides` via admin
 │   ├── users.json                     # 3 usuários DE VERDADE (username + password em texto puro — é demo)
 │   └── access.json                    # Quem acessa o quê — substituiu permissions.json (veja abaixo)
 │
@@ -322,7 +322,8 @@ adminApp._togglePasswordReveal(userId)      // Mostra/oculta a senha na tabela
 
 // Configurações
 adminApp._exportData()      // Baixa um único JSON com apps + cities + users + access
-adminApp._clearAllData()    // Limpa as 2 chaves do localStorage
+adminApp._resetToSeedData() // Rebusca data/*.json e regrava as 2 chaves do localStorage
+                             // (NUNCA grava um estado vazio — veja o aviso em Estado e Dados)
 
 // UI
 adminApp._showToast(msg, type) / adminApp._switchTab(tabName)

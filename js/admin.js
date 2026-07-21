@@ -169,7 +169,7 @@ class AdminApp {
 
     // Settings
     document.getElementById('exportDataBtn')?.addEventListener('click', () => this._exportData());
-    document.getElementById('clearDataBtn')?.addEventListener('click', () => this._clearAllData());
+    document.getElementById('resetDataBtn')?.addEventListener('click', () => this._resetToSeedData());
 
     // Fechar modais ao clicar no overlay
     document.getElementById('appModalOverlay')?.addEventListener('click', (e) => {
@@ -1046,22 +1046,44 @@ class AdminApp {
   }
 
   /**
-   * Limpar todos os dados
+   * Restaurar os dados originais de data/*.json, descartando qualquer
+   * edição feita no painel (apps, municípios, usuários e acessos).
+   *
+   * Importante: js/api.js prefere o localStorage sobre data/*.json (é o que
+   * faz uma edição no admin valer de verdade no login de index.html — veja
+   * PROJECT.md). Por isso "limpar" nunca pode gravar um estado vazio aqui:
+   * isso ficaria salvo e o app inteiro (não só esta tela) passaria a
+   * enxergar zero apps/municípios/usuários até alguém apagar o
+   * localStorage manualmente. Em vez disso, buscamos os JSON de novo e
+   * regravamos esse estado — é um "restaurar padrão", não um "esvaziar".
    */
-  _clearAllData() {
-    if (!confirm('Tem CERTEZA? Isso deletará TODOS os dados permanentemente!')) return;
-    if (!confirm('Tem certeza MESMO?')) return;
+  async _resetToSeedData() {
+    if (!confirm('Isso substitui os dados atuais (aplicativos, municípios, usuários e acessos) pelos dados originais de data/*.json. Suas edições no painel serão perdidas. Continuar?')) return;
 
-    this.apps = [];
-    this.cities = [];
-    this.users = [];
-    this.access = {};
-    this._saveData();
-    this._saveUsersData();
-    this._renderAppTable();
-    this._renderCityTable();
-    this._renderUserTable();
-    this._showToast('Todos os dados foram deletados', 'warning');
+    try {
+      // Ignora qualquer cópia em memória já buscada nesta sessão
+      delete api.cache['apps'];
+      delete api.cache['cities'];
+      delete api.cache['users'];
+      delete api.cache['access'];
+
+      const data = await api.loadAppData();
+
+      this.apps = data.apps;
+      this.cities = data.municipalities;
+      this.users = data.users;
+      this.access = data.access;
+
+      this._saveData();
+      this._saveUsersData();
+      this._renderAppTable();
+      this._renderCityTable();
+      this._renderUserTable();
+      this._showToast('Dados restaurados a partir dos arquivos originais', 'success');
+    } catch (error) {
+      console.error('Erro ao restaurar dados:', error);
+      this._showToast('Erro ao restaurar os dados originais', 'error');
+    }
   }
   
   /* ========================================

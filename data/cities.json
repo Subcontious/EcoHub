@@ -6,5 +6,21 @@
   { "id": "005", "name": "João Pessoa", "state": "PB", "ibgeCode": "2507507", "region": "Litoral" },
   { "id": "006", "name": "Campina Grande", "state": "PB", "ibgeCode": "2502207", "region": "Agreste" },
   { "id": "007", "name": "Recife", "state": "PE", "ibgeCode": "2611606", "region": "Litoral" },
-  { "id": "008", "name": "Caruaru", "state": "PE", "ibgeCode": "2604106", "region": "Agreste" }
+  { "id": "008", "name": "Caruaru", "state": "PE", "ibgeCode": "2604106", "region": "Agreste" },
+  { "id": "009", "name": "Bonito de Santa Fé", "state": "PB", "ibgeCode": "2502409", "region": "Sertão" },
+  { "id": "010", "name": "Cajazeirinhas", "state": "PB", "ibgeCode": "2503753", "region": "Sertão" },
+  { "id": "011", "name": "Catingueira", "state": "PB", "ibgeCode": "2504207", "region": "Sertão" },
+  { "id": "012", "name": "Curral Velho", "state": "PB", "ibgeCode": "2505303", "region": "Sertão" },
+  { "id": "013", "name": "Curral de Cima", "state": "PB", "ibgeCode": "2505279", "region": "Litoral" },
+  { "id": "014", "name": "Diamante", "state": "PB", "ibgeCode": "2505600", "region": "Sertão" },
+  { "id": "015", "name": "Igaracy", "state": "PB", "ibgeCode": "2502607", "region": "Sertão" },
+  { "id": "016", "name": "Itaporanga", "state": "PB", "ibgeCode": "2507002", "region": "Sertão" },
+  { "id": "017", "name": "Jacaraú", "state": "PB", "ibgeCode": "2507309", "region": "Litoral" },
+  { "id": "018", "name": "Mari", "state": "PB", "ibgeCode": "2509107", "region": "Litoral" },
+  { "id": "019", "name": "Passagem", "state": "PB", "ibgeCode": "2510709", "region": "Sertão" },
+  { "id": "020", "name": "Santa Rita", "state": "PB", "ibgeCode": "2513703", "region": "Litoral" },
+  { "id": "021", "name": "São Bentinho", "state": "PB", "ibgeCode": "2513927", "region": "Sertão" },
+  { "id": "022", "name": "São José de Princesa", "state": "PB", "ibgeCode": "2514552", "region": "Sertão" },
+  { "id": "023", "name": "Brejinho", "state": "PE", "ibgeCode": "2602506", "region": "Sertão" },
+  { "id": "024", "name": "Tuparetama", "state": "PE", "ibgeCode": "2615904", "region": "Sertão" }
 ]
