@@ -63,28 +63,15 @@
 .launcher-logo {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
+  justify-content: center;
   margin-bottom: 28px;
   text-decoration: none;
 }
 
-.launcher-logo-mark {
-  width: 46px;
-  height: 46px;
-  border-radius: 15px;
-  background: linear-gradient(145deg, #F07D3A, #C84808);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 28px rgba(232,89,12,.45);
-  flex-shrink: 0;
-}
-
-.launcher-logo-text {
-  font-size: 23px;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  color: var(--color-text);
+.launcher-logo-img {
+  height: 84px;
+  width: auto;
+  display: block;
 }
 
 .launcher-hero h1 {
@@ -797,7 +784,7 @@ select.lf-input option {
 }
 
 @media (max-width: 400px) {
-  .launcher-logo-text { font-size: 20px }
+  .launcher-logo-img { height: 64px }
   .card-visual { height: 180px }
   .card-info { padding: 20px 20px 18px }
 }

@@ -59,6 +59,12 @@
   height: 28px;
 }
 
+.header-logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
 .logo-text {
   font-family: var(--font-family);
   letter-spacing: -0.01em;
