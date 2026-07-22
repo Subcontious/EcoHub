@@ -279,16 +279,56 @@
       despesaTotalPessoal: 29813573.14
     };
 
-    // Ajustes do MDE exigidos pelo relatorio oficial (SisContabil) alem da
-    // deducao do FUNDEB do proprio mes (que ja vem calculada dos CSVs):
-    // - superavitAnteriorNaoAplicado: saldo de superavit permitido do
-    //   exercicio anterior ainda nao aplicado (relatorio de dezembro do ano
-    //   anterior, itens 45.4/46.4/47.4).
-    // - restosAPagarSemDisponibilidade / cancelamentoRestosAPagar: ajustes
-    //   pontuais de restos a pagar (itens 45.5/45.6), normalmente 0.
+    // Ajustes manuais do MDE. Preencha com os valores exatos do relatorio
+    // oficial (SisContabil) "Demonstrativo de Aplicacoes dos Recursos em
+    // Educacao, Saude e Pessoal", itens 45/46/47 (empenhado/liquidado/pago),
+    // sempre que o calculo automatico do site divergir do relatorio. Isso
+    // evita ter que mexer na logica do codigo (funcao calcLegalFromRows)
+    // toda vez que um municipio novo tiver uma particularidade nesses itens.
+    //
+    // Cada campo abaixo aceita "null" (o site calcula automaticamente a
+    // partir dos CSVs) ou um numero (sobrescreve o calculo automatico com o
+    // valor oficial). Comece sempre com tudo em "null"/0 e so preencha um
+    // campo especifico quando o valor do site divergir do relatorio oficial
+    // naquele item.
+    //
+    // MAIO/2026: o calculo automatico de excedenteFundeb ficava muito abaixo
+    // do relatorio oficial porque Bonito gastou de VAAF (fonte 541) mais do
+    // que recebeu dela no exercicio (usando saldo de anos anteriores) - o
+    // site nao limita cada subfonte do FUNDEB ao que foi recebido dela.
+    // Por isso os itens 45.3/46.3/47.3 ficaram sobrescritos abaixo com os
+    // valores exatos do relatorio.
     const ECO_MDE_MANUAL = {
+      // Item 42/3 - Receita Resultante de Impostos (base de calculo do MDE).
+      baseReceitaImpostos: null,
+
+      // Itens 45.1/46.1/47.1 - Despesas com acoes tipicas de MDE (Educacao
+      // Infantil + Ensino Fundamental, exceto FUNDEB).
+      despesaTipicaMDE: { emp: null, liq: null, pag: null },
+
+      // Itens 45.2/46.2/47.2 - Valor lancado destinado ao FUNDEB no mes (4.1).
+      deducaoFundebLancada: null,
+
+      // Itens 45.3/46.3/47.3 - Valor excedente ao superavit de 10% do FUNDEB
+      // nao aplicado no exercicio. ATENCAO: o calculo automatico do site soma
+      // toda despesa com fonte do FUNDEB sem limitar por subfonte (impostos/
+      // VAAF/VAAT/VAAR/ETI); o relatorio oficial limita cada subfonte ao que
+      // foi recebido dela no proprio exercicio. Se o municipio gastou de uma
+      // subfonte (ex.: VAAF) mais do que recebeu dela no ano (usando saldo de
+      // anos anteriores), este item vem > 0 no relatorio oficial e PRECISA
+      // ser preenchido aqui, senao o MDE sai maior do que deveria.
+      excedenteFundeb: { emp: 1836248.85, liq: 1863093.43, pag: 1863093.43 },
+
+      // Itens 45.4/46.4/47.4 - Superavit permitido do exercicio anterior
+      // ainda nao aplicado (relatorio de dezembro do ano anterior; normalmente
+      // igual para emp/liq/pag). Confira todo mes - costuma virar 0 assim que
+      // o superavit anterior for totalmente aplicado.
       superavitAnteriorNaoAplicado: 832088.84,
+
+      // Itens 45.5/46.5/47.5 - Restos a pagar sem disponibilidade financeira.
       restosAPagarSemDisponibilidade: 0,
+
+      // Itens 45.6/46.6/47.6 - Cancelamento de restos a pagar.
       cancelamentoRestosAPagar: 0
     };
 
@@ -315,12 +355,19 @@
       cosVAATInfantil: ["1074"],
       cosVAATInvestimento: ["1075"],
       cosETI: ["1080"],
+      // Cada categoria classifica pela COLUNA ESTRUTURADA do empenho (Elemento,
+      // Subelemento ou Grupo de Natureza de Despesa), nunca pelo texto livre do
+      // Historico - o Historico e escrito livremente por cada servidor e gera
+      // falsos positivos (ex.: um empenho de servico terceirizado cujo texto
+      // menciona "diaria" nao e uma diaria do elemento 33.90.14).
+      // modo "prefix" compara o inicio do valor do campo (codigo do elemento/
+      // grupo); modo "includes" procura a palavra dentro do valor do campo.
       categoriasDespesa: {
-        combustivel: ["combustivel", "gasolina", "diesel", "etanol", "alcool"],
-        medicamentos: ["medicamento", "farmaceut", "remedio", "hospitalar"],
-        doacoes: ["doacao", "doacoes", "donativo", "auxilio", "beneficio eventual"],
-        diarias: ["diaria", "diarias"],
-        investimentos: ["investimentos", "despesa de capital", "obras e instalacoes", "equipamentos"]
+        combustivel:   { campo: "subelemento", modo: "includes", valores: ["combust"] },
+        medicamentos:  { campo: "subelemento", modo: "includes", valores: ["farmacol", "hospitalar"] },
+        doacoes:       { campo: "elemento", modo: "prefix", valores: ["32", "48"] },
+        diarias:       { campo: "elemento", modo: "prefix", valores: ["14"] },
+        investimentos: { campo: "grupo de natureza de despesa", modo: "prefix", valores: ["4"] }
       },
       pessoalManual: ECO_PESSOAL_MANUAL,
       mdeManual: ECO_MDE_MANUAL
@@ -643,24 +690,46 @@
         if(firstPrefix(fonte, ECO_CONFIG.fontesETI) || ECO_CONFIG.cosETI.some(x => co.includes(x))) add3(eti, v);
       });
       const baseAsps = baseAspsNet;
-      const baseMde = baseMdeNet;
+      const mdeAjustes = ECO_CONFIG.mdeManual || {};
+      // Todo valor abaixo pode ser sobrescrito em ECO_MDE_MANUAL com o numero
+      // exato do relatorio oficial (SisContabil), sem precisar mexer nesta
+      // funcao. Veja os comentarios em ECO_MDE_MANUAL para o que cada campo
+      // representa.
+      const baseMde = mdeAjustes.baseReceitaImpostos != null ? mdeAjustes.baseReceitaImpostos : baseMdeNet;
+      const despesaTipicaOverride = mdeAjustes.despesaTipicaMDE || {};
+      const mdeTipica = {
+        emp: despesaTipicaOverride.emp != null ? despesaTipicaOverride.emp : mde.emp,
+        liq: despesaTipicaOverride.liq != null ? despesaTipicaOverride.liq : mde.liq,
+        pag: despesaTipicaOverride.pag != null ? despesaTipicaOverride.pag : mde.pag
+      };
+      const deducaoFundebFinal = mdeAjustes.deducaoFundebLancada != null ? mdeAjustes.deducaoFundebLancada : deducaoFundebLancada;
       // Formula oficial do MDE (relatorio SisContabil, itens 45/46/47):
       // despesas tipicas de MDE (exceto FUNDEB) + deducao do FUNDEB lancada
       // no mes - valor excedente aos 10% de superavit do FUNDEB nao aplicado
       // - superavit permitido do exercicio anterior nao aplicado - ajustes
       // manuais de restos a pagar.
       const limiteSuperavitFundeb = fundebRec * 0.10;
-      const mdeAjustes = ECO_CONFIG.mdeManual || {};
-      const excedenteFundeb = {
+      const excedenteFundebCalc = {
         emp: Math.max(0, Math.max(0, fundebRec - fundebTotal.emp) - limiteSuperavitFundeb),
         liq: Math.max(0, Math.max(0, fundebRec - fundebTotal.liq) - limiteSuperavitFundeb),
         pag: Math.max(0, Math.max(0, fundebRec - fundebTotal.pag) - limiteSuperavitFundeb)
       };
+      // O calculo automatico acima NAO reproduz o limite por subfonte do
+      // FUNDEB do SisContabil (cada subfonte - impostos/VAAF/VAAT/VAAR/ETI -
+      // so conta como "aplicada no exercicio" ate o valor recebido dela no
+      // ano). Se o relatorio oficial mostrar este item maior que o calculado
+      // aqui, preencha ECO_MDE_MANUAL.excedenteFundeb com o valor oficial.
+      const excedenteOverride = mdeAjustes.excedenteFundeb || {};
+      const excedenteFundeb = {
+        emp: excedenteOverride.emp != null ? excedenteOverride.emp : excedenteFundebCalc.emp,
+        liq: excedenteOverride.liq != null ? excedenteOverride.liq : excedenteFundebCalc.liq,
+        pag: excedenteOverride.pag != null ? excedenteOverride.pag : excedenteFundebCalc.pag
+      };
       const mdeAjustesFixos = (mdeAjustes.superavitAnteriorNaoAplicado || 0) + (mdeAjustes.restosAPagarSemDisponibilidade || 0) + (mdeAjustes.cancelamentoRestosAPagar || 0);
       const mdeComDed = {
-        emp: mde.emp + deducaoFundebLancada - excedenteFundeb.emp - mdeAjustesFixos,
-        liq: mde.liq + deducaoFundebLancada - excedenteFundeb.liq - mdeAjustesFixos,
-        pag: mde.pag + deducaoFundebLancada - excedenteFundeb.pag - mdeAjustesFixos
+        emp: mdeTipica.emp + deducaoFundebFinal - excedenteFundeb.emp - mdeAjustesFixos,
+        liq: mdeTipica.liq + deducaoFundebFinal - excedenteFundeb.liq - mdeAjustesFixos,
+        pag: mdeTipica.pag + deducaoFundebFinal - excedenteFundeb.pag - mdeAjustesFixos
       };
       // A Complementacao da Uniao - VAAR (fonte 543) entra na base do ETI 4%,
       // mas nao integra a base dos 70% de Magisterio.
@@ -741,15 +810,22 @@
     }
     function calcDespesas(despesaByYear){
       const out = {};
+      // No ano corrente (ECO_CONFIG.anoIndices), corta no mesmo "mes encerrado"
+      // usado pelos indices legais (MDE/ASPS/FUNDEB), para bater com relatorios
+      // oficiais "ate o mes X". Anos anteriores ja estao fechados e entram
+      // inteiros, sem corte.
+      const mesLimite = Math.max(0, Math.min(11, ECO_CONFIG.mesEncerradoIndices - 1));
       ECO_CONFIG.anos.forEach(ano => {
         out[ano] = { combustivel:0, medicamentos:0, doacoes:0, diarias:0, investimentos:0, months:{} };
         Object.keys(ECO_CONFIG.categoriasDespesa).forEach(cat => out[ano].months[cat] = Array(12).fill(0));
-        (despesaByYear[ano] || []).forEach(d => {
-          const text = [col(d,"historico"), col(d,"elemento"), col(d,"subelemento"), col(d,"grupo de natureza de despesa"), col(d,"categoria economica")].join(" ");
+        const rows = ano === ECO_CONFIG.anoIndices ? rowsAteMes(despesaByYear[ano] || [], mesLimite) : (despesaByYear[ano] || []);
+        rows.forEach(d => {
           const val = numberValue(col(d,"valor empenhado"));
           const m = monthIndex(d);
-          Object.keys(ECO_CONFIG.categoriasDespesa).forEach(cat => {
-            if(includesAny(text, ECO_CONFIG.categoriasDespesa[cat])){
+          Object.entries(ECO_CONFIG.categoriasDespesa).forEach(([cat, regra]) => {
+            const valorCampo = col(d, regra.campo);
+            const bateu = regra.modo === "prefix" ? firstPrefix(valorCampo, regra.valores) : includesAny(valorCampo, regra.valores);
+            if(bateu){
               out[ano][cat] += val;
               out[ano].months[cat][m] += val;
             }

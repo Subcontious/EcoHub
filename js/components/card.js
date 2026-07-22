@@ -26,11 +26,14 @@ class CardComponent {
     card.setAttribute('aria-label', `Abrir ${this.appData.name}`);
     
     const iconColor = this.appData.color || 'var(--color-orange)';
+    const iconContent = this.appData.logo
+      ? `<img src="${this.appData.logo}" alt="" class="card-icon-logo">`
+      : this.appData.icon;
 
     card.innerHTML = `
       <div class="card-top">
         <div class="card-icon" style="--icon-color: ${iconColor}" aria-hidden="true">
-          ${this.appData.icon}
+          ${iconContent}
         </div>
         <svg class="card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M9 18l6-6-6-6"></path>

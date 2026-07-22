@@ -5,11 +5,13 @@
     "slug": "digidoc-ad",
     "description": "Gestão de Atos e Decretos",
     "icon": "⚖️",
+    "logo": "",
     "color": "#6366F1",
     "displayOrder": 1,
     "isActive": true,
     "version": "2.1.0",
-    "category": "Administrativo"
+    "category": "Administrativo",
+    "urlPattern": ""
   },
   {
     "id": "digidoc-rh",
@@ -17,11 +19,13 @@
     "slug": "digidoc-rh",
     "description": "Gestão de Recursos Humanos",
     "icon": "👥",
+    "logo": "",
     "color": "#C026D3",
     "displayOrder": 2,
     "isActive": true,
     "version": "3.0.1",
-    "category": "Recursos Humanos"
+    "category": "Recursos Humanos",
+    "urlPattern": ""
   },
   {
     "id": "digidoc-pat",
@@ -29,11 +33,13 @@
     "slug": "digidoc-pat",
     "description": "Patrimônio e Ativos",
     "icon": "🏢",
+    "logo": "",
     "color": "#0066CC",
     "displayOrder": 3,
     "isActive": true,
     "version": "1.8.5",
-    "category": "Patrimônio"
+    "category": "Patrimônio",
+    "urlPattern": ""
   },
   {
     "id": "legis-digital",
@@ -41,11 +47,13 @@
     "slug": "legis-digital",
     "description": "Gestão de Legislação",
     "icon": "📋",
+    "logo": "",
     "color": "#F59E0B",
     "displayOrder": 4,
     "isActive": true,
     "version": "2.5.0",
-    "category": "Legislação"
+    "category": "Legislação",
+    "urlPattern": ""
   },
   {
     "id": "digidoc-legis",
@@ -53,11 +61,13 @@
     "slug": "digidoc-legis",
     "description": "Publicações Oficiais",
     "icon": "📰",
+    "logo": "",
     "color": "#10B981",
     "displayOrder": 5,
     "isActive": true,
     "version": "1.2.0",
-    "category": "Publicações"
+    "category": "Publicações",
+    "urlPattern": ""
   },
   {
     "id": "imposigov",
@@ -65,10 +75,12 @@
     "slug": "imposigov",
     "description": "Gestão de Impostos",
     "icon": "💰",
+    "logo": "",
     "color": "#F43F5E",
     "displayOrder": 6,
     "isActive": true,
     "version": "4.0.2",
-    "category": "Fiscal"
+    "category": "Fiscal",
+    "urlPattern": ""
   }
 ]

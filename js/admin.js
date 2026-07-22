@@ -16,6 +16,7 @@ class AdminApp {
     this.editingUserAccess = {};
     this.editingCityLinkOverrides = {};
     this.editingLinkRowAppId = null;
+    this.editingAppLogo = null;
     this.revealedPasswords = new Set();
   }
 
@@ -148,6 +149,8 @@ class AdminApp {
     document.getElementById('appForm')?.addEventListener('submit', (e) => this._submitAppForm(e));
     document.getElementById('closeAppModal')?.addEventListener('click', () => this._closeAppModal());
     document.getElementById('cancelAppForm')?.addEventListener('click', () => this._closeAppModal());
+    document.getElementById('appLogoFile')?.addEventListener('change', (e) => this._onAppLogoFileChange(e));
+    document.getElementById('removeAppLogo')?.addEventListener('click', () => this._removeAppLogo());
     
     // Cidades
     document.getElementById('addCityBtn')?.addEventListener('click', () => this._openCityForm());
@@ -254,7 +257,8 @@ class AdminApp {
     form.reset();
     this.editingId = appId;
     this.editingType = 'app';
-    
+    this.editingAppLogo = null;
+
     if (appId) {
       const app = this.apps.find(a => a.id === appId);
       if (app) {
@@ -264,14 +268,66 @@ class AdminApp {
         document.getElementById('appIcon').value = app.icon;
         document.getElementById('appOrder').value = app.displayOrder;
         document.getElementById('appActive').checked = app.isActive;
+        document.getElementById('appUrlPattern').value = app.urlPattern || '';
+        this.editingAppLogo = app.logo || null;
       }
     } else {
       title.textContent = 'Novo Aplicativo';
     }
-    
+
+    this._renderAppLogoPreview();
     modal?.removeAttribute('hidden');
   }
-  
+
+  /**
+   * Ler o arquivo de logo escolhido e guardar como base64 (data URL)
+   */
+  _onAppLogoFileChange(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      this._showToast('Escolha um arquivo de imagem', 'error');
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.editingAppLogo = reader.result;
+      this._renderAppLogoPreview();
+    };
+    reader.onerror = () => this._showToast('Erro ao ler a imagem', 'error');
+    reader.readAsDataURL(file);
+  }
+
+  /**
+   * Remover a logo escolhida (volta a usar o ícone/emoji)
+   */
+  _removeAppLogo() {
+    this.editingAppLogo = null;
+    const fileInput = document.getElementById('appLogoFile');
+    if (fileInput) fileInput.value = '';
+    this._renderAppLogoPreview();
+  }
+
+  /**
+   * Atualizar a pré-visualização da logo no formulário
+   */
+  _renderAppLogoPreview() {
+    const preview = document.getElementById('appLogoPreview');
+    const img = document.getElementById('appLogoPreviewImg');
+    if (!preview || !img) return;
+
+    if (this.editingAppLogo) {
+      img.src = this.editingAppLogo;
+      preview.removeAttribute('hidden');
+    } else {
+      img.src = '';
+      preview.setAttribute('hidden', '');
+    }
+  }
+
   /**
    * Fechar modal de app
    */
@@ -279,6 +335,8 @@ class AdminApp {
     document.getElementById('appModalOverlay')?.setAttribute('hidden', '');
     document.getElementById('appForm')?.reset();
     this.editingId = null;
+    this.editingAppLogo = null;
+    this._renderAppLogoPreview();
   }
   
   /**
@@ -292,12 +350,14 @@ class AdminApp {
     const icon = document.getElementById('appIcon').value.trim();
     const order = parseInt(document.getElementById('appOrder').value) || 1;
     const isActive = document.getElementById('appActive').checked;
-    
+    const urlPattern = document.getElementById('appUrlPattern').value.trim();
+    const logo = this.editingAppLogo || '';
+
     if (!name) {
       this._showToast('Nome do aplicativo é obrigatório', 'error');
       return;
     }
-    
+
     if (this.editingId) {
       // Editar
       const app = this.apps.find(a => a.id === this.editingId);
@@ -307,6 +367,8 @@ class AdminApp {
         app.icon = icon;
         app.displayOrder = order;
         app.isActive = isActive;
+        app.urlPattern = urlPattern;
+        app.logo = logo;
       }
       this._showToast('Aplicativo atualizado com sucesso', 'success');
     } else {
@@ -317,8 +379,10 @@ class AdminApp {
         slug: name.toLowerCase().replace(/\s+/g, '-'),
         description,
         icon: icon || '📱',
+        logo,
         displayOrder: order,
         isActive,
+        urlPattern,
         version: '1.0.0',
         category: 'Geral',
         createdAt: new Date().toISOString()
@@ -361,7 +425,9 @@ class AdminApp {
     
     tbody.innerHTML = this.apps.map(app => `
       <tr>
-        <td class="icon-cell"><span class="app-icon-tile" style="--icon-color: ${app.color || 'var(--color-orange)'}">${app.icon}</span></td>
+        <td class="icon-cell">${app.logo
+          ? `<span class="app-icon-tile app-icon-tile-logo"><img src="${app.logo}" alt="${app.name}"></span>`
+          : `<span class="app-icon-tile" style="--icon-color: ${app.color || 'var(--color-orange)'}">${app.icon}</span>`}</td>
         <td><strong>${app.name}</strong></td>
         <td>${app.description || '—'}</td>
         <td>${app.displayOrder}</td>
@@ -466,7 +532,7 @@ class AdminApp {
     }
 
     container.innerHTML = activeApps.map(app => {
-      const standardUrl = api.buildDestinationURL(app.name, name);
+      const standardUrl = api.buildDestinationURL(app, name);
       const override = this.editingCityLinkOverrides[app.id];
       const currentUrl = override || standardUrl;
 
@@ -543,7 +609,7 @@ class AdminApp {
     const value = (input?.value || '').trim();
     const app = this.apps.find(a => a.id === appId);
     const cityName = document.getElementById('cityName').value.trim();
-    const standardUrl = app ? api.buildDestinationURL(app.name, cityName) : '';
+    const standardUrl = app ? api.buildDestinationURL(app, cityName) : '';
 
     if (!value || value === standardUrl) {
       delete this.editingCityLinkOverrides[appId];
@@ -805,7 +871,7 @@ class AdminApp {
       const app = this.apps.find(a => a.id === appId);
       Object.keys(cities).forEach(cityId => {
         const city = this.cities.find(c => c.id === cityId);
-        const link = app && city ? api.buildDestinationURL(app.name, city.name) : null;
+        const link = app && city ? api.buildDestinationURL(app, city.name) : null;
 
         rows.push(`
           <div class="access-grant-chip">

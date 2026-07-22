@@ -182,18 +182,30 @@ class API {
   /**
    * Montar o link padrão de um sistema para um município específico.
    *
+   * Se o app tiver um `urlPattern` cadastrado (ex.:
+   * "www.ecoplancontabilidade.com/digidocad{municipio}"), o {municipio} é
+   * substituído pelo nome do município sem acento/espaço e o resultado vira
+   * o link. Sem urlPattern, cai na fórmula antiga por compatibilidade com
+   * apps cadastrados antes desse campo existir:
+   *
    * Padrão: https://www.ecoplancontabilidade.com/{app}{Municipio}
    * Ex.: "DigidocAD" + "Patos"       -> .../digidocADPatos
    *      "DigidocRH" + "João Pessoa" -> .../digidocRHJoaoPessoa
    *
-   * É uma fórmula, não um dado cadastrado: novos sistemas e municípios
-   * já nascem com o link certo, sem precisar atualizar nada à mão.
+   * `app` pode ser o objeto do app ou (por compatibilidade) só o nome em string.
    */
-  buildDestinationURL(appName, cityName) {
-    const name = appName || '';
-    const appSlug = name.charAt(0).toLowerCase() + name.slice(1);
+  buildDestinationURL(app, cityName) {
+    const appObj = typeof app === 'string' ? { name: app } : (app || {});
     const citySlug = this._toUrlSlug(cityName);
+    const pattern = (appObj.urlPattern || '').trim();
 
+    if (pattern) {
+      const url = pattern.replace(/\{municipio\}/gi, citySlug);
+      return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+    }
+
+    const name = appObj.name || '';
+    const appSlug = name.charAt(0).toLowerCase() + name.slice(1);
     return `https://www.ecoplancontabilidade.com/${appSlug}${citySlug}`;
   }
 
@@ -236,7 +248,7 @@ class API {
       const override = city.linkOverrides && city.linkOverrides[appId];
       if (override) return override;
 
-      return this.buildDestinationURL(app.name, city.name);
+      return this.buildDestinationURL(app, city.name);
     } catch (error) {
       console.error('Erro ao montar link de destino:', error);
       return null;

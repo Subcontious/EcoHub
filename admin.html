@@ -390,6 +390,29 @@
           </div>
 
           <div class="form-group">
+            <label for="appLogoFile" class="form-label">Logo do sistema</label>
+            <div class="app-logo-picker">
+              <div class="app-logo-preview" id="appLogoPreview" hidden>
+                <img id="appLogoPreviewImg" alt="Logo">
+                <button type="button" class="action-btn delete" id="removeAppLogo" title="Remover logo">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <input type="file" id="appLogoFile" class="form-input" accept="image/*">
+            </div>
+            <p class="form-help-text">Opcional — usada nos cards no lugar do ícone/emoji quando enviada.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="appUrlPattern" class="form-label">Link padrão</label>
+            <input type="text" id="appUrlPattern" class="form-input" placeholder="www.ecoplancontabilidade.com/digidocad{municipio}">
+            <p class="form-help-text">Use <code>{municipio}</code> onde entra o nome do município — o site que preenche esse trecho é o que o cliente será redirecionado.</p>
+          </div>
+
+          <div class="form-group">
             <label class="checkbox-label">
               <input type="checkbox" id="appActive" checked>
               <span>Ativo</span>
