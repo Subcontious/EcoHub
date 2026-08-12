@@ -27,17 +27,11 @@ EcoHUB/
 │   ├── home.css                # Estilos específicos da Home
 │   └── components/
 │       ├── button.css          # Componente Botão (4 tipos)
-│       ├── card.css            # Componente Card (aplicativo)
 │       └── modal.css           # Componente Modal (autenticação)
 │
 ├── js/
-│   ├── state.js                # Gerenciamento de estado global
 │   ├── api.js                  # Abstração da API (será Wix depois)
 │   ├── animations.js           # Controlador de animações
-│   ├── app.js                  # Arquivo principal (inicialização)
-│   └── components/
-│       ├── card.js             # Lógica do componente Card
-│       └── modal.js            # Lógica do componente Modal
 │
 ├── data/
 │   ├── apps.json               # Sistemas disponíveis
@@ -110,35 +104,6 @@ Depois acesse: `http://localhost:8000`
 
 ## 📚 Documentação dos Módulos
 
-### `state.js` — Gerenciamento de Estado
-
-Centraliza o estado global da aplicação usando o padrão Observer.
-
-**Métodos principais:**
-```javascript
-appState.getState()           // Obter estado completo
-appState.setState({ ... })    // Atualizar estado
-appState.get('path.to.value') // Obter valor específico
-appState.selectApp(appId)     // Selecionar aplicativo
-appState.openModal()          // Abrir modal
-appState.closeModal()         // Fechar modal
-appState.toggleTheme()        // Alternar tema claro/escuro
-appState.subscribe(callback)  // Observar mudanças
-```
-
-**Estado inicial:**
-```javascript
-{
-  apps: [],                    // Aplicativos carregados
-  municipalities: [],          // Municípios
-  selectedApp: null,           // App selecionado
-  isModalOpen: false,          // Modal aberto?
-  currentTheme: 'light',       // Tema atual
-  isAuthenticated: false,      // Autenticado?
-  error: null                  // Mensagem de erro
-}
-```
-
 ### `api.js` — Abstração da API
 
 Comunica-se com a "API" (atualmente JSON local). Será substituído por Wix Velo na Fase 2.
@@ -171,28 +136,6 @@ animations.staggerIn(elements) // Entrada em cascata
 - Hover: 180ms
 - Abrir Modal: 250ms
 - Fade: 200ms
-
-### `CardComponent` — Componente de Aplicativo
-
-Representa um sistema disponível.
-
-```javascript
-const card = new CardComponent(appData);
-const element = card.render();
-card.setLoading(true);
-card.select();
-card.setError();
-```
-
-### `ModalComponent` — Componente de Autenticação
-
-Modal para login nos sistemas.
-
-```javascript
-modalComponent.open(appData);
-modalComponent.close();
-modalComponent.showError(message);
-```
 
 ---
 
@@ -304,14 +247,8 @@ O projeto é desenvolvido com **Desktop First** e é responsivo para:
 
 Abrir console do navegador:
 ```javascript
-// Ver estado completo
-appState.getState()
-
 // Ver aplicativos carregados
 window.api.getApps()
-
-// Ver instância da app
-window.ecohubredApp
 ```
 
 ---

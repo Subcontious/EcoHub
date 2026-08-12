@@ -481,8 +481,6 @@ class AdminApp {
         title.textContent = 'Editar Município';
         document.getElementById('cityName').value = city.name;
         document.getElementById('cityState').value = city.state;
-        document.getElementById('cityIBGE').value = city.ibgeCode || '';
-        document.getElementById('cityRegion').value = city.region || '';
         document.getElementById('cityActive').checked = city.isActive !== false;
         this.editingCityLinkOverrides = JSON.parse(JSON.stringify(city.linkOverrides || {}));
       }
@@ -637,8 +635,6 @@ class AdminApp {
 
     const name = document.getElementById('cityName').value.trim();
     const state = document.getElementById('cityState').value.trim().toUpperCase();
-    const ibgeCode = document.getElementById('cityIBGE').value.trim();
-    const region = document.getElementById('cityRegion').value;
     const isActive = document.getElementById('cityActive').checked;
 
     if (!name || !state) {
@@ -652,8 +648,6 @@ class AdminApp {
       if (city) {
         city.name = name;
         city.state = state;
-        city.ibgeCode = ibgeCode;
-        city.region = region;
         city.isActive = isActive;
         city.linkOverrides = { ...this.editingCityLinkOverrides };
       }
@@ -664,8 +658,6 @@ class AdminApp {
         id: 'city-' + Date.now(),
         name,
         state,
-        ibgeCode,
-        region,
         isActive,
         linkOverrides: { ...this.editingCityLinkOverrides },
         createdAt: new Date().toISOString()
@@ -710,8 +702,6 @@ class AdminApp {
       <tr>
         <td><strong>${city.name}</strong></td>
         <td>${city.state}</td>
-        <td>${city.ibgeCode || '—'}</td>
-        <td>${city.region || '—'}</td>
         <td>
           <span class="status-badge ${city.isActive !== false ? '' : 'inactive'}">
             <span class="status-dot"></span>

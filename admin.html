@@ -206,8 +206,6 @@
                 <tr>
                   <th>Nome</th>
                   <th>Estado</th>
-                  <th>Código IBGE</th>
-                  <th>Região</th>
                   <th>Status</th>
                   <th>Ações</th>
                 </tr>
@@ -449,26 +447,9 @@
             <input type="text" id="cityName" class="form-input" placeholder="Patos" required>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="cityState" class="form-label">Estado</label>
-              <input type="text" id="cityState" class="form-input" placeholder="PB" maxlength="2" required>
-            </div>
-
-            <div class="form-group">
-              <label for="cityIBGE" class="form-label">Código IBGE</label>
-              <input type="text" id="cityIBGE" class="form-input" placeholder="2510070">
-            </div>
-          </div>
-
           <div class="form-group">
-            <label for="cityRegion" class="form-label">Região</label>
-            <select id="cityRegion" class="form-input">
-              <option value="">Selecione...</option>
-              <option value="Litoral">Litoral</option>
-              <option value="Agreste">Agreste</option>
-              <option value="Sertão">Sertão</option>
-            </select>
+            <label for="cityState" class="form-label">Estado</label>
+            <input type="text" id="cityState" class="form-input" placeholder="PB" maxlength="2" required>
           </div>
 
           <div class="form-group">
@@ -574,7 +555,6 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="js/state.js"></script>
   <script src="js/api.js"></script>
   <script src="js/animations.js"></script>
   <script src="js/admin.js"></script>

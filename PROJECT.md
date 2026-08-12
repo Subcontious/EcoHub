@@ -64,22 +64,15 @@ O projeto segue **3 princípios fundamentais**:
    - Preparado para crescimento (novo app ou município já nasce com link de redirecionamento correto)
    - Pronto para migração Wix — veja a seção [Migração para Wix](#migração-para-wix-fase-2), que é o roteiro real dessa migração
 
-### ⚠️ Estado real da arquitetura (leia antes de mexer em `state.js`, `app.js`, `card.js` ou `modal.js`)
+### ⚠️ Estado real da arquitetura
 
-A doc original descrevia uma arquitetura em 4 camadas com Observer Pattern (`state.js`) e Component Pattern (`card.js`/`modal.js`) alimentando `index.html`. **Isso não é mais verdade.** `index.html` foi reconstruído como uma tela única ("launcher") com os cards dos sistemas escritos direto no HTML (cada um com uma ilustração SVG própria) e toda a lógica de busca/modal/login num `<script>` inline no próprio `index.html`. Hoje:
+A doc original descrevia uma arquitetura em 4 camadas com Observer Pattern (`state.js`) e Component Pattern (`card.js`/`modal.js`) alimentando `index.html`. **Isso não é mais verdade.** `index.html` foi reconstruído como uma tela única ("launcher") com os cards dos sistemas escritos direto no HTML (cada um com uma ilustração SVG própria) e toda a lógica de busca/modal/login num `<script>` inline no próprio `index.html`.
 
-| Arquivo | Carregado por | Realmente usado? |
-|---|---|---|
-| `js/state.js` (`AppState`) | `index.html`, `admin.html` | ❌ **Não.** Nada chama `appState.*` em lugar nenhum do projeto. Só existe porque as duas páginas ainda têm a tag `<script>`. |
-| `js/app.js` (`EcoHUBApp`) | — | ❌ **Não carregado por ninguém.** Foi escrito para a versão antiga do `index.html` (grid de `#appsGrid` + `CardComponent`), que não existe mais. |
-| `js/components/card.js` (`CardComponent`) | — | ❌ **Não carregado por ninguém.** |
-| `js/components/modal.js` (`ModalComponent`) | — | ❌ **Não carregado por ninguém.** O login do `index.html` usa seu próprio modal (`.launcher-modal-overlay`), controlado pelo `<script>` inline. |
-| `js/animations.js` (`Animations`) | `admin.html` | ⚠️ Carregado, mas `admin.js` nunca chama `animations.*`. As animações do admin (toast, troca de aba) são só `@keyframes` do CSS acionadas por classe. |
-| `css/components/card.css` | — | ❌ Não carregado por nenhuma página. |
+`js/state.js` (`AppState`), `js/app.js` (`EcoHUBApp`), `js/components/card.js` (`CardComponent`), `js/components/modal.js` (`ModalComponent`) e `css/components/card.css` não eram carregados por nenhuma página (ou, no caso de `state.js`, carregado mas nunca chamado) e **foram removidos do repositório**. Se precisar deles como referência, estão no histórico do git antes desta limpeza.
 
-**O que isso significa na prática:** o fluxo de dados real hoje é `data/*.json` (ou `localStorage`, que tem prioridade — veja [Estado e Dados](#estado-e-dados)) → `js/api.js` → manipulação direta do DOM em `admin.js` / no `<script>` inline de `index.html`. Não existe uma camada de estado compartilhado nem componentes reutilizáveis de fato — cada página gerencia seu próprio DOM diretamente. Isso é importante para a migração Wix: **o "estado" a recriar em Velo é o que está em `admin.js` e no `<script>` de `index.html`, não em `state.js`.**
+`js/animations.js` (`Animations`) continua carregado por `admin.html`, mas `admin.js` nunca chama `animations.*` — as animações visíveis (toast, troca de aba) são `@keyframes` do CSS acionadas por classe. Não foi removido porque, diferente dos arquivos acima, ele não tem tag `<script>` órfã nem substitui nada que já existe em outro lugar — é só uma API não adotada ainda.
 
-Esses arquivos não foram apagados de propósito (podem servir de referência ou voltar a ser úteis), mas trate-os como **legado morto**, não como arquitetura ativa.
+**O que isso significa na prática:** o fluxo de dados real hoje é `data/*.json` (ou `localStorage`, que tem prioridade — veja [Estado e Dados](#estado-e-dados)) → `js/api.js` → manipulação direta do DOM em `admin.js` / no `<script>` inline de `index.html`. Não existe uma camada de estado compartilhado nem componentes reutilizáveis de fato — cada página gerencia seu próprio DOM diretamente. Isso é importante para a migração Wix: **o "estado" a recriar em Velo é o que está em `admin.js` e no `<script>` de `index.html`.**
 
 ### Camadas da Aplicação (como funciona de verdade hoje)
 
@@ -117,8 +110,8 @@ Esses arquivos não foram apagados de propósito (podem servir de referência ou
 
 ### Padrões de Projeto Usados
 
-1. **Singleton Pattern** (`api`, `appState`, `animations`)
-   - Instância única disponível globalmente: `window.api`, `window.appState`, `window.animations`
+1. **Singleton Pattern** (`api`, `animations`)
+   - Instância única disponível globalmente: `window.api`, `window.animations`
    - Só `window.api` está em uso real hoje
 
 2. **Formula over Data (destinationURL)**
@@ -152,25 +145,18 @@ ecohub-project/
 │   ├── home.css                       # Só o `.header`/`.header-logo` compartilhado do topo do admin
 │   ├── admin.css                      # Estilos específicos do Painel Admin (sidebar, tabelas, modais)
 │   ├── launcher.css                   # 🖼️ Design system PRÓPRIO do index.html — autocontido,
-│   │                                    #    não reaproveita button.css/card.css/modal.css
+│   │                                    #    não reaproveita button.css/modal.css
 │   │
 │   └── 📁 components/
 │       ├── button.css                 # Botões — usado só por admin.html (launcher.css tem os próprios)
-│       ├── card.css                   # ⚠️ Não usado por nenhuma página (legado da versão antiga do index.html)
 │       ├── modal.css                  # Modais do admin.html (app/cidade/usuário)
 │       ├── form.css                   # Formulários do admin.html
 │       └── table.css                  # Tabelas do admin.html
 │
 ├── 📁 js/
-│   ├── state.js                       # ⚠️ Carregado mas não usado em lugar nenhum (veja aviso acima)
 │   ├── api.js                         # 🌐 ÚNICA porta de entrada para dados — auth real, links calculados
 │   ├── animations.js                  # ⚠️ Carregado pelo admin.html mas nunca chamado
-│   ├── app.js                         # ⚠️ Não carregado por nenhuma página (index.html antigo)
 │   ├── admin.js                       # ⚙️ Toda a lógica do painel admin (4 abas, CRUD completo)
-│   │
-│   └── 📁 components/
-│       ├── card.js                    # ⚠️ Não carregado por nenhuma página
-│       └── modal.js                   # ⚠️ Não carregado por nenhuma página
 │
 ├── 📁 data/                           # Dados iniciais ("seed") — só valem quando localStorage está vazio
 │   ├── apps.json                      # 6 sistemas, cada um com cor própria (usada em ícones/gradientes)
@@ -200,8 +186,6 @@ ecohub-project/
 - Login real contra `data/users.json` + `data/access.json` (via `api.authenticate`), com mensagem de sucesso/erro específica
 - Login bem-sucedido no card "Administração" redireciona de verdade para `admin.html`; os demais sistemas só mostram a confirmação (não existe página real para redirecionar hoje)
 
-**Não usa mais:** `js/app.js`, `js/components/card.js`, `js/components/modal.js`, `css/components/card.css` — toda a lógica está inline no próprio arquivo.
-
 **Se for adicionar um sistema novo:** duplique um bloco `.launcher-card` (HTML) + uma entrada no objeto `SYSTEMS` (JS, mesmo arquivo) — não existe renderização dinâmica a partir de `apps.json` aqui.
 
 ---
@@ -227,11 +211,6 @@ ecohub-project/
 **Dados persistem:** Sim, via `localStorage`, em **duas chaves separadas**:
 - `ecohub-admin-data` → `{ apps, cities }`
 - `ecohub-users-data` → `{ users, access }`
-
----
-
-### **js/state.js** (`AppState`) — ⚠️ Legado, não usado
-Continua existindo com a mesma API de sempre (`getState`, `setState`, `subscribe`, etc.), mas **nenhum arquivo do projeto chama `appState` hoje**. Não invista tempo aqui a menos que decida reativar um fluxo de estado compartilhado — na migração Wix, o candidato natural a "estado global" é o `wixData`/Velo, não este arquivo.
 
 ---
 
@@ -285,11 +264,6 @@ Veja a seção [Migração para Wix](#migração-para-wix-fase-2) para o mapeame
 
 ### **js/animations.js** (`Animations`) — ⚠️ Carregado, não usado
 API continua a mesma (`fadeIn`, `slideInUp`, `scaleIn`, `vibrate`, etc.), mas `admin.js` não chama nenhum desses métodos hoje. As animações visíveis no admin (toast entrando, troca de aba) são CSS puro (`animation: slideInUp ...` disparado por classe). Mantenha isso em mente antes de "consertar uma animação" aqui — o efeito visual provavelmente vem do CSS, não deste arquivo.
-
----
-
-### **js/app.js**, **js/components/card.js**, **js/components/modal.js** — ⚠️ Não carregados por nenhuma página
-Documentados na íntegra na versão anterior deste arquivo. Deixados no repositório como referência, mas não fazem parte do fluxo ativo. Se for deletá-los ou reaproveitá-los, é uma decisão consciente a tomar — não algo a assumir como "é assim que index.html funciona".
 
 ---
 
@@ -555,7 +529,6 @@ Duas chaves de `localStorage`, gravadas só por `admin.js`, lidas por `api.js` e
 ```javascript
 {
   id: '001', name: 'Patos', state: 'PB',
-  ibgeCode: '2510070', region: 'Sertão',
   isActive: true,             // opcional; ausência = true
   linkOverrides: {            // opcional; só existe se algum admin personalizou um link
     'digidoc-rh': 'https://sistemas.ecoplan.com.br/rh-patos-legado'
@@ -633,7 +606,7 @@ O comportamento **"localStorage tem prioridade sobre o JSON"** (`api._getApps`, 
 | Collection | Vem de | Campos-chave |
 |---|---|---|
 | **Apps** | `data/apps.json` | id, name, slug, description, icon, **color**, displayOrder, isActive, version, category |
-| **Cities** | `data/cities.json` | id, name, state, ibgeCode, region, isActive, **linkOverrides** (objeto ou sub-collection `appId → url`) |
+| **Cities** | `data/cities.json` | id, name, state, isActive, **linkOverrides** (objeto ou sub-collection `appId → url`) |
 | **Users** | `data/users.json` | id, fullName, email, username, **password (⚠️ ver abaixo)**, isMaster, isActive, createdAt |
 | **Access** | `data/access.json` | Hoje é um mapa aninhado `username → appId → cityId`. Em Wix, provavelmente vira uma Collection **flat** de novo: `{ userId, appId, cityId, isActive }` (referências, não strings soltas), porque Collections do Wix trabalham melhor com registros do que mapas aninhados. Isso é o inverso do que fizemos ao sair de `permissions.json` para `access.json` — foi a escolha certa para um arquivo JSON hand-edited, mas o motivo de otimização (lookup O(1) em vez de `.find()`) deixa de importar com um índice de banco de verdade. |
 
@@ -657,7 +630,7 @@ O comportamento **"localStorage tem prioridade sobre o JSON"** (`api._getApps`, 
 
 ### Arquivos que NÃO precisam ser portados
 
-`js/state.js`, `js/app.js`, `js/components/card.js`, `js/components/modal.js`, `css/components/card.css` — são código morto hoje (veja o aviso em [Arquitetura](#arquitetura)). Não gaste tempo de migração "traduzindo" esses arquivos para Velo; eles não descrevem o comportamento atual.
+`js/state.js`, `js/app.js`, `js/components/card.js`, `js/components/modal.js`, `css/components/card.css` já foram removidos do repositório por serem código morto (veja o aviso em [Arquitetura](#arquitetura)) — não havia nada ali para portar.
 
 ---
 
@@ -721,13 +694,13 @@ Lembre-se: index.html e admin.html usam FOLHAS DE ESTILO DIFERENTES.
                 animations.css, components/{button,form,table,modal}.css,
                 home.css, admin.css
 
-Editar css/components/card.css ou css/components/button.css não afeta
-index.html — essa página não carrega esses arquivos.
+Editar css/components/button.css não afeta
+index.html — essa página não carrega esse arquivo.
 ```
 
-### Problema: `appState`/`animations` não fazem nada
+### Problema: `animations` não faz nada
 
-Não é bug — nenhuma das duas páginas usa esses módulos hoje (veja o aviso em [Arquitetura](#arquitetura)). Se precisar de reatividade ou animações via JS, ou reative esse código conscientemente, ou implemente direto onde a lógica já mora (`admin.js` / `<script>` de `index.html`).
+Não é bug — `admin.js` não usa esse módulo hoje (veja o aviso em [Arquitetura](#arquitetura)). Se precisar de animações via JS, ou reative esse código conscientemente, ou implemente direto onde a lógica já mora (`admin.js`).
 
 ---
 
