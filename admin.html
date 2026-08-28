@@ -6,6 +6,12 @@
   <title>EcoHUB — Painel Administrativo</title>
   <meta name="description" content="Painel administrativo para gerenciar aplicativos e municípios do EcoHUB">
   <meta name="theme-color" content="#0F1117">
+  <meta name="robots" content="noindex, nofollow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EcoHUB — Painel Administrativo">
+  <meta property="og:description" content="Painel administrativo para gerenciar aplicativos e municípios do EcoHUB">
+  <meta name="twitter:card" content="summary">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E8590C'><circle cx='12' cy='12' r='10'/></svg>">
@@ -64,6 +70,13 @@
     </header>
 
     <main id="main" class="admin-main">
+
+    <!-- Overlay de carregamento inicial — oculto assim que os dados
+         terminam de carregar (ver AdminApp.init() em js/admin.js) -->
+    <div class="admin-loading-overlay" id="adminLoadingOverlay">
+      <div class="admin-loading-spinner" aria-hidden="true"></div>
+      <p>Carregando painel…</p>
+    </div>
 
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
@@ -351,8 +364,8 @@
 
   <!-- Modal: Formulário de App -->
   <div class="modal-overlay" id="appModalOverlay" hidden>
-    <div class="modal" id="appModal">
-      <button class="modal-close" id="closeAppModal">
+    <div class="modal" id="appModal" role="dialog" aria-modal="true" aria-labelledby="appModalTitle">
+      <button class="modal-close" id="closeAppModal" aria-label="Fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -428,8 +441,8 @@
 
   <!-- Modal: Formulário de Município -->
   <div class="modal-overlay" id="cityModalOverlay" hidden>
-    <div class="modal" id="cityModal">
-      <button class="modal-close" id="closeCityModal">
+    <div class="modal" id="cityModal" role="dialog" aria-modal="true" aria-labelledby="cityModalTitle">
+      <button class="modal-close" id="closeCityModal" aria-label="Fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -476,8 +489,8 @@
 
   <!-- Modal: Formulário de Usuário -->
   <div class="modal-overlay" id="userModalOverlay" hidden>
-    <div class="modal" id="userModal">
-      <button class="modal-close" id="closeUserModal">
+    <div class="modal" id="userModal" role="dialog" aria-modal="true" aria-labelledby="userModalTitle">
+      <button class="modal-close" id="closeUserModal" aria-label="Fechar">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -508,7 +521,14 @@
 
             <div class="form-group">
               <label for="userPassword" class="form-label">Senha</label>
-              <input type="text" id="userPassword" class="form-input" placeholder="123456" required>
+              <div class="password-input-group">
+                <input type="password" id="userPassword" class="form-input" placeholder="123456" required autocomplete="new-password">
+                <button type="button" class="password-toggle-btn" id="toggleUserPasswordVisibility" title="Mostrar senha" aria-label="Mostrar senha">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -547,6 +567,22 @@
             <button type="button" class="btn btn-secondary" id="cancelUserForm">Cancelar</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirmação (substitui window.confirm nativo) -->
+  <div class="modal-overlay" id="confirmModalOverlay" hidden>
+    <div class="modal modal-confirm" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmModalTitle" aria-describedby="confirmModalMessage">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="confirmModalTitle" class="modal-title">Confirmar ação</h2>
+        </div>
+        <p id="confirmModalMessage" class="confirm-message"></p>
+        <div class="form-actions">
+          <button type="button" class="btn btn-danger" id="confirmModalConfirmBtn">Confirmar</button>
+          <button type="button" class="btn btn-secondary" id="confirmModalCancelBtn">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>

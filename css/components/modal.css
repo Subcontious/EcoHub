@@ -319,6 +319,22 @@ select.form-input {
 }
 
 /* ========================================
+   MODAL DE CONFIRMAÇÃO
+   (substitui window.confirm() nativo — mesmas classes de
+   .modal/.modal-content/.form-actions, só mais estreito)
+   ======================================== */
+
+.modal-confirm {
+  max-width: 400px;
+}
+
+.confirm-message {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-text-soft);
+  line-height: 1.55;
+}
+
+/* ========================================
    RESPONSIVIDADE
    ======================================== */
 

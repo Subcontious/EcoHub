@@ -42,6 +42,10 @@ class AdminApp {
     } catch (error) {
       console.error('❌ Erro ao inicializar admin:', error);
       this._showToast('Erro ao inicializar painel', 'error');
+    } finally {
+      // Sempre esconder, mesmo se _loadData()/_setupListeners() falhar —
+      // senão um erro deixa o overlay travado na tela para sempre.
+      document.getElementById('adminLoadingOverlay')?.setAttribute('hidden', '');
     }
   }
   
@@ -169,6 +173,7 @@ class AdminApp {
     document.getElementById('cancelUserForm')?.addEventListener('click', () => this._closeUserModal());
     document.getElementById('addAccessGrantBtn')?.addEventListener('click', () => this._addAccessGrant());
     document.getElementById('userMaster')?.addEventListener('change', (e) => this._toggleUserAccessSection(e.target.checked));
+    document.getElementById('toggleUserPasswordVisibility')?.addEventListener('click', () => this._toggleUserPasswordVisibility());
 
     // Settings
     document.getElementById('exportDataBtn')?.addEventListener('click', () => this._exportData());
@@ -187,14 +192,94 @@ class AdminApp {
       if (e.target.id === 'userModalOverlay') this._closeUserModal();
     });
 
-    // Fechar modais com Escape
+    // Modal de confirmação (substitui window.confirm nativo)
+    document.getElementById('confirmModalConfirmBtn')?.addEventListener('click', () => this._pendingConfirmResolve?.(true));
+    document.getElementById('confirmModalCancelBtn')?.addEventListener('click', () => this._pendingConfirmResolve?.(false));
+    document.getElementById('confirmModalOverlay')?.addEventListener('click', (e) => {
+      if (e.target.id === 'confirmModalOverlay') this._pendingConfirmResolve?.(false);
+    });
+
+    // Fechar modais com Escape / manter o foco preso no modal aberto com Tab
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this._closeAppModal();
         this._closeCityModal();
         this._closeUserModal();
         this._closeSidebar();
+        this._pendingConfirmResolve?.(false);
+      } else if (e.key === 'Tab') {
+        this._trapFocusInOpenModal(e);
       }
+    });
+  }
+
+  /**
+   * Qual overlay de modal está aberto agora (se algum) — usado pelo
+   * "prender o foco" abaixo, já que os 4 modais nunca ficam abertos ao
+   * mesmo tempo.
+   */
+  _getOpenModalOverlay() {
+    const ids = ['appModalOverlay', 'cityModalOverlay', 'userModalOverlay', 'confirmModalOverlay'];
+    return ids.map(id => document.getElementById(id)).find(el => el && !el.hasAttribute('hidden')) || null;
+  }
+
+  /**
+   * Prender o Tab dentro do modal aberto — sem isso, dar Tab a partir do
+   * último campo joga o foco para trás do overlay, para elementos que o
+   * usuário não consegue ver.
+   */
+  _trapFocusInOpenModal(e) {
+    const overlay = this._getOpenModalOverlay();
+    if (!overlay) return;
+
+    const focusable = Array.from(
+      overlay.querySelectorAll('a[href], button:not([disabled]), textarea, input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])')
+    ).filter(el => el.offsetParent !== null);
+
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  /**
+   * Modal de confirmação genérico — substitui window.confirm() nativo
+   * (bloqueante, sem estilo, destoa do resto da UI). Resolve `true` ao
+   * confirmar, `false` ao cancelar/fechar de qualquer jeito (Escape,
+   * clique fora, botão Cancelar).
+   */
+  _confirmAction({ title = 'Confirmar ação', message = '', confirmLabel = 'Confirmar' } = {}) {
+    const overlay = document.getElementById('confirmModalOverlay');
+    const titleEl = document.getElementById('confirmModalTitle');
+    const messageEl = document.getElementById('confirmModalMessage');
+    const confirmBtn = document.getElementById('confirmModalConfirmBtn');
+
+    if (!overlay || !titleEl || !messageEl || !confirmBtn) {
+      // Sem o modal no DOM (ex.: página antiga em cache), cai para o
+      // confirm nativo em vez de travar a ação por completo.
+      return Promise.resolve(confirm(message || title));
+    }
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    confirmBtn.textContent = confirmLabel;
+    overlay.removeAttribute('hidden');
+    confirmBtn.focus();
+
+    return new Promise(resolve => {
+      this._pendingConfirmResolve = (result) => {
+        overlay.setAttribute('hidden', '');
+        this._pendingConfirmResolve = null;
+        resolve(result);
+      };
     });
   }
 
@@ -277,6 +362,7 @@ class AdminApp {
 
     this._renderAppLogoPreview();
     modal?.removeAttribute('hidden');
+    document.getElementById('appName')?.focus();
   }
 
   /**
@@ -399,9 +485,15 @@ class AdminApp {
   /**
    * Deletar app
    */
-  _deleteApp(appId) {
-    if (!confirm('Tem certeza que deseja deletar este aplicativo?')) return;
-    
+  async _deleteApp(appId) {
+    const app = this.apps.find(a => a.id === appId);
+    const confirmed = await this._confirmAction({
+      title: 'Deletar aplicativo',
+      message: `Tem certeza que deseja deletar "${app ? app.name : 'este aplicativo'}"? Essa ação não pode ser desfeita.`,
+      confirmLabel: 'Deletar'
+    });
+    if (!confirmed) return;
+
     this.apps = this.apps.filter(a => a.id !== appId);
     this._saveData();
     this._renderAppTable();
@@ -423,29 +515,36 @@ class AdminApp {
     
     empty?.setAttribute('hidden', '');
     
-    tbody.innerHTML = this.apps.map(app => `
+    tbody.innerHTML = this.apps.map(app => {
+      const name = this._escapeHtml(app.name);
+      const description = this._escapeHtml(app.description || '—');
+      const logo = this._escapeHtml(app.logo || '');
+      const icon = this._escapeHtml(app.icon || '');
+      const color = this._escapeHtml(app.color || 'var(--color-orange)');
+
+      return `
       <tr>
-        <td class="icon-cell">${app.logo
-          ? `<span class="app-icon-tile app-icon-tile-logo"><img src="${app.logo}" alt="${app.name}"></span>`
-          : `<span class="app-icon-tile" style="--icon-color: ${app.color || 'var(--color-orange)'}">${app.icon}</span>`}</td>
-        <td><strong>${app.name}</strong></td>
-        <td>${app.description || '—'}</td>
-        <td>${app.displayOrder}</td>
-        <td>
+        <td class="icon-cell" data-label="Ícone">${app.logo
+          ? `<span class="app-icon-tile app-icon-tile-logo"><img src="${logo}" alt="${name}"></span>`
+          : `<span class="app-icon-tile" style="--icon-color: ${color}">${icon}</span>`}</td>
+        <td data-label="Nome"><strong>${name}</strong></td>
+        <td data-label="Descrição">${description}</td>
+        <td data-label="Ordem">${app.displayOrder}</td>
+        <td data-label="Status">
           <span class="status-badge ${app.isActive ? '' : 'inactive'}">
             <span class="status-dot"></span>
             ${app.isActive ? 'Ativo' : 'Inativo'}
           </span>
         </td>
-        <td>
+        <td data-label="Ações">
           <div class="table-actions">
-            <button class="action-btn" title="Editar" onclick="window.adminApp._openAppForm('${app.id}')">
+            <button class="action-btn" title="Editar" aria-label="Editar ${name}" onclick="window.adminApp._openAppForm('${app.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
             </button>
-            <button class="action-btn delete" title="Deletar" onclick="window.adminApp._deleteApp('${app.id}')">
+            <button class="action-btn delete" title="Deletar" aria-label="Deletar ${name}" onclick="window.adminApp._deleteApp('${app.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -454,7 +553,8 @@ class AdminApp {
           </div>
         </td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   }
   
   /* ========================================
@@ -491,6 +591,7 @@ class AdminApp {
     this._renderCityLinks(document.getElementById('cityName').value);
 
     modal?.removeAttribute('hidden');
+    document.getElementById('cityName')?.focus();
   }
 
   /**
@@ -533,19 +634,21 @@ class AdminApp {
       const standardUrl = api.buildDestinationURL(app, name);
       const override = this.editingCityLinkOverrides[app.id];
       const currentUrl = override || standardUrl;
+      const appName = this._escapeHtml(app.name);
+      const safeUrl = this._escapeHtml(currentUrl);
 
       if (this.editingLinkRowAppId === app.id) {
         return `
           <div class="city-link-row city-link-row-editing">
-            <span class="city-link-app">${app.name}</span>
+            <span class="city-link-app">${appName}</span>
             <div class="city-link-edit">
-              <input type="url" class="form-input city-link-input" id="cityLinkInput-${app.id}" value="${currentUrl}">
-              <button type="button" class="action-btn" title="Salvar link" onclick="window.adminApp._saveCityLinkOverride('${app.id}')">
+              <input type="url" class="form-input city-link-input" id="cityLinkInput-${app.id}" value="${safeUrl}">
+              <button type="button" class="action-btn" title="Salvar link" aria-label="Salvar link de ${appName}" onclick="window.adminApp._saveCityLinkOverride('${app.id}')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </button>
-              <button type="button" class="action-btn delete" title="Cancelar" onclick="window.adminApp._cancelCityLinkEdit()">
+              <button type="button" class="action-btn delete" title="Cancelar" aria-label="Cancelar edição do link de ${appName}" onclick="window.adminApp._cancelCityLinkEdit()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -558,18 +661,18 @@ class AdminApp {
 
       return `
         <div class="city-link-row">
-          <span class="city-link-app">${app.name}</span>
+          <span class="city-link-app">${appName}</span>
           <div class="city-link-value">
             ${override ? '<span class="city-link-custom-badge">Personalizado</span>' : ''}
-            <a href="${currentUrl}" target="_blank" rel="noopener noreferrer" class="city-link-url">${currentUrl}</a>
-            <button type="button" class="action-btn" title="Editar link" onclick="window.adminApp._editCityLink('${app.id}')">
+            <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="city-link-url">${safeUrl}</a>
+            <button type="button" class="action-btn" title="Editar link" aria-label="Editar link de ${appName}" onclick="window.adminApp._editCityLink('${app.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
             </button>
             ${override ? `
-              <button type="button" class="action-btn delete" title="Restaurar link padrão" onclick="window.adminApp._resetCityLink('${app.id}')">
+              <button type="button" class="action-btn delete" title="Restaurar link padrão" aria-label="Restaurar link padrão de ${appName}" onclick="window.adminApp._resetCityLink('${app.id}')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="1 4 1 10 7 10"></polyline>
                   <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
@@ -674,9 +777,15 @@ class AdminApp {
   /**
    * Deletar município
    */
-  _deleteCity(cityId) {
-    if (!confirm('Tem certeza que deseja deletar este município?')) return;
-    
+  async _deleteCity(cityId) {
+    const city = this.cities.find(c => c.id === cityId);
+    const confirmed = await this._confirmAction({
+      title: 'Deletar município',
+      message: `Tem certeza que deseja deletar "${city ? city.name : 'este município'}"? Essa ação não pode ser desfeita.`,
+      confirmLabel: 'Deletar'
+    });
+    if (!confirmed) return;
+
     this.cities = this.cities.filter(c => c.id !== cityId);
     this._saveData();
     this._renderCityTable();
@@ -698,25 +807,29 @@ class AdminApp {
     
     empty?.setAttribute('hidden', '');
     
-    tbody.innerHTML = this.cities.map(city => `
+    tbody.innerHTML = this.cities.map(city => {
+      const name = this._escapeHtml(city.name);
+      const state = this._escapeHtml(city.state);
+
+      return `
       <tr>
-        <td><strong>${city.name}</strong></td>
-        <td>${city.state}</td>
-        <td>
+        <td data-label="Nome"><strong>${name}</strong></td>
+        <td data-label="Estado">${state}</td>
+        <td data-label="Status">
           <span class="status-badge ${city.isActive !== false ? '' : 'inactive'}">
             <span class="status-dot"></span>
             ${city.isActive !== false ? 'Ativo' : 'Inativo'}
           </span>
         </td>
-        <td>
+        <td data-label="Ações">
           <div class="table-actions">
-            <button class="action-btn" title="Editar" onclick="window.adminApp._openCityForm('${city.id}')">
+            <button class="action-btn" title="Editar" aria-label="Editar ${name}" onclick="window.adminApp._openCityForm('${city.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
             </button>
-            <button class="action-btn delete" title="Deletar" onclick="window.adminApp._deleteCity('${city.id}')">
+            <button class="action-btn delete" title="Deletar" aria-label="Deletar ${name}" onclick="window.adminApp._deleteCity('${city.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -725,7 +838,8 @@ class AdminApp {
           </div>
         </td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   }
   
   /* ========================================
@@ -744,6 +858,7 @@ class AdminApp {
     this.editingId = userId;
     this.editingType = 'user';
     this.editingUserAccess = {};
+    this._resetPasswordVisibility();
 
     this._populateAccessSelects();
 
@@ -769,6 +884,7 @@ class AdminApp {
     this._renderAccessGrantsList();
 
     modal?.removeAttribute('hidden');
+    document.getElementById('userFullName')?.focus();
   }
 
   /**
@@ -777,8 +893,43 @@ class AdminApp {
   _closeUserModal() {
     document.getElementById('userModalOverlay')?.setAttribute('hidden', '');
     document.getElementById('userForm')?.reset();
+    this._resetPasswordVisibility();
     this.editingId = null;
     this.editingUserAccess = {};
+  }
+
+  /**
+   * Alternar entre mostrar/ocultar a senha no campo do formulário de
+   * usuário (o input começa como type="password" — antes disso ele
+   * ficava sempre em texto puro visível, mesmo sem o admin pedir).
+   */
+  _toggleUserPasswordVisibility() {
+    const input = document.getElementById('userPassword');
+    const btn = document.getElementById('toggleUserPasswordVisibility');
+    if (!input || !btn) return;
+
+    const willShow = input.type === 'password';
+    input.type = willShow ? 'text' : 'password';
+    btn.title = willShow ? 'Ocultar senha' : 'Mostrar senha';
+    btn.setAttribute('aria-label', willShow ? 'Ocultar senha' : 'Mostrar senha');
+    btn.innerHTML = willShow
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+  }
+
+  /**
+   * Voltar o campo de senha do formulário para o estado oculto padrão —
+   * chamado sempre que o modal de usuário abre ou fecha.
+   */
+  _resetPasswordVisibility() {
+    const input = document.getElementById('userPassword');
+    const btn = document.getElementById('toggleUserPasswordVisibility');
+    if (!input || !btn) return;
+
+    input.type = 'password';
+    btn.title = 'Mostrar senha';
+    btn.setAttribute('aria-label', 'Mostrar senha');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
   }
 
   /**
@@ -804,10 +955,10 @@ class AdminApp {
     if (!appSelect || !citySelect) return;
 
     appSelect.innerHTML = '<option value="">Sistema...</option>' +
-      this.apps.map(app => `<option value="${app.id}">${app.name}</option>`).join('');
+      this.apps.map(app => `<option value="${app.id}">${this._escapeHtml(app.name)}</option>`).join('');
 
     citySelect.innerHTML = '<option value="">Município...</option>' +
-      this.cities.map(city => `<option value="${city.id}">${city.name} - ${city.state}</option>`).join('');
+      this.cities.map(city => `<option value="${city.id}">${this._escapeHtml(city.name)} - ${this._escapeHtml(city.state)}</option>`).join('');
   }
 
   /**
@@ -862,14 +1013,16 @@ class AdminApp {
       Object.keys(cities).forEach(cityId => {
         const city = this.cities.find(c => c.id === cityId);
         const link = app && city ? api.buildDestinationURL(app, city.name) : null;
+        const appLabel = this._escapeHtml(app ? app.name : appId);
+        const cityLabel = this._escapeHtml(city ? city.name : cityId);
 
         rows.push(`
           <div class="access-grant-chip">
             <div>
-              <div><strong>${app ? app.name : appId}</strong> <span class="grant-city">· ${city ? city.name : cityId}</span></div>
-              ${link ? `<div class="grant-link">${link}</div>` : ''}
+              <div><strong>${appLabel}</strong> <span class="grant-city">· ${cityLabel}</span></div>
+              ${link ? `<div class="grant-link">${this._escapeHtml(link)}</div>` : ''}
             </div>
-            <button type="button" class="chip-remove" title="Remover acesso" onclick="window.adminApp._removeAccessGrant('${appId}', '${cityId}')">×</button>
+            <button type="button" class="chip-remove" title="Remover acesso" aria-label="Remover acesso de ${appLabel} em ${cityLabel}" onclick="window.adminApp._removeAccessGrant('${appId}', '${cityId}')">×</button>
           </div>
         `);
       });
@@ -958,8 +1111,14 @@ class AdminApp {
   /**
    * Deletar usuário
    */
-  _deleteUser(userId) {
-    if (!confirm('Tem certeza que deseja deletar este usuário?')) return;
+  async _deleteUser(userId) {
+    const targetUser = this.users.find(u => u.id === userId);
+    const confirmed = await this._confirmAction({
+      title: 'Deletar usuário',
+      message: `Tem certeza que deseja deletar "${targetUser ? targetUser.fullName : 'este usuário'}"? Essa ação não pode ser desfeita.`,
+      confirmLabel: 'Deletar'
+    });
+    if (!confirmed) return;
 
     const user = this.users.find(u => u.id === userId);
     this.users = this.users.filter(u => u.id !== userId);
@@ -1020,19 +1179,23 @@ class AdminApp {
     tbody.innerHTML = this.users.map(user => {
       const isRevealed = this.revealedPasswords.has(user.id);
       const grantCount = this._countAccessGrants(user.username);
+      const fullName = this._escapeHtml(user.fullName);
+      const username = this._escapeHtml(user.username);
+      const email = this._escapeHtml(user.email || '—');
+      const password = this._escapeHtml(isRevealed ? user.password : '••••••••');
 
       return `
       <tr>
-        <td class="user-cell">
-          <strong>${user.fullName}</strong>
-          <span class="user-username">@${user.username}</span>
+        <td class="user-cell" data-label="Usuário">
+          <strong>${fullName}</strong>
+          <span class="user-username">@${username}</span>
           ${user.createdAt ? `<span class="user-created">Criado em ${this._formatDate(user.createdAt)}</span>` : ''}
         </td>
-        <td>${user.email || '—'}</td>
-        <td>
+        <td data-label="E-mail">${email}</td>
+        <td data-label="Senha">
           <div class="password-cell">
-            <span>${isRevealed ? user.password : '••••••••'}</span>
-            <button type="button" class="password-reveal-btn" title="${isRevealed ? 'Ocultar senha' : 'Mostrar senha'}" onclick="window.adminApp._togglePasswordReveal('${user.id}')">
+            <span>${password}</span>
+            <button type="button" class="password-reveal-btn" title="${isRevealed ? 'Ocultar senha' : 'Mostrar senha'}" aria-label="${isRevealed ? 'Ocultar' : 'Mostrar'} senha de ${fullName}" onclick="window.adminApp._togglePasswordReveal('${user.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 ${isRevealed
                   ? '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'
@@ -1041,27 +1204,27 @@ class AdminApp {
             </button>
           </div>
         </td>
-        <td>
+        <td data-label="Tipo">
           ${user.isMaster ? '<span class="badge-master">Master</span>' : '<span class="badge-standard">Padrão</span>'}
         </td>
-        <td>
+        <td data-label="Acessos">
           <span class="access-count">${user.isMaster ? 'Acesso total' : `${grantCount} acesso${grantCount === 1 ? '' : 's'}`}</span>
         </td>
-        <td>
+        <td data-label="Status">
           <span class="status-badge ${user.isActive !== false ? '' : 'inactive'}">
             <span class="status-dot"></span>
             ${user.isActive !== false ? 'Ativo' : 'Inativo'}
           </span>
         </td>
-        <td>
+        <td data-label="Ações">
           <div class="table-actions">
-            <button class="action-btn" title="Editar" onclick="window.adminApp._openUserForm('${user.id}')">
+            <button class="action-btn" title="Editar" aria-label="Editar ${fullName}" onclick="window.adminApp._openUserForm('${user.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
               </svg>
             </button>
-            <button class="action-btn delete" title="Deletar" onclick="window.adminApp._deleteUser('${user.id}')">
+            <button class="action-btn delete" title="Deletar" aria-label="Deletar ${fullName}" onclick="window.adminApp._deleteUser('${user.id}')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -1114,7 +1277,12 @@ class AdminApp {
    * regravamos esse estado — é um "restaurar padrão", não um "esvaziar".
    */
   async _resetToSeedData() {
-    if (!confirm('Isso substitui os dados atuais (aplicativos, municípios, usuários e acessos) pelos dados originais de data/*.json. Suas edições no painel serão perdidas. Continuar?')) return;
+    const confirmed = await this._confirmAction({
+      title: 'Restaurar dados originais',
+      message: 'Isso substitui os dados atuais (aplicativos, municípios, usuários e acessos) pelos dados originais de data/*.json. Suas edições no painel serão perdidas.',
+      confirmLabel: 'Restaurar'
+    });
+    if (!confirmed) return;
 
     try {
       // Ignora qualquer cópia em memória já buscada nesta sessão
@@ -1147,18 +1315,34 @@ class AdminApp {
      ======================================== */
   
   /**
+   * Escapar texto antes de inserir via innerHTML — qualquer valor vindo de
+   * um formulário (nome de app, cidade, usuário, link personalizado) passa
+   * por aqui antes de virar HTML, para essas telas não abrirem uma injeção
+   * de script (ex.: um "Nome completo" digitado como `<img onerror=...>`).
+   */
+  _escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  /**
    * Mostrar notificação toast
    */
   _showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
     if (!container) return;
-    
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.innerHTML = `
       <span class="toast-icon">${this._getToastIcon(type)}</span>
-      <span class="toast-message">${message}</span>
-      <button class="toast-close" onclick="this.parentElement.remove()">
+      <span class="toast-message">${this._escapeHtml(message)}</span>
+      <button class="toast-close" aria-label="Fechar notificação" onclick="this.parentElement.remove()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>

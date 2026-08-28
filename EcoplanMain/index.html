@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ecoplan Contabilidade Pública — Excelência em contabilidade pública e empresarial</title>
+<meta name="description" content="Desde 1982, a Ecoplan une tradição e tecnologia em assessoria contábil para o setor público e privado. Assessoria, auditoria e treinamentos com eficiência, confiança e visão de futuro." />
+<meta name="theme-color" content="#1B1D22" />
+<meta property="og:title" content="Ecoplan Contabilidade Pública" />
+<meta property="og:description" content="Um novo conceito em assessoria contábil — mais humana, tecnológica e estratégica. Setor público e privado." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<script>
+/* Arma o efeito de reveal antes da pintura. Se este script não rodar,
+   o conteúdo permanece visível (fail-safe). Não arma com reduced-motion. */
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+/* Aplica tema escuro antes da pintura para evitar flash */
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+/* ============================================================
+   ECOPLAN — Redesign da página inicial
+   Single-file, Wix-friendly (CSS embutido + JS vanilla)
+   ============================================================ */
+:root{
+  --bg:#FBFAF8;
+  --surface:#FFFFFF;
+  --surface-2:#F5F3EF;
+  --ink:#16181D;
+  --ink-soft:#494E58;
+  --muted:#878D98;
+  --line:#E8E5DF;
+  --line-soft:#F0EDE7;
+  --orange:#E8590C;
+  --orange-deep:#C84A08;
+  --orange-tint:#FCEFE6;
+  --graphite:#1A1C21;
+  --graphite-2:#24272E;
+  --graphite-line:rgba(255,255,255,.10);
+  --shadow-sm:0 1px 2px rgba(20,22,28,.04), 0 2px 8px rgba(20,22,28,.05);
+  --shadow-md:0 4px 12px rgba(20,22,28,.06), 0 16px 40px rgba(20,22,28,.08);
+  --shadow-lg:0 8px 24px rgba(20,22,28,.08), 0 30px 70px rgba(20,22,28,.12);
+  --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:32px;
+  --maxw:1200px;
+  --pad:clamp(20px,5vw,64px);
+  --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:var(--ink)}
+::selection{background:var(--orange);color:#fff}
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:3px;border-radius:4px}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:0 0 10px 0;z-index:2000}
+.skip:focus{left:0}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--display);font-weight:600;font-size:12.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--orange);
+}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--orange);display:inline-block}
+.eyebrow.center::before{display:none}
+.section{padding-block:clamp(72px,10vw,128px)}
+.section-head{max-width:680px}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head h2{font-size:clamp(30px,4.6vw,50px);margin-top:18px}
+.section-head p{margin-top:20px;color:var(--ink-soft);font-size:clamp(17px,2vw,19px)}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--display);font-weight:600;font-size:15.5px;
+  padding:15px 26px;border-radius:999px;
+  transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,background .25s,color .25s;
+  white-space:nowrap;
+}
+.btn svg{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 18px rgba(232,89,12,.28)}
+.btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,89,12,.36)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-light:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.btn-outline-light{border:1.5px solid var(--graphite-line);color:#fff}
+.btn-outline-light:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header{
+  position:sticky;top:0;z-index:1000;
+  transition:background .3s,box-shadow .3s,border-color .3s;
+  border-bottom:1px solid transparent;
+}
+.header.scrolled{
+  background:rgba(251,250,248,.82);
+  backdrop-filter:saturate(180%) blur(16px);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  border-bottom-color:var(--line);
+}
+.nav{display:flex;align-items:center;gap:32px;height:78px}
+/* Brand / logo — substitua por <img> do seu logo se desejar */
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-mark{
+  width:42px;height:42px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(150deg,var(--orange),var(--orange-deep));
+  display:grid;place-items:center;color:#fff;font-family:var(--display);font-weight:800;font-size:20px;
+  box-shadow:0 4px 12px rgba(232,89,12,.3);
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.05}
+.brand-text b{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-.02em}
+.brand-text span{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.nav-links{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-links a{
+  font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink-soft);
+  padding:9px 14px;border-radius:8px;transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-cta{display:flex;align-items:center;gap:14px;margin-left:8px}
+.nav-cta .btn{padding:12px 22px;font-size:14.5px}
+.nav-phone{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.nav-phone svg{color:var(--orange)}
+.menu-toggle{display:none;width:46px;height:46px;border-radius:11px;border:1.5px solid var(--line);align-items:center;justify-content:center;margin-left:auto}
+.menu-toggle span{position:relative;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before{top:-6px}.menu-toggle span::after{top:6px}
+body.menu-open .menu-toggle span{background:transparent}
+body.menu-open .menu-toggle span::before{top:0;transform:rotate(45deg)}
+body.menu-open .menu-toggle span::after{top:0;transform:rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;inset:78px 0 0;z-index:999;background:var(--bg);
+  padding:24px var(--pad) 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;gap:6px;overflow-y:auto;
+}
+body.menu-open .mobile-menu{transform:translateX(0)}
+.mobile-menu a{font-family:var(--display);font-weight:600;font-size:21px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink)}
+.mobile-menu .btn{margin-top:24px;width:100%}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;padding-top:clamp(40px,7vw,76px);padding-bottom:clamp(56px,8vw,96px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,80px);align-items:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px 8px 10px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  box-shadow:var(--shadow-sm);font-family:var(--display);white-space:nowrap;
+}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px var(--orange-tint)}
+.hero h1{font-size:clamp(38px,6.2vw,72px);margin-top:26px;letter-spacing:-.03em}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--orange);letter-spacing:-.01em}
+.hero-lede{margin-top:26px;font-size:clamp(17px,2.1vw,20px);color:var(--ink-soft);max-width:540px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:32px;margin-top:48px;padding-top:34px;border-top:1px solid var(--line)}
+.hero-trust .stat b{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:-.02em;display:block;line-height:1}
+.hero-trust .stat span{font-size:13.5px;color:var(--muted);font-weight:500;margin-top:6px;display:block}
+
+/* Hero visual */
+.hero-visual{position:relative}
+.hero-photo{
+  position:relative;border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/4.7;
+  box-shadow:var(--shadow-lg);
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-photo .ph-label{
+  position:absolute;top:18px;left:18px;font-family:ui-monospace,'SF Mono',Menlo,monospace;
+  font-size:11.5px;letter-spacing:.04em;color:#9A9489;background:rgba(255,255,255,.7);
+  padding:6px 11px;border-radius:7px;
+}
+/* Discreet scripture overlay */
+.hero-scripture{
+  position:relative;margin:0 18px 18px;background:rgba(26,28,33,.82);
+  backdrop-filter:blur(6px);color:#fff;border-radius:var(--r-md);padding:20px 22px;
+}
+.hero-scripture p{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.5;color:rgba(255,255,255,.92)}
+.hero-scripture cite{display:block;margin-top:10px;font-family:var(--display);font-style:normal;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+/* floating heritage chip */
+.hero-chip{
+  position:absolute;right:-26px;top:24px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:16px 20px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:14px;
+}
+.hero-chip .yr{font-family:var(--display);font-weight:800;font-size:26px;color:var(--orange);line-height:1}
+.hero-chip .tx{font-size:12.5px;color:var(--ink-soft);font-weight:500;line-height:1.3}
+.hero-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(232,89,12,.13),transparent 65%);top:-160px;right:-120px;z-index:-1;filter:blur(10px)}
+
+/* logos / prova social strip */
+.proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface)}
+.proof-inner{display:flex;align-items:center;gap:clamp(28px,5vw,64px);flex-wrap:wrap;justify-content:center;padding-block:30px}
+.proof-label{font-family:var(--display);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.proof-item{font-family:var(--display);font-weight:700;font-size:18px;color:#B7B2A8;letter-spacing:-.01em;transition:color .25s}
+.proof-item:hover{color:var(--ink-soft)}
+
+/* ============================================================
+   BENEFÍCIOS
+   ============================================================ */
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.benefit{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:34px 30px;
+  box-shadow:var(--shadow-sm);transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,border-color .3s;
+}
+.benefit:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:#DED9D0}
+.benefit .ic{width:52px;height:52px;border-radius:14px;background:var(--orange-tint);color:var(--orange);display:grid;place-items:center;margin-bottom:22px}
+.benefit h3{font-size:21px;margin-bottom:10px}
+.benefit p{color:var(--ink-soft);font-size:15.5px}
+
+/* ============================================================
+   SERVIÇOS (com toggle público/privado)
+   ============================================================ */
+.services{background:var(--surface-2)}
+.svc-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px;margin-top:30px;box-shadow:var(--shadow-sm);gap:2px}
+.svc-toggle button{
+  font-family:var(--display);font-weight:600;font-size:14.5px;padding:11px 26px;border-radius:999px;color:var(--ink-soft);white-space:nowrap;
+  transition:color .3s,background .3s,box-shadow .3s;
+}
+.svc-toggle button:hover{color:var(--ink)}
+.svc-toggle button.active{color:#fff;background:var(--orange);box-shadow:0 4px 12px rgba(232,89,12,.28)}
+.svc-toggle button.active:hover{color:#fff}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.svc-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px 30px;
+  box-shadow:var(--shadow-sm);transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s;position:relative;overflow:hidden;
+}
+.svc-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,transparent,rgba(232,89,12,.04));opacity:0;transition:opacity .3s}
+.svc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.svc-card:hover::after{opacity:1}
+.svc-card .ic{width:48px;height:48px;border-radius:13px;background:var(--graphite);color:#fff;display:grid;place-items:center;margin-bottom:20px;transition:background .3s}
+.svc-card:hover .ic{background:var(--orange)}
+.svc-card h3{font-size:20px;margin-bottom:9px}
+.svc-card p{color:var(--ink-soft);font-size:15px}
+.svc-card .more{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-family:var(--display);font-weight:600;font-size:14px;color:var(--orange)}
+.svc-card .more svg{transition:transform .25s}
+.svc-card:hover .more svg{transform:translateX(4px)}
+
+/* ============================================================
+   DIFERENCIAIS (dark)
+   ============================================================ */
+.differ{background:var(--graphite);color:#fff;border-radius:0;position:relative;overflow:hidden}
+.differ .eyebrow{color:#FF8A4C}
+.differ .eyebrow::before{background:#FF8A4C}
+.differ h2{color:#fff}
+.differ-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,80px);align-items:center}
+.differ-lede{color:rgba(255,255,255,.66);margin-top:22px;font-size:18px;max-width:480px}
+.differ-list{margin-top:38px;display:flex;flex-direction:column;gap:4px}
+.differ-item{display:flex;gap:18px;padding:22px 0;border-top:1px solid var(--graphite-line)}
+.differ-item:last-child{border-bottom:1px solid var(--graphite-line)}
+.differ-item .n{font-family:var(--display);font-weight:800;font-size:15px;color:#FF8A4C;flex-shrink:0;width:34px}
+.differ-item h4{font-size:19px;color:#fff;margin-bottom:5px}
+.differ-item p{color:rgba(255,255,255,.6);font-size:15px}
+.differ-photo{
+  border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/4.6;
+  background:
+    repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 22px),
+    linear-gradient(160deg,#2A2D34,#202329);
+  border:1px solid var(--graphite-line);position:relative;display:grid;place-items:end stretch;
+}
+.differ-photo .ph-label{position:absolute;top:18px;left:18px;font-family:ui-monospace,monospace;font-size:11.5px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.08);padding:6px 11px;border-radius:7px}
+.differ-photo .cap{padding:22px;font-family:var(--serif);font-style:italic;font-size:17px;color:rgba(255,255,255,.85);background:linear-gradient(transparent,rgba(0,0,0,.4))}
+
+/* ============================================================
+   PROCESSO
+   ============================================================ */
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px;counter-reset:step}
+.step{position:relative;padding-top:30px}
+.step::before{content:"";position:absolute;top:14px;left:0;right:0;height:1.5px;background:var(--line)}
+.step::after{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;top:0;left:0;width:30px;height:30px;background:var(--orange);color:#fff;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:13px;transform:translateY(-50%);top:14px}
+.step .stnum{display:none}
+.step h4{font-size:19px;margin-bottom:8px;margin-top:6px}
+.step p{color:var(--ink-soft);font-size:15px}
+
+/* ============================================================
+   DEPOIMENTOS
+   ============================================================ */
+.testi{background:var(--surface-2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+.quote{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px 30px;
+  box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s;
+}
+.quote:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
+.quote .stars{display:flex;gap:3px;color:var(--orange);margin-bottom:18px}
+.quote blockquote{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;color:var(--ink);flex:1}
+.quote .who{display:flex;align-items:center;gap:13px;margin-top:24px;padding-top:22px;border-top:1px solid var(--line-soft)}
+.quote .av{width:46px;height:46px;border-radius:50%;background:var(--graphite);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:16px;flex-shrink:0}
+.quote .who b{font-family:var(--display);font-size:15px;display:block}
+.quote .who span{font-size:13px;color:var(--muted)}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-band{padding-block:clamp(72px,9vw,110px)}
+.cta-box{
+  background:linear-gradient(135deg,var(--orange),var(--orange-deep));
+  border-radius:var(--r-xl);padding:clamp(40px,6vw,72px);text-align:center;position:relative;overflow:hidden;color:#fff;
+  box-shadow:0 30px 70px rgba(232,89,12,.3);
+}
+.cta-box::before,.cta-box::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.1)}
+.cta-box::before{width:340px;height:340px;top:-140px;left:-100px}
+.cta-box::after{width:280px;height:280px;bottom:-130px;right:-80px}
+.cta-box .inner{position:relative;z-index:1}
+.cta-box .eyebrow{color:rgba(255,255,255,.85)}
+.cta-box .eyebrow::before{background:rgba(255,255,255,.85)}
+.cta-box h2{color:#fff;font-size:clamp(30px,4.6vw,52px);margin-top:18px}
+.cta-box p{color:rgba(255,255,255,.9);font-size:19px;margin-top:18px;max-width:560px;margin-inline:auto}
+.cta-box .hero-actions{justify-content:center}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{background:var(--graphite);color:rgba(255,255,255,.7);padding-top:clamp(64px,8vw,96px)}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--graphite-line)}
+.footer-col-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px;margin-top:-10px}
+.footer-tce-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.footer-tce-cols h6{font-family:var(--display);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#FF8A4C;margin-bottom:12px;font-weight:700}
+.footer .brand-text b{color:#fff}
+.footer .brand-text span{color:rgba(255,255,255,.45)}
+.footer-about{margin-top:22px;font-size:15px;color:rgba(255,255,255,.6);max-width:320px}
+.footer-social{display:flex;gap:12px;margin-top:24px}
+.footer-social a{width:42px;height:42px;border-radius:11px;border:1px solid var(--graphite-line);display:grid;place-items:center;color:#fff;transition:background .25s,transform .25s}
+.footer-social a:hover{background:var(--orange);border-color:var(--orange);transform:translateY(-3px)}
+.footer-col h5{font-family:var(--display);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:18px;font-weight:700}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.footer-col a{font-size:14.5px;color:rgba(255,255,255,.6);transition:color .2s;display:inline-flex;align-items:center;gap:7px}
+.footer-col a:hover{color:#fff}
+.footer-col a:hover .ext{color:var(--orange)}
+.ext{color:rgba(255,255,255,.3);transition:color .2s}
+
+/* Links Úteis / Certidões + Mapa */
+.useful{background:var(--graphite-2)}
+.useful-grid{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:40px;align-items:start}
+.useful h4{color:#fff;font-size:20px;margin-bottom:6px}
+.useful .sub{color:rgba(255,255,255,.55);font-size:14.5px;margin-bottom:26px}
+.useful-cols{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.useful-block h6{font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#FF8A4C;margin-bottom:14px;font-weight:700}
+.useful-block ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.useful-block a{font-size:14px;color:rgba(255,255,255,.62);transition:color .2s,padding .2s;display:inline-flex;align-items:center;gap:8px}
+.useful-block a::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--graphite-line);transition:background .2s}
+.useful-block a:hover{color:#fff}
+.useful-block a:hover::before{background:var(--orange)}
+.map-card{border-radius:var(--r-md);overflow:hidden;border:1px solid var(--graphite-line);aspect-ratio:16/12;background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 2px,transparent 2px 20px),linear-gradient(160deg,#2C2F36,#23262C);
+  display:grid;place-items:center;text-align:center;color:rgba(255,255,255,.5);position:relative}
+.map-card .pin{width:46px;height:46px;border-radius:50%;background:var(--orange);display:grid;place-items:center;color:#fff;margin:0 auto 14px;box-shadow:0 8px 24px rgba(232,89,12,.4)}
+.map-card .ph-label{font-family:ui-monospace,monospace;font-size:11.5px;color:rgba(255,255,255,.45)}
+
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-block:30px}
+.footer-bottom p{font-size:13.5px;color:rgba(255,255,255,.45)}
+.footer-bottom .verse{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,.5)}
+
+/* ============================================================
+   ENTRADA — apenas transform (slide-up). A opacidade NUNCA é
+   animada, então o conteúdo está sempre visível mesmo em contextos
+   que congelam animações (export/print/iframe inativo). Só roda com
+   html.reveal-armed; sem ele ou com reduced-motion, fica estático.
+   ============================================================ */
+@keyframes revUp{from{transform:translateY(22px)}to{transform:translateY(0)}}
+.reveal-armed .reveal{animation:revUp .65s cubic-bezier(.2,.7,.3,1) both}
+.reveal-armed .reveal.d1{animation-delay:.08s}
+.reveal-armed .reveal.d2{animation-delay:.16s}
+.reveal-armed .reveal.d3{animation-delay:.24s}
+@media (prefers-reduced-motion:reduce){
+  .reveal-armed .reveal{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .hero-visual{max-width:460px;margin-inline:auto;width:100%}
+  .hero-chip{right:0}
+  .differ-grid{grid-template-columns:1fr;gap:48px}
+  .differ-photo{max-width:480px}
+  .useful-grid{grid-template-columns:1fr 1fr}
+  .map-card{grid-column:1/-1;aspect-ratio:16/7}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .footer-top .footer-brand{grid-column:1/-1}
+  .footer-tce-cols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  .menu-toggle{display:flex}
+  .benefits-grid,.services-grid,.testi-grid{grid-template-columns:1fr 1fr}
+  .process-grid{grid-template-columns:1fr 1fr;gap:36px 20px}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .benefits-grid,.services-grid,.testi-grid,.process-grid,.useful-grid,.useful-cols,.footer-top{grid-template-columns:1fr}
+  .hero-trust{gap:24px}
+  .hero h1{font-size:clamp(34px,9vw,48px)}
+  .map-card{aspect-ratio:16/10}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+}
+
+/* ---------- Dark mode toggle button ---------- */
+.theme-toggle{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  border:1.5px solid var(--line);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.theme-toggle:hover{border-color:var(--ink);color:var(--ink);background:var(--surface-2)}
+.theme-toggle .icon-sun{display:none}
+.theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+/* Mobile menu theme toggle */
+.mobile-theme-row{display:flex;align-items:center;gap:12px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink);font-family:var(--display);font-weight:600;font-size:18px}
+.mobile-theme-row .theme-toggle{width:36px;height:36px}
+
+/* ---------- Dark mode variables ---------- */
+[data-theme="dark"]{
+  --bg:#0F1014;
+  --surface:#1A1C22;
+  --surface-2:#22252D;
+  --ink:#F0EDE8;
+  --ink-soft:#9BA2B0;
+  --muted:#60656F;
+  --line:#2A2D36;
+  --line-soft:#1E2128;
+  --orange-tint:rgba(232,89,12,.14);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.35);
+  --shadow-md:0 4px 12px rgba(0,0,0,.3), 0 16px 40px rgba(0,0,0,.4);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.35), 0 30px 70px rgba(0,0,0,.5);
+}
+[data-theme="dark"] .header.scrolled{
+  background:rgba(12,13,16,.88);
+}
+[data-theme="dark"] .proof{
+  background:var(--surface);
+  border-color:var(--line);
+}
+[data-theme="dark"] .hero-photo{
+  border-color:var(--line);
+}
+[data-theme="dark"] .hero-badge{
+  background:var(--surface);
+}
+[data-theme="dark"] .hero-chip{
+  background:var(--surface);
+}
+
+/* ============================================================
+   LOCALIZAÇÃO
+   ============================================================ */
+.location{background:var(--surface-2);border-top:1px solid var(--line)}
+.location-grid{
+  display:grid;grid-template-columns:1fr 1.4fr;
+  gap:clamp(40px,6vw,80px);align-items:stretch;
+  padding-block:clamp(64px,9vw,112px);
+}
+.location-info h2{font-size:clamp(26px,3.8vw,42px);margin-top:18px}
+.location-info p{color:var(--ink-soft);font-size:16px;margin-top:16px;line-height:1.7}
+.location-cards{display:flex;flex-direction:column;gap:14px;margin-top:36px}
+.location-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:18px 20px;display:flex;align-items:flex-start;gap:15px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s;
+}
+.location-card:hover{transform:translateX(5px);box-shadow:var(--shadow-md)}
+.location-card .loc-ic{
+  width:40px;height:40px;border-radius:11px;flex-shrink:0;
+  background:var(--orange-tint);color:var(--orange);
+  display:grid;place-items:center;
+}
+.location-card-body strong{font-family:var(--display);font-weight:700;font-size:14px;display:block;margin-bottom:3px}
+.location-card-body span{font-size:14px;color:var(--ink-soft);line-height:1.5}
+.location-map-wrap{
+  border-radius:var(--r-xl);overflow:hidden;
+  border:1px solid var(--line);box-shadow:var(--shadow-lg);
+  min-height:420px;position:relative;background:var(--surface-2);
+}
+.location-map-wrap iframe{
+  width:100%;height:100%;position:absolute;inset:0;border:none;display:block;
+}
+.map-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;
+  color:var(--muted);text-align:center;padding:32px;
+}
+.map-placeholder .pin-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--orange);color:#fff;
+  display:grid;place-items:center;
+  box-shadow:0 8px 24px rgba(232,89,12,.35);
+}
+.map-placeholder p{font-family:var(--display);font-size:14px;color:var(--muted)}
+[data-theme="dark"] .location-map-wrap{border-color:var(--line)}
+@media(max-width:900px){
+  .location-grid{grid-template-columns:1fr}
+  .location-map-wrap{min-height:320px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="#top" aria-label="Ecoplan — início">
+        <img id="brandLogo" src="assets/logo/Logo_Ecoplan.png" alt="Ecoplan" style="height:44px;width:auto;display:block;">
+      </a>
+      <div class="nav-links">
+        <a href="#top">Início</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="#familia">Família Ecoplan</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro">
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#top">Início</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="clientes.html">Clientes</a>
+  <a href="#familia">Família Ecoplan</a>
+  <a href="#contato">Contato</a>
+  <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+  <div class="mobile-theme-row">
+    <button class="theme-toggle theme-toggle-mobile" aria-label="Alternar modo escuro">
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <span id="themeLabel">Modo escuro</span>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="hero-badge reveal"><span class="dot" aria-hidden="true"></span>Desde 1982</span>
+        <h1 class="reveal d1">Excelência em contabilidade <em>pública e empresarial</em></h1>
+        <p class="hero-lede reveal d2">Unimos a experiência de quem construiu uma história sólida com a inovação de quem projeta o futuro. Dessa união nasce uma assessoria contábil mais humana, tecnológica e estratégica comprometida com a eficiência e o desenvolvimento de municípios e empresas.</p>
+        <div class="hero-actions reveal d3">
+          <a class="btn btn-primary" href="#contato">Fale com um especialista
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#servicos">Conhecer serviços</a>
+        </div>
+        <div class="hero-trust reveal d3">
+          <div class="stat"><b data-count="44" data-suffix="">0</b><span>anos de história</span></div>
+          <div class="stat"><b>PB · PE</b><span>atuação regional</span></div>
+          <div class="stat"><b data-count="100" data-suffix="%">0%</b><span>foco em conformidade</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal d2">
+        <div class="hero-photo">
+          <img src="assets/team/Eco_Local.png" alt="Escritório Ecoplan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+          <div class="hero-scripture" style="position:relative;z-index:1">
+            <p>“Bendito seja o Senhor, minha rocha, que adestra as minhas mãos para a batalha e os meus dedos para a guerra.”</p>
+            <cite>Salmo 144:1</cite>
+          </div>
+        </div>
+        <div class="hero-chip aria-hidden="true">
+          <span class="yr">1982</span>
+          <span class="tx">Tradição que<br>constrói o futuro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROVA / FAIXA ===================== -->
+<div class="proof">
+  <div class="wrap">
+    <div class="proof-inner">
+      <span class="proof-label">Atuação reconhecida junto a</span>
+      <span class="proof-item">TCE-PB</span>
+      <span class="proof-item">TCE-PE</span>
+      <span class="proof-item">SIAFI</span>
+      <span class="proof-item">SAGRES</span>
+      <span class="proof-item">RECEITA FEDERAL</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BENEFÍCIOS ===================== -->
+<section class="section" id="sobre">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Por que a Ecoplan?</span>
+      <h2>Um conceito em assessoria contábil</h2>
+      <p>Cada resultado reflete nossa essência: tradição, confiança e visão de futuro. Veja o que nos torna a escolha certa para órgãos públicos e empresas.</p>
+    </div>
+    <div class="benefits-grid">
+      <article class="benefit reveal d1">
+        <div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Segurança e conformidade</h3>
+        <p>Rotinas alinhadas às exigências dos Tribunais de Contas e da legislação vigente, reduzindo riscos e garantindo prestações de contas regulares.</p>
+      </article>
+      <article class="benefit reveal d2">
+        <div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg></div>
+        <h3>Decisões orientadas por dados</h3>
+        <p>Tecnologia e relatórios claros que transformam números em informação estratégica para gestores públicos e empresários.</p>
+      </article>
+      <article class="benefit reveal d3">
+        <div class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Atendimento próximo</h3>
+        <p>A Ecoplan acompanha cada cliente de perto, com a proximidade de quem entende o seu contexto e a seriedade de quem responde por ele.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section class="section services" id="servicos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Nossos serviços</span>
+      <h2>Um amplo portfólio especializado</h2>
+      <p>Oferecemos serviços contábeis especializados para atender às necessidades de órgãos públicos e empresas — da assessoria à auditoria e ao treinamento de equipes.</p>
+      <div>
+      </div>
+    </div>
+
+    <div class="services-grid" data-panel="publico">
+      <article class="svc-card reveal d1">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg></div>
+        <h3>Assessoria contábil pública</h3>
+        <p>Escrituração, empenhos, prestação de contas e suporte completo à gestão orçamentária e financeira dos municípios.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d2">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Auditoria e conformidade</h3>
+        <p>Revisão de processos e contas com foco em transparência, atendimento ao TCE e mitigação de riscos de gestão.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d3">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <h3>Treinamento de equipes</h3>
+        <p>Capacitação prática para servidores e setores contábeis, elevando a autonomia e a qualidade da gestão pública.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+
+    <div class="services-grid" data-panel="privado" hidden>
+      <article class="svc-card reveal d1">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <h3>Abertura e contabilidade empresarial</h3>
+        <p>Constituição de empresas, escrituração e rotinas contábeis para empreendedores e pequenos e médios negócios.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d2">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Planejamento tributário</h3>
+        <p>Análise de regimes e estratégias para reduzir a carga tributária de forma segura e dentro da legalidade.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+      <article class="svc-card reveal d3">
+        <div class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Folha e departamento pessoal</h3>
+        <p>Admissões, folha de pagamento e obrigações trabalhistas geridas com precisão para a sua equipe.</p>
+        <a class="more" href="#contato">Saiba mais <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DIFERENCIAIS (dark) ===================== -->
+<section class="section differ" id="diferenciais">
+  <div class="wrap">
+    <div class="differ-grid">
+      <div class="differ-copy reveal">
+        <span class="eyebrow">Nossos diferenciais</span>
+        <h2>Tradição, confiança e visão de futuro</h2>
+        <p class="differ-lede">Construímos uma história sólida e a colocamos a serviço da inovação. É essa combinação que nos conduziu ao patamar de excelência em que estamos hoje.</p>
+        <div class="differ-list">
+          <div class="differ-item"><span class="n">01</span><div><h4>Mais de 40 anos de história</h4><p>Desde 1982 ao lado de gestores e empresas, com a estabilidade de quem já viu o mercado mudar muitas vezes.</p></div></div>
+          <div class="differ-item"><span class="n">02</span><div><h4>Tecnologia a favor da gestão</h4><p>Processos digitais e dados confiáveis que dão agilidade e clareza às decisões.</p></div></div>
+          <div class="differ-item"><span class="n">03</span><div><h4>Equipe especializada e humana</h4><p>A Família Ecoplan nosso maior patrimônio atende com técnica, ética e proximidade.</p></div></div>
+        </div>
+      </div>
+      <div class="differ-photo reveal d2" id="familia">
+          <img src="assets/team/Familia_Eco.png" alt="Familia Ecoplan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+        <div class="cap">“Nossa equipe é o alicerce que nos conduziu à excelência.”</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="section" id="processo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Como atendemos</span>
+      <h2>Um processo claro do início ao fim</h2>
+      <p>Da primeira conversa ao acompanhamento contínuo, conduzimos cada etapa com método e transparência.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step reveal d1"><h4>Diagnóstico</h4><p>Entendemos o seu contexto, necessidades e o estágio atual da sua contabilidade.</p></div>
+      <div class="step reveal d1"><h4>Planejamento</h4><p>Desenhamos a estratégia e definimos rotinas, prazos e responsáveis.</p></div>
+      <div class="step reveal d2"><h4>Execução</h4><p>Colocamos tudo em prática com tecnologia, precisão e conformidade.</p></div>
+      <div class="step reveal d3"><h4>Acompanhamento</h4><p>Monitoramos resultados e ajustamos o caminho de forma contínua.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LOCALIZAÇÃO ===================== -->
+<section class="location" id="localizacao">
+  <div class="wrap">
+    <div class="location-grid">
+
+      <div class="location-info reveal">
+        <span class="eyebrow">Como nos encontrar</span>
+        <h2>Estamos em Patos</h2>
+        <p>Atendemos presencialmente e à distância com a mesma qualidade técnica e o mesmo compromisso, independentemente de onde você esteja.</p>
+
+        <div class="location-cards">
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>Sede Paraíba</strong>
+              <span>Patos · PB<br>Paraíba, Nordeste do Brasil</span>
+            </div>
+          </div>
+
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>Telefone</strong>
+              <span>(83) 99919-0100<br>Segunda a sexta, 8h às 18h</span>
+            </div>
+          </div>
+
+          <div class="location-card">
+            <div class="loc-ic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="location-card-body">
+              <strong>E-mail</strong>
+              <span>contato@ecoplancontabilidade.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-map-wrap reveal d1">
+        <!--
+          Para incorporar o mapa real:
+          1. Acesse maps.google.com e busque o endereço da Ecoplan
+          2. Clique em "Compartilhar" → "Incorporar um mapa"
+          3. Copie o <iframe> gerado e substitua o bloco abaixo
+        -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.8371959252777!2d-37.27671462495526!3d-7.028414392973417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7af61d63939b1d3%3A0x44b640912643fc13!2sEcoplan%20Contabilidade%20P%C3%BAblica!5e0!3m2!1spt-BR!2sbr!4v1781704837199!5m2!1spt-BR!2sbr"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Localização Ecoplan — Patos, PB"
+          style="filter:grayscale(20%) contrast(1.05)"
+        ></iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-band" id="contato">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="inner">
+        <span class="eyebrow center">Vamos conversar</span>
+        <h2>Conheça um novo conceito em<br>assessoria contábil</h2>
+        <p>Fale com um especialista da Ecoplan e descubra como podemos cuidar da contabilidade do seu município ou da sua empresa com eficiência e confiança.</p>
+        <div class="hero-actions">
+          <a class="btn btn-outline-light" href="#">Falar no WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="Ecoplan — início">
+          <img id="footerLogo" src="assets/logo/Logo_Ecoplan_Dark.png" alt="Ecoplan" style="height:44px;width:auto;display:block;">
+        </a>
+        <p class="footer-about">Um novo conceito em assessoria contábil mais humana, tecnológica e estratégia. Comprometida com a eficiência e o desenvolvimento de municípios e empresas desde 1982.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram @ecoplancontabilidade"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.8-2.7-.2-.3A8 8 0 1 1 12 20zm4.5-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.1-.5 0a6.5 6.5 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4c0-.1-.5-1.3-.7-1.7s-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 3.2.7 2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Links Úteis</h5>
+        <ul>
+          <li><a href="#">CRF · FGTS</a></li>
+          <li><a href="#">CND · Pedido</a></li>
+          <li><a href="#">CND · Receita Federal</a></li>
+          <li><a href="#">CNPJ · Situação</a></li>
+          <li><a href="#">CNDT · Pedido</a></li>
+          <li><a href="#">CAUC · Regul. Siafi</a></li>
+          <li><a href="#">CND · Estadual</a></li>
+          <li><a href="#">CND · João Pessoa</a></li>
+          <li><a href="#">CNJ · Pedido</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>TCE-PB</h6>
+            <ul>
+              <li><a href="#">Portal do Gestor</a></li>
+              <li><a href="#">Sagres Cidadão</a></li>
+              <li><a href="#">Observatório Sagres</a></li>
+              <li><a href="#">Turmalina</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>TCE-PE</h6>
+            <ul>
+              <li><a href="#">Sagres</a></li>
+              <li><a href="#">Sagres Pessoal</a></li>
+              <li><a href="#">e-TCEPE</a></li>
+              <li><a href="#">Protocolo</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> Ecoplan Contabilidade Pública desde 1982. Todos os direitos reservados.</p>
+      <p class="verse">“…minha rocha…” — Salmo 144:1</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Header scroll state */
+  var header=document.querySelector('.header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>12);};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* Mobile menu */
+  var toggle=document.getElementById('menuToggle');
+  var menu=document.getElementById('mobileMenu');
+  toggle.addEventListener('click',function(){
+    var open=document.body.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded',open);
+    toggle.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){document.body.classList.remove('menu-open');toggle.setAttribute('aria-expanded',false);});
+  });
+
+  /* Reveal agora é 100% CSS (@keyframes na carga). Nada a fazer aqui. */
+
+  /* Counters */
+  var counted=false;
+  var animateCounts=function(){
+    if(counted)return;counted=true;
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var target=parseFloat(el.getAttribute('data-count'));
+      var suffix=el.getAttribute('data-suffix')||'';
+      var start=performance.now(),dur=1400;
+      var tick=function(now){
+        var p=Math.min((now-start)/dur,1);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*eased)+suffix;
+        if(p<1)requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  };
+  var hero=document.querySelector('.hero-trust');
+  if(hero && 'IntersectionObserver' in window){
+    var hio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)animateCounts();});},{threshold:.4});
+    hio.observe(hero);
+  }
+  /* fallback: garante que os contadores rodem mesmo sem observer */
+  setTimeout(animateCounts,1600);
+
+  /* Services toggle */
+  var tabs=document.querySelectorAll('.svc-toggle button');
+  var panels=document.querySelectorAll('[data-panel]');
+  var setTab=function(btn){
+    tabs.forEach(function(b){b.classList.toggle('active',b===btn);b.setAttribute('aria-selected',b===btn);});
+    var key=btn.getAttribute('data-tab');
+    panels.forEach(function(p){p.hidden=p.getAttribute('data-panel')!==key;});
+  };
+  tabs.forEach(function(b){b.addEventListener('click',function(){setTab(b);});});
+
+  document.getElementById('year').textContent=new Date().getFullYear();
+
+  /* Dark mode toggle */
+  var root=document.documentElement;
+  var brandLogo=document.getElementById('brandLogo');
+  var footerLogo=document.getElementById('footerLogo');
+  var themeLabel=document.getElementById('themeLabel');
+  var applyTheme=function(dark){
+    if(brandLogo)brandLogo.src=dark?"assets/logo/Logo_Ecoplan_Dark.png":"assets/logo/Logo_Ecoplan.png";
+    // Footer já fica sobre fundo escuro (graphite) — sempre usa a versão
+    // clara da logo, não acompanha o dark-mode toggle do resto da página.
+    if(footerLogo)footerLogo.src="assets/logo/Logo_Ecoplan_Dark.png";
+    if(themeLabel)themeLabel.textContent=dark?'Modo claro':'Modo escuro';
+  };
+  applyTheme(root.getAttribute('data-theme')==='dark');
+  document.querySelectorAll('#themeToggle, .theme-toggle-mobile').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var isDark=root.getAttribute('data-theme')==='dark';
+      root.setAttribute('data-theme',isDark?'light':'dark');
+      try{localStorage.setItem('ecoplan-theme',isDark?'light':'dark');}catch(e){}
+      applyTheme(!isDark);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -51,19 +51,22 @@ button.btn {
    ======================================== */
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+  /* Par --color-orange-dark/--color-orange-btn-deep em vez do laranja puro
+     — mantém a identidade visual da marca mas com texto branco legível
+     (WCAG AA, ≥4.5:1) em vez do ~3.6:1 do --color-orange sozinho. */
+  background: linear-gradient(135deg, var(--color-orange-dark), var(--color-orange-btn-deep));
   color: white;
   box-shadow: 0 4px 16px rgba(232, 89, 12, 0.35);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--color-orange-light), var(--color-orange));
+  background: linear-gradient(135deg, var(--color-orange-btn-deep), var(--color-orange-dark));
   box-shadow: 0 6px 20px rgba(232, 89, 12, 0.5);
   transform: translateY(-2px);
 }
 
 .btn-primary:active:not(:disabled) {
-  background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+  background: linear-gradient(135deg, var(--color-orange-dark), var(--color-orange-btn-deep));
   transform: translateY(0);
   box-shadow: var(--shadow-sm);
 }
@@ -151,19 +154,21 @@ button.btn {
    ======================================== */
 
 .btn-danger {
-  background-color: var(--color-error);
+  /* #DC2626 em vez de --color-error puro (#EF4444, ~3.8:1 com texto
+     branco) — este tom passa WCAG AA (~4.8:1) e ainda lê como "vermelho". */
+  background-color: #DC2626;
   color: white;
   box-shadow: var(--shadow-md);
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: #DC2626;
+  background-color: #B91C1C;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
   transform: translateY(-2px);
 }
 
 .btn-danger:active:not(:disabled) {
-  background-color: #DC2626;
+  background-color: #B91C1C;
   transform: translateY(0);
   box-shadow: var(--shadow-sm);
 }

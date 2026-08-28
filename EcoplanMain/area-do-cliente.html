@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Área do Cliente — Ecoplan Contabilidade Pública</title>
+<meta name="description" content="Acesse os portais Eco Administração, Eco Cliente, EcoDoc, EcoHub e EcoAdmin — soluções integradas de gestão pública da Ecoplan." />
+<meta name="theme-color" content="#1B1D22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+:root{
+  --bg:#FBFAF8;--surface:#FFFFFF;--surface-2:#F5F3EF;
+  --ink:#16181D;--ink-soft:#494E58;--muted:#878D98;
+  --line:#E8E5DF;--line-soft:#F0EDE7;
+  --orange:#E8590C;--orange-deep:#C84A08;--orange-tint:#FCEFE6;
+  --graphite:#1A1C21;--graphite-2:#24272E;--graphite-line:rgba(255,255,255,.10);
+  --shadow-sm:0 1px 2px rgba(20,22,28,.04),0 2px 8px rgba(20,22,28,.05);
+  --shadow-md:0 4px 12px rgba(20,22,28,.06),0 16px 40px rgba(20,22,28,.08);
+  --shadow-lg:0 8px 24px rgba(20,22,28,.08),0 30px 70px rgba(20,22,28,.12);
+  --r-sm:10px;--r-md:16px;--r-lg:24px;--r-xl:32px;
+  --maxw:1200px;--pad:clamp(20px,5vw,64px);
+  --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:var(--ink)}
+::selection{background:var(--orange);color:#fff}
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:0 0 10px 0;z-index:2000}
+.skip:focus{left:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--orange);display:inline-block}
+.eyebrow.center::before{display:none}
+.section{padding-block:clamp(72px,10vw,128px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15.5px;padding:15px 26px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,background .25s,color .25s;white-space:nowrap}
+.btn svg{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 18px rgba(232,89,12,.28)}
+.btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,89,12,.36)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-outline-light{border:1.5px solid rgba(255,255,255,.25);color:#fff}
+.btn-outline-light:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+
+/* ===== HEADER ===== */
+.header{position:sticky;top:0;z-index:1000;transition:background .3s,box-shadow .3s,border-color .3s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(251,250,248,.82);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;gap:32px;height:78px}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-links a{font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink-soft);padding:9px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-links a.active{color:var(--orange);background:var(--orange-tint)}
+.nav-cta{display:flex;align-items:center;gap:14px;margin-left:8px}
+.nav-cta .btn{padding:12px 22px;font-size:14.5px}
+.menu-toggle{display:none;width:46px;height:46px;border-radius:11px;border:1.5px solid var(--line);align-items:center;justify-content:center;margin-left:auto}
+.menu-toggle span{position:relative;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before{top:-6px}.menu-toggle span::after{top:6px}
+body.menu-open .menu-toggle span{background:transparent}
+body.menu-open .menu-toggle span::before{top:0;transform:rotate(45deg)}
+body.menu-open .menu-toggle span::after{top:0;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:78px 0 0;z-index:999;background:var(--bg);padding:24px var(--pad) 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+body.menu-open .mobile-menu{transform:translateX(0)}
+.mobile-menu a{font-family:var(--display);font-weight:600;font-size:21px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink)}
+.mobile-menu .btn{margin-top:24px;width:100%}
+.mobile-theme-row{display:flex;align-items:center;gap:12px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink);font-family:var(--display);font-weight:600;font-size:18px}
+.mobile-theme-row .theme-toggle{width:36px;height:36px}
+
+/* ===== DARK MODE ===== */
+.theme-toggle{width:40px;height:40px;border-radius:10px;flex-shrink:0;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);transition:border-color .2s,color .2s,background .2s}
+.theme-toggle:hover{border-color:var(--ink);color:var(--ink);background:var(--surface-2)}
+.theme-toggle .icon-sun{display:none}
+.theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+[data-theme="dark"]{--bg:#0F1014;--surface:#1A1C22;--surface-2:#22252D;--ink:#F0EDE8;--ink-soft:#9BA2B0;--muted:#60656F;--line:#2A2D36;--line-soft:#1E2128;--orange-tint:rgba(232,89,12,.14);--shadow-sm:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.35);--shadow-md:0 4px 12px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.4);--shadow-lg:0 8px 24px rgba(0,0,0,.35),0 30px 70px rgba(0,0,0,.5)}
+[data-theme="dark"] .header.scrolled{background:rgba(12,13,16,.88)}
+
+/* ===== REVEAL ===== */
+@keyframes revUp{from{transform:translateY(32px)}to{transform:translateY(0)}}
+html.reveal-armed .reveal{opacity:0;transform:translateY(32px)}
+html.reveal-armed .reveal.visible{animation:revUp .7s cubic-bezier(.2,.7,.3,1) forwards;opacity:1}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+
+/* ===== PORTALS ===== */
+.portals-section{background:var(--surface-2);padding-top:0;padding-bottom:clamp(16px,2vw,28px)}
+[data-theme="dark"] .portals-section{background:var(--bg)}
+.portal-intro{text-align:center;max-width:580px;margin:0 auto}
+.portal-intro .eyebrow{justify-content:center}
+.portal-intro h1{font-size:clamp(30px,4.5vw,54px);letter-spacing:-.03em;margin-top:16px}
+.portal-intro h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--orange)}
+.portal-intro-lede{margin-top:14px;font-size:clamp(15px,1.6vw,17px);color:var(--ink-soft);line-height:1.65}
+.portals-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(18px,2.5vw,28px);
+  margin-top:clamp(36px,5vw,52px);
+}
+.portal-card.restricted .portal-tag{color:var(--muted)}
+.portals-divider{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:16px;
+  margin:clamp(8px,1.5vw,16px) 0;
+}
+.portals-divider::before,.portals-divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.portals-divider span{
+  font-family:var(--display);font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;
+}
+.portal-card{
+  background:var(--surface);
+  border-radius:var(--r-xl);overflow:hidden;
+  box-shadow:var(--shadow-md);
+  border:1px solid var(--line);
+  transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s;
+  display:flex;flex-direction:column;
+}
+.portal-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-lg)}
+.portal-visual{
+  height:clamp(200px,19vw,260px);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.portal-visual::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);
+  background-size:24px 24px;pointer-events:none;
+}
+.pv-admin{background:linear-gradient(140deg,#152B52,#1E4282)}
+.pv-cliente{background:linear-gradient(140deg,#A83605,#DC5010)}
+.pv-doc{background:linear-gradient(140deg,#0A4539,#12615A)}
+.portal-art{position:relative;z-index:1;filter:drop-shadow(0 6px 22px rgba(0,0,0,.28))}
+.portal-body{
+  padding:clamp(24px,3vw,36px);
+  flex:1;display:flex;flex-direction:column;
+}
+.portal-tag{
+  font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--orange);
+  margin-bottom:9px;
+}
+.portal-name{
+  font-family:var(--display);font-size:clamp(19px,1.9vw,22px);font-weight:800;
+  letter-spacing:-.025em;color:var(--ink);line-height:1.12;
+  margin-bottom:12px;
+}
+.portal-desc{font-size:14.5px;color:var(--ink-soft);line-height:1.65;flex:1;margin-bottom:26px}
+.portal-card .btn{align-self:flex-start;padding:12px 22px;font-size:14.5px}
+
+/* ===== SUPPORT BAND ===== */
+.support-band{
+  background:linear-gradient(160deg,#1C2637,#1E2D3E);
+  padding:clamp(56px,8vw,96px) 0;
+  text-align:center;color:#fff;
+  position:relative;overflow:hidden;
+}
+.support-band::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none;
+}
+.support-band .wrap{position:relative;z-index:1}
+.support-band h3{font-size:clamp(18px,2.5vw,26px);color:#fff;font-weight:700;margin-bottom:10px}
+.support-band p{font-size:15px;color:rgba(255,255,255,.52);margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--graphite);color:rgba(255,255,255,.85);padding-top:72px}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--graphite-line)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,.45);line-height:1.6;max-width:260px;margin-bottom:24px}
+.footer-col-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px;margin-top:-10px}
+.footer-socials{display:flex;gap:10px}
+.footer-social{width:38px;height:38px;border-radius:10px;border:1px solid var(--graphite-line);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:background .2s,color .2s,border-color .2s}
+.footer-social:hover{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)}
+.footer-col h5{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.footer-col ul li a{font-size:14.5px;color:rgba(255,255,255,.65);transition:color .2s}
+.footer-col ul li a:hover{color:#fff}
+.footer-tce-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.footer-tce-cols h6{font-family:var(--display);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#FF8A4C;margin-bottom:12px;font-weight:700}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:13px;color:rgba(255,255,255,.3);flex-wrap:wrap;gap:12px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  .portals-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .portals-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .nav-links,.nav-cta{display:none}
+  .menu-toggle{display:flex}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="top">
+  <nav class="nav wrap">
+    <a class="brand" href="index.html" aria-label="Ecoplan — Página inicial">
+      <img id="brandLogo" src="assets/logo/Logo_Ecoplan.png" alt="Ecoplan" height="36" />
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="index.html#familia">Família Ecoplan</a>
+      <a href="index.html#contato">Contato</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- ===== MOBILE MENU ===== -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Navegação mobile">
+  <a href="index.html">Início</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="clientes.html">Clientes</a>
+  <a href="index.html#familia">Família Ecoplan</a>
+  <a href="index.html#contato">Contato</a>
+  <div class="mobile-theme-row">
+    <span>Tema</span>
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Alternar tema">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+  </div>
+  <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+</nav>
+
+<main id="main">
+<section class="portals-section" id="portals">
+  <div class="wrap">
+    <div class="portals-grid">
+      <!-- ECO ADMINISTRAÇÃO -->
+      <div class="portal-card reveal">
+        <div class="portal-visual pv-admin">
+          <svg class="portal-art" width="220" height="168" viewBox="0 0 220 168" fill="none" aria-hidden="true">
+            <!-- Window -->
+            <rect x="12" y="14" width="196" height="126" rx="13" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.17)" stroke-width="1.5"/>
+            <rect x="12" y="14" width="196" height="34" rx="13" fill="rgba(255,255,255,.06)"/>
+            <rect x="12" y="34" width="196" height="14" fill="rgba(255,255,255,.06)"/>
+            <circle cx="33" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <circle cx="49" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <circle cx="65" cy="31" r="5" fill="rgba(255,255,255,.2)"/>
+            <rect x="84" y="26" width="52" height="10" rx="5" fill="rgba(255,255,255,.1)"/>
+            <!-- Grid -->
+            <line x1="28" y1="120" x2="194" y2="120" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="106" x2="194" y2="106" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="92" x2="194" y2="92" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <line x1="28" y1="78" x2="194" y2="78" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <!-- Bars -->
+            <rect x="34" y="98" width="20" height="22" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="60" y="84" width="20" height="36" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="86" y="104" width="20" height="16" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="112" y="72" width="20" height="48" rx="5" fill="#E8590C"/>
+            <rect x="138" y="88" width="20" height="32" rx="5" fill="rgba(255,255,255,.17)"/>
+            <rect x="164" y="78" width="20" height="42" rx="5" fill="rgba(255,255,255,.17)"/>
+            <!-- Trend line -->
+            <path d="M44 94 L70 82 L96 100 L122 70 L148 86 L174 76" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="122" cy="70" r="5" fill="#FF8A4C"/>
+            <circle cx="122" cy="70" r="9" fill="rgba(255,140,70,.22)"/>
+            <!-- KPI card -->
+            <rect x="150" y="50" width="44" height="24" rx="7" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
+            <rect x="157" y="57" width="18" height="4" rx="2" fill="rgba(255,255,255,.28)"/>
+            <rect x="157" y="65" width="12" height="4" rx="2" fill="#E8590C" opacity=".9"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Gestão de artigos</div>
+          <h2 class="portal-name">Eco Administração</h2>
+          <p class="portal-desc">Sistema integrado de controle administrativo para gestores da Ecoplan</p>
+          <a href="eco-administracao.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ECO CLIENTE -->
+      <div class="portal-card reveal d1">
+        <div class="portal-visual pv-cliente">
+          <svg class="portal-art" width="200" height="168" viewBox="0 0 200 168" fill="none" aria-hidden="true">
+            <!-- Card frame -->
+            <rect x="28" y="16" width="144" height="130" rx="16" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <!-- Avatar ring -->
+            <circle cx="100" cy="64" r="30" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.25)" stroke-width="1.8"/>
+            <!-- Person head -->
+            <circle cx="100" cy="53" r="13" fill="rgba(255,255,255,.55)"/>
+            <!-- Person shoulders -->
+            <path d="M72 88 C72 76 128 76 128 88" fill="rgba(255,255,255,.5)"/>
+            <!-- Verified badge -->
+            <circle cx="123" cy="42" r="12" fill="#A83605"/>
+            <circle cx="123" cy="42" r="12" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <path d="M118 42 L121.5 45.5 L128 37.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <!-- Name lines -->
+            <rect x="66" y="104" width="68" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
+            <rect x="77" y="118" width="46" height="6" rx="3" fill="rgba(255,255,255,.2)"/>
+            <!-- Bottom row -->
+            <rect x="38" y="134" width="48" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+            <rect x="114" y="134" width="48" height="6" rx="3" fill="rgba(255,255,255,.15)"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Portal de Acesso</div>
+          <h2 class="portal-name">Eco Cliente</h2>
+          <p class="portal-desc">Acompanhe em tempo real as demandas, documentos e comunicados da sua entidade junto à equipe técnica da Ecoplan.</p>
+          <a href="eco-cliente.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ECODOC -->
+      <div class="portal-card reveal d2">
+        <div class="portal-visual pv-doc">
+          <svg class="portal-art" width="200" height="168" viewBox="0 0 200 168" fill="none" aria-hidden="true">
+            <!-- Back docs (stacked) -->
+            <rect x="54" y="28" width="96" height="116" rx="10" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.11)" stroke-width="1.5" transform="rotate(-7 102 86)"/>
+            <rect x="52" y="24" width="96" height="116" rx="10" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.14)" stroke-width="1.5" transform="rotate(-3 100 82)"/>
+            <!-- Front doc -->
+            <rect x="50" y="18" width="98" height="122" rx="10" fill="rgba(255,255,255,.13)" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <!-- Corner fold -->
+            <path d="M124 18 L148 42 L124 42 Z" fill="rgba(255,255,255,.12)"/>
+            <path d="M124 18 L148 42" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <!-- Text lines -->
+            <rect x="62" y="54" width="62" height="7" rx="3.5" fill="rgba(255,255,255,.4)"/>
+            <rect x="62" y="67" width="50" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="78" width="56" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="89" width="42" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <rect x="62" y="100" width="60" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+            <line x1="62" y1="114" x2="144" y2="114" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <!-- Certification stamp -->
+            <circle cx="130" cy="128" r="20" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <circle cx="130" cy="128" r="13" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+            <path d="M123 128 L128 133 L137 121" stroke="#4DD9B8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Gestão Documental</div>
+          <h2 class="portal-name">EcoDoc</h2>
+          <p class="portal-desc">Repositório centralizado de documentos contábeis, contratos e licitações, com controle de versões e acesso seguro à nuvem.</p>
+          <a href="#" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="portals-divider"><span>Sistemas Ecoplan</span></div>
+
+      <!-- ECOHUB -->
+      <div class="portal-card reveal d1">
+        <div class="portal-visual" style="background:linear-gradient(140deg,#152B52,#1E4282)">
+          <svg class="portal-art" width="200" height="168" viewBox="0 0 200 168" fill="none" aria-hidden="true">
+            <circle cx="100" cy="84" r="30" fill="rgba(255,255,255,.09)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <circle cx="100" cy="84" r="10" fill="#E8590C"/>
+            <circle cx="46" cy="48" r="17" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <circle cx="154" cy="48" r="17" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <circle cx="46" cy="126" r="17" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <circle cx="154" cy="126" r="17" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <line x1="90" y1="76" x2="58" y2="56" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+            <line x1="110" y1="76" x2="142" y2="56" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+            <line x1="90" y1="92" x2="58" y2="118" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+            <line x1="110" y1="92" x2="142" y2="118" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Hub de Sistemas</div>
+          <h2 class="portal-name">EcoHub</h2>
+          <p class="portal-desc">Acesso direto ao launcher dos sistemas Ecoplan (DigidocAD, DigidocRH, DigidocPAT, LegisDigital e demais), com login por município.</p>
+          <a href="../index.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- ECOADMIN -->
+      <div class="portal-card restricted reveal d2">
+        <div class="portal-visual" style="background:linear-gradient(140deg,#1C2637,#1E2D3E)">
+          <svg class="portal-art" width="180" height="168" viewBox="0 0 180 168" fill="none" aria-hidden="true">
+            <rect x="46" y="70" width="88" height="72" rx="14" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <path d="M62 70V50a28 28 0 0156 0v20" stroke="rgba(255,255,255,.4)" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <circle cx="90" cy="102" r="9" fill="#E8590C"/>
+            <rect x="86" y="108" width="8" height="18" rx="4" fill="#E8590C"/>
+          </svg>
+        </div>
+        <div class="portal-body">
+          <div class="portal-tag">Acesso Restrito</div>
+          <h2 class="portal-name">EcoAdmin</h2>
+          <p class="portal-desc">Painel administrativo do EcoHub — cadastro de sistemas, municípios e usuários. Acesso exclusivo da equipe Ecoplan.</p>
+          <a href="ecoadmin.html" class="btn btn-primary">
+            Acessar portal
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-col">
+        <img class="footer-logo" src="assets/logo/Logo_Ecoplan_Dark.png" alt="Ecoplan" height="32" />
+        <p class="footer-tagline">Contabilidade pública com excelência técnica, desde 1982.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" class="footer-social" aria-label="WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Links Úteis</h5>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="sobre.html">Sobre a Ecoplan</a></li>
+          <li><a href="clientes.html">Clientes</a></li>
+          <li><a href="index.html#familia">Família Ecoplan</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+          <li><a href="area-do-cliente.html">Área do Cliente</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>Paraíba</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAP</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAI</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>Pernambuco</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">e-Sfinge</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Ecoplan Contabilidade Pública. Todos os direitos reservados.</span>
+      <span>Fundada em 1982 · Cajazeiras, PB</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+var logo=document.getElementById('brandLogo');
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  if(logo)logo.src=t==='dark'?"assets/logo/Logo_Ecoplan_Dark.png":"assets/logo/Logo_Ecoplan.png";
+}
+var savedTheme=localStorage.getItem('ecoplan-theme');
+if(savedTheme&&logo){logo.src=savedTheme==='dark'?"assets/logo/Logo_Ecoplan_Dark.png":"assets/logo/Logo_Ecoplan.png";}
+document.querySelectorAll('.theme-toggle').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme')||'light';
+    var next=cur==='dark'?'light':'dark';
+    applyTheme(next);
+    localStorage.setItem('ecoplan-theme',next);
+  });
+});
+
+var menuToggle=document.getElementById('menuToggle');
+var mobileMenu=document.getElementById('mobileMenu');
+if(menuToggle&&mobileMenu){
+  menuToggle.addEventListener('click',function(){
+    document.body.classList.toggle('menu-open');
+    menuToggle.setAttribute('aria-expanded',document.body.classList.contains('menu-open'));
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.body.classList.remove('menu-open');
+      menuToggle.setAttribute('aria-expanded','false');
+    });
+  });
+}
+
+var header=document.querySelector('.header');
+window.addEventListener('scroll',function(){
+  if(header)header.classList.toggle('scrolled',window.scrollY>10);
+},{passive:true});
+
+if(document.documentElement.classList.contains('reveal-armed')){
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el);});
+}
+</script>
+</body>
+</html>

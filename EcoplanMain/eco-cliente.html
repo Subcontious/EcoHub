@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eco Cliente — Ecoplan</title>
+<meta name="description" content="Artigos, comunicados e publicações da Ecoplan Contabilidade Pública." />
+<meta name="theme-color" content="#1B1D22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+:root{
+  --bg:#FBFAF8;--surface:#FFFFFF;--surface-2:#F5F3EF;
+  --ink:#16181D;--ink-soft:#494E58;--muted:#878D98;
+  --line:#E8E5DF;--line-soft:#F0EDE7;
+  --orange:#E8590C;--orange-deep:#C84A08;--orange-tint:#FCEFE6;
+  --graphite:#1A1C21;--graphite-2:#24272E;--graphite-line:rgba(255,255,255,.10);
+  --shadow-sm:0 1px 2px rgba(20,22,28,.04),0 2px 8px rgba(20,22,28,.05);
+  --shadow-md:0 4px 12px rgba(20,22,28,.06),0 16px 40px rgba(20,22,28,.08);
+  --shadow-lg:0 8px 24px rgba(20,22,28,.08),0 30px 70px rgba(20,22,28,.12);
+  --r-sm:10px;--r-md:16px;--r-lg:24px;--r-xl:32px;
+  --maxw:1200px;--pad:clamp(20px,5vw,64px);
+  --sans:'Hanken Grotesk',-apple-system,sans-serif;
+  --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:var(--ink)}
+::selection{background:var(--orange);color:#fff}
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:0 0 10px 0;z-index:2000}
+.skip:focus{left:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--orange);display:inline-block}
+.section{padding-block:clamp(64px,9vw,112px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15.5px;padding:15px 26px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,background .25s;white-space:nowrap}
+.btn svg{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 18px rgba(232,89,12,.28);border:none}
+.btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-outline-light{border:1.5px solid rgba(255,255,255,.25);color:#fff}
+.btn-outline-light:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:1000;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(251,250,248,.82);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;gap:32px;height:78px}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-links a{font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink-soft);padding:9px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-links a.active{color:var(--orange);background:var(--orange-tint)}
+.nav-cta{display:flex;align-items:center;gap:14px;margin-left:8px}
+.nav-cta .btn{padding:12px 22px;font-size:14.5px}
+.menu-toggle{display:none;width:46px;height:46px;border-radius:11px;border:1.5px solid var(--line);align-items:center;justify-content:center;margin-left:auto}
+.menu-toggle span{position:relative;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before{top:-6px}.menu-toggle span::after{top:6px}
+body.menu-open .menu-toggle span{background:transparent}
+body.menu-open .menu-toggle span::before{top:0;transform:rotate(45deg)}
+body.menu-open .menu-toggle span::after{top:0;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:78px 0 0;z-index:999;background:var(--bg);padding:24px var(--pad) 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+body.menu-open .mobile-menu{transform:translateX(0)}
+.mobile-menu a{font-family:var(--display);font-weight:600;font-size:21px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink)}
+.mobile-menu .btn{margin-top:24px;width:100%}
+.mobile-theme-row{display:flex;align-items:center;gap:12px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink);font-family:var(--display);font-weight:600;font-size:18px}
+.theme-toggle{width:40px;height:40px;border-radius:10px;flex-shrink:0;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);transition:border-color .2s,color .2s}
+.theme-toggle:hover{border-color:var(--ink);color:var(--ink)}
+.theme-toggle .icon-sun{display:none}.theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+[data-theme="dark"]{--bg:#0F1014;--surface:#1A1C22;--surface-2:#22252D;--ink:#F0EDE8;--ink-soft:#9BA2B0;--muted:#60656F;--line:#2A2D36;--line-soft:#1E2128;--orange-tint:rgba(232,89,12,.14);--shadow-sm:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.35);--shadow-md:0 4px 12px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.4);--shadow-lg:0 8px 24px rgba(0,0,0,.35),0 30px 70px rgba(0,0,0,.5)}
+[data-theme="dark"] .header.scrolled{background:rgba(12,13,16,.88)}
+@keyframes revUp{from{transform:translateY(32px)}to{transform:translateY(0)}}
+html.reveal-armed .reveal{opacity:0;transform:translateY(32px)}
+html.reveal-armed .reveal.visible{animation:revUp .7s cubic-bezier(.2,.7,.3,1) forwards;opacity:1}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+
+/* HERO */
+.hero-eco{background:linear-gradient(160deg,#1C2637,#232F40);color:#fff;position:relative;overflow:hidden;padding-top:clamp(72px,10vw,120px);padding-bottom:clamp(72px,10vw,120px)}
+.hero-eco::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at 15% 50%,rgba(232,89,12,.09),transparent),radial-gradient(ellipse 50% 70% at 88% 15%,rgba(44,80,140,.12),transparent);pointer-events:none}
+.hero-eco::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
+.hero-eco .wrap{position:relative;z-index:1}
+.hero-eco .eyebrow{color:#FF8A4C}
+.hero-eco .eyebrow::before{background:#FF8A4C}
+.hero-eco h1{font-size:clamp(34px,5vw,62px);letter-spacing:-.03em;color:#fff;margin-top:18px}
+.hero-eco h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:#FF8A4C}
+.hero-eco-lede{margin-top:18px;font-size:clamp(15px,1.7vw,18px);color:rgba(255,255,255,.6);max-width:520px;line-height:1.65}
+
+/* FILTER BAR */
+.filter-bar{position:sticky;top:78px;z-index:900;background:rgba(251,250,248,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:0}
+[data-theme="dark"] .filter-bar{background:rgba(15,16,20,.9)}
+.filter-inner{display:flex;align-items:center;gap:8px;padding:14px 0;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.filter-inner::-webkit-scrollbar{display:none}
+.filter-btn{font-family:var(--display);font-size:13.5px;font-weight:600;padding:8px 18px;border-radius:999px;border:1.5px solid var(--line);color:var(--ink-soft);background:transparent;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.filter-btn:hover{border-color:var(--ink);color:var(--ink)}
+.filter-btn.active{background:var(--orange);color:#fff;border-color:var(--orange)}
+.filter-count{font-size:11px;font-weight:500;opacity:.7;margin-left:2px}
+
+/* ARTICLES SECTION */
+.articles-section{background:var(--surface-2)}
+[data-theme="dark"] .articles-section{background:var(--bg)}
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(18px,2.5vw,28px)}
+.art-card{background:var(--surface);border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s;display:flex;flex-direction:column}
+.art-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.art-card-img{height:200px;overflow:hidden;flex-shrink:0;background:var(--surface-2)}
+.art-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.art-card:hover .art-card-img img{transform:scale(1.04)}
+.art-card-body{padding:24px 24px 28px;flex:1;display:flex;flex-direction:column}
+.art-subject{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.art-title{font-family:var(--display);font-size:clamp(15px,1.8vw,18px);font-weight:700;line-height:1.2;letter-spacing:-.015em;color:var(--ink);margin-bottom:12px;flex:1}
+.art-meta{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line-soft)}
+.art-date{font-size:13px;color:var(--muted)}
+.art-extras{display:flex;gap:6px;margin-left:auto}
+.art-extra-icon{width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+/* EMPTY STATE */
+.art-empty{grid-column:1/-1;text-align:center;padding:72px 24px}
+.art-empty-icon{width:64px;height:64px;border-radius:20px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--muted)}
+.art-empty h3{font-size:18px;margin-bottom:8px}
+.art-empty p{font-size:14.5px;color:var(--ink-soft)}
+
+/* MODAL */
+.modal-wrap{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-wrap.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);cursor:pointer}
+.modal-panel{position:relative;z-index:1;background:var(--surface);border-radius:var(--r-xl);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.3);transform:translateY(24px) scale(.97);transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.modal-wrap.open .modal-panel{transform:none}
+.modal-img{width:100%;height:clamp(180px,35vw,300px);object-fit:cover;display:block;flex-shrink:0}
+.modal-img-placeholder{width:100%;height:clamp(120px,20vw,200px);background:var(--surface-2)}
+.modal-body{padding:clamp(24px,3vw,36px)}
+.modal-subject{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:12px}
+.modal-title{font-size:clamp(20px,3vw,28px);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.modal-date{font-size:14px;color:var(--muted);display:block;margin-bottom:24px}
+.modal-actions{display:flex;gap:12px;flex-wrap:wrap}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:999px;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;border:none;font-size:18px;line-height:1;z-index:2;transition:background .2s}
+.modal-close:hover{background:rgba(0,0,0,.55)}
+
+/* FOOTER */
+.footer{background:var(--graphite);color:rgba(255,255,255,.85);padding-top:72px}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--graphite-line)}
+.footer-tagline{font-size:14px;color:rgba(255,255,255,.45);line-height:1.6;max-width:260px;margin-bottom:24px}
+.footer-col-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px;margin-top:-10px}
+.footer-socials{display:flex;gap:10px}
+.footer-social{width:38px;height:38px;border-radius:10px;border:1px solid var(--graphite-line);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:background .2s,color .2s,border-color .2s}
+.footer-social:hover{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)}
+.footer-col h5{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.footer-col ul li a{font-size:14.5px;color:rgba(255,255,255,.65);transition:color .2s}
+.footer-col ul li a:hover{color:#fff}
+.footer-tce-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.footer-tce-cols h6{font-family:var(--display);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#FF8A4C;margin-bottom:12px;font-weight:700}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:13px;color:rgba(255,255,255,.3);flex-wrap:wrap;gap:12px}
+
+@media(max-width:640px){
+  .nav-links,.nav-cta{display:none}.menu-toggle{display:flex}
+  .footer-top{grid-template-columns:1fr}
+  .articles-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+
+<header class="header" id="top">
+  <nav class="nav wrap">
+    <a class="brand" href="index.html" aria-label="Ecoplan">
+      <img id="brandLogo" src="assets/logo/Logo_Ecoplan.png" alt="Ecoplan" height="36" />
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="clientes.html">Clientes</a>
+      <a href="index.html#familia">Família Ecoplan</a>
+      <a href="index.html#contato">Contato</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+  </nav>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Início</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="clientes.html">Clientes</a>
+  <a href="index.html#familia">Família Ecoplan</a>
+  <a href="index.html#contato">Contato</a>
+  <div class="mobile-theme-row">
+    <span>Tema</span>
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Alternar tema">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+  </div>
+  <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+</nav>
+
+<div class="filter-bar" id="filterBar">
+  <div class="wrap">
+    <div class="filter-inner" id="filterInner">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+    </div>
+  </div>
+</div>
+
+<section class="articles-section section">
+  <div class="wrap">
+    <div class="articles-grid" id="articlesGrid">
+      <div class="art-empty">
+        <div class="art-empty-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3>Nenhum artigo publicado</h3>
+        <p>Os artigos publicados na Eco Administração aparecerão aqui.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-wrap" id="modalWrap" role="dialog" aria-modal="true" aria-label="Artigo">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-panel" id="modalPanel">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img id="modalImg" class="modal-img" src="" alt="" />
+    <div class="modal-body">
+      <span class="modal-subject" id="modalSubject"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <time class="modal-date" id="modalDate"></time>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-col">
+        <img class="footer-logo" src="assets/logo/Logo_Ecoplan_Dark.png" alt="Ecoplan" height="32" />
+        <p class="footer-tagline">Contabilidade pública com excelência técnica, desde 1982.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="footer-social" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" class="footer-social" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Links Úteis</h5>
+        <p class="footer-col-sub">Acesso rápido</p>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="sobre.html">Sobre a Ecoplan</a></li>
+          <li><a href="clientes.html">Clientes</a></li>
+          <li><a href="index.html#familia">Família Ecoplan</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+          <li><a href="area-do-cliente.html">Área do Cliente</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <p class="footer-col-sub">Portais oficiais</p>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>Paraíba</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PB</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAP</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SIAI</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>Pernambuco</h6>
+            <ul>
+              <li><a href="#" target="_blank" rel="noopener">TCE-PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">SAGRES PE</a></li>
+              <li><a href="#" target="_blank" rel="noopener">e-Sfinge</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Ecoplan Contabilidade Pública. Todos os direitos reservados.</span>
+      <span>Fundada em 1982 · Cajazeiras, PB</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+var STORAGE_KEY = 'ecoplan-artigos';
+var curFilter = 'all';
+var allArticles = [];
+
+/* THEME */
+var logo = document.getElementById('brandLogo');
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  if (logo) logo.src = t === 'dark' ? "assets/logo/Logo_Ecoplan_Dark.png" : "assets/logo/Logo_Ecoplan.png";
+}
+var st = localStorage.getItem('ecoplan-theme');
+if (st && logo) logo.src = st === 'dark' ? "assets/logo/Logo_Ecoplan_Dark.png" : "assets/logo/Logo_Ecoplan.png";
+document.querySelectorAll('.theme-toggle').forEach(function(b) {
+  b.addEventListener('click', function() {
+    var n = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark';
+    applyTheme(n); localStorage.setItem('ecoplan-theme', n);
+  });
+});
+
+/* MENU */
+var menuToggle = document.getElementById('menuToggle');
+var mobileMenu = document.getElementById('mobileMenu');
+if (menuToggle && mobileMenu) {
+  menuToggle.addEventListener('click', function() {
+    document.body.classList.toggle('menu-open');
+    menuToggle.setAttribute('aria-expanded', document.body.classList.contains('menu-open'));
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() { document.body.classList.remove('menu-open'); menuToggle.setAttribute('aria-expanded','false'); });
+  });
+}
+
+/* HEADER SCROLL */
+var header = document.querySelector('.header');
+window.addEventListener('scroll', function() { if (header) header.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+
+/* REVEAL */
+if (document.documentElement.classList.contains('reveal-armed')) {
+  var obs = new IntersectionObserver(function(es) { es.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+}
+
+/* ARTICLES */
+function getArticles() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch(e) { return []; }
+}
+
+function fmtDate(s) {
+  try { var d = new Date(s + 'T12:00:00'); return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }); }
+  catch(e) { return s; }
+}
+
+function buildFilterBar(arts) {
+  var subjects = [];
+  arts.forEach(function(a) { if (subjects.indexOf(a.subject) === -1) subjects.push(a.subject); });
+  var inner = document.getElementById('filterInner');
+  var allBtn = '<button class="filter-btn'+(curFilter==='all'?' active':'')+'" data-filter="all">Todos</button>';
+  var subjBtns = subjects.map(function(s) {
+    return '<button class="filter-btn'+(curFilter===s?' active':'')+'" data-filter="'+esc(s)+'">'+esc(s)+'</button>';
+  }).join('');
+  inner.innerHTML = allBtn + subjBtns;
+  inner.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      curFilter = this.getAttribute('data-filter');
+      buildFilterBar(allArticles);
+      renderArticles();
+    });
+  });
+}
+
+function renderArticles() {
+  var filtered = curFilter === 'all' ? allArticles : allArticles.filter(function(a){ return a.subject === curFilter; });
+  var grid = document.getElementById('articlesGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="art-empty"><div class="art-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3>Nenhum artigo encontrado</h3><p>Não há artigos nessa categoria ainda.</p></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(function(a) {
+    var extras = '';
+    if (a.file) extras += '<span class="art-extra-icon" title="Arquivo disponível"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>';
+    if (a.link) extras += '<span class="art-extra-icon" title="Link externo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>';
+    return '<article class="art-card" data-id="'+a.id+'" tabindex="0" role="button" aria-label="Abrir artigo: '+esc(a.title)+'">' +
+      '<div class="art-card-img"><img src="'+a.image+'" alt="'+esc(a.title)+'" loading="lazy" /></div>' +
+      '<div class="art-card-body">' +
+        '<div class="art-subject">'+esc(a.subject)+'</div>' +
+        '<h3 class="art-title">'+esc(a.title)+'</h3>' +
+        '<div class="art-meta"><span class="art-date">'+fmtDate(a.date)+'</span><div class="art-extras">'+extras+'</div></div>' +
+      '</div></article>';
+  }).join('');
+  grid.querySelectorAll('.art-card').forEach(function(card) {
+    function open() { openModal(card.getAttribute('data-id')); }
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') open(); });
+  });
+}
+
+function loadPage() {
+  allArticles = getArticles();
+  buildFilterBar(allArticles);
+  renderArticles();
+}
+
+/* MODAL */
+function openModal(id) {
+  var a = allArticles.find(function(x){ return x.id === id; });
+  if (!a) return;
+  document.getElementById('modalImg').src = a.image;
+  document.getElementById('modalImg').alt = a.title;
+  document.getElementById('modalSubject').textContent = a.subject;
+  document.getElementById('modalTitle').textContent = a.title;
+  document.getElementById('modalDate').textContent = fmtDate(a.date);
+  var actions = '';
+  if (a.file && a.fileName) {
+    actions += '<a href="'+a.file+'" download="'+esc(a.fileName)+'" class="btn btn-ghost" style="font-size:14px;padding:11px 20px">' +
+      '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+      esc(a.fileName) + '</a>';
+  }
+  if (a.link) {
+    actions += '<a href="'+esc(a.link)+'" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:14px;padding:11px 20px">' +
+      'Acessar link <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>';
+  }
+  document.getElementById('modalActions').innerHTML = actions;
+  var wrap = document.getElementById('modalWrap');
+  wrap.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modalClose').focus();
+}
+
+function closeModal() {
+  document.getElementById('modalWrap').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+loadPage();
+
+/* Refresh articles when tab regains focus (in case admin published while this tab was open) */
+window.addEventListener('focus', loadPage);
+</script>
+</body>
+</html>

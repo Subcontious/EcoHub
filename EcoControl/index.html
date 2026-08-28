@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoControl — Controle Financeiro Municipal | Ecoplan</title>
+<meta name="description" content="EcoControl — acompanhamento em tempo real de empenhos, receitas e despesas municipais." />
+<meta name="theme-color" content="#1B1D22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+:root{
+  --bg:#FBFAF8;--surface:#FFFFFF;--surface-2:#F5F3EF;
+  --ink:#16181D;--ink-soft:#494E58;--muted:#878D98;
+  --line:#E8E5DF;--line-soft:#F0EDE7;
+  --orange:#E8590C;--orange-deep:#C84A08;--orange-tint:#FCEFE6;
+  --graphite:#1A1C21;--graphite-line:rgba(255,255,255,.10);
+  --blue:#1E4282;--blue-tint:#EAF0FB;
+  --shadow-sm:0 1px 2px rgba(20,22,28,.04),0 2px 8px rgba(20,22,28,.05);
+  --shadow-md:0 4px 12px rgba(20,22,28,.06),0 16px 40px rgba(20,22,28,.08);
+  --r-sm:10px;--r-md:16px;--r-lg:24px;--r-xl:32px;
+  --maxw:1200px;--pad:clamp(20px,5vw,64px);
+  --sans:'Hanken Grotesk',-apple-system,sans-serif;
+  --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.02em}
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--orange);display:inline-block}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;padding:13px 24px;border-radius:999px;transition:transform .25s,box-shadow .25s,background .25s}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 18px rgba(232,89,12,.28)}
+.btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px)}
+[data-theme="dark"]{--bg:#0F1014;--surface:#1A1C22;--surface-2:#22252D;--ink:#F0EDE8;--ink-soft:#9BA2B0;--muted:#60656F;--line:#2A2D36;--line-soft:#1E2128;--orange-tint:rgba(232,89,12,.14);--blue-tint:rgba(30,66,130,.22)}
+
+/* HEADER */
+.header{background:linear-gradient(160deg,#152B52,#1E4282);color:#fff;position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:30px 30px;pointer-events:none}
+.header-nav{display:flex;align-items:center;height:76px;position:relative;z-index:1}
+.header-back{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:14px;font-weight:600;color:rgba(255,255,255,.8);transition:color .2s}
+.header-back:hover{color:#fff}
+.header-hero{padding:clamp(48px,7vw,88px) 0 clamp(56px,8vw,96px);position:relative;z-index:1}
+.header-hero h1{font-size:clamp(32px,4.5vw,50px);color:#fff;max-width:640px}
+.header-hero p{margin-top:16px;font-size:clamp(15px,1.6vw,17px);color:rgba(255,255,255,.72);max-width:540px;line-height:1.65}
+.header-eyebrow{color:#FF8A4C}
+.header-eyebrow::before{background:#FF8A4C}
+
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(32px,5vw,48px);position:relative;z-index:1}
+.kpi-tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);padding:20px 22px;backdrop-filter:blur(6px)}
+.kpi-num{font-family:var(--display);font-size:clamp(22px,2.6vw,30px);font-weight:800;color:#fff;letter-spacing:-.02em}
+.kpi-label{font-size:12.5px;color:rgba(255,255,255,.62);margin-top:4px}
+
+/* SECTION */
+.section{padding-block:clamp(64px,9vw,104px)}
+.section-head{text-align:center;max-width:600px;margin:0 auto 44px}
+.section-head p{margin-top:12px;color:var(--ink-soft);font-size:15.5px;line-height:1.65}
+
+/* MUNICIPIOS GRID */
+.mun-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.mun-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
+.mun-card.active{cursor:pointer}
+.mun-card.active:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:var(--orange)}
+.mun-card.soon{opacity:.6}
+.mun-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:14px}
+.mun-status.on{background:#E8F7EF;color:#1C8A4C}
+.mun-status.off{background:var(--line-soft);color:var(--muted)}
+[data-theme="dark"] .mun-status.on{background:rgba(28,138,76,.18)}
+.mun-status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+.mun-name{font-family:var(--display);font-size:18px;font-weight:800;margin-bottom:6px}
+.mun-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px}
+.mun-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:13.5px;font-weight:600;color:var(--orange)}
+.mun-card.soon .mun-link{color:var(--muted)}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat-card{padding:8px}
+.feat-ic{width:44px;height:44px;border-radius:12px;background:var(--blue-tint);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-card h3{font-size:16px;margin-bottom:8px}
+.feat-card p{font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* FOOTER */
+.footer{background:var(--graphite);color:rgba(255,255,255,.85);padding:48px 0 28px;text-align:center}
+.footer-back2{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:14px;font-weight:600;color:rgba(255,255,255,.7);margin-top:8px;transition:color .2s}
+.footer-back2:hover{color:#fff}
+.footer-bottom{font-size:13px;color:rgba(255,255,255,.3);margin-top:28px}
+
+@media(max-width:860px){
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .mun-grid,.feat-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .kpi-row,.mun-grid,.feat-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header-nav">
+    <a class="header-back" href="../EcoplanMain/area-do-cliente.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Voltar para Área do Cliente
+    </a>
+  </div>
+  <div class="wrap header-hero">
+    <span class="eyebrow header-eyebrow">EcoControl</span>
+    <h1>Controle financeiro municipal, em tempo real</h1>
+    <p>Empenhos, receitas e despesas de cada município acompanhados período a período, com relatórios comparativos prontos para prestação de contas.</p>
+
+    <div class="kpi-row">
+      <div class="kpi-tile">
+        <div class="kpi-num">3</div>
+        <div class="kpi-label">Municípios ativos</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-num">2023–2026</div>
+        <div class="kpi-label">Período coberto</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-num">R$ 42,6M</div>
+        <div class="kpi-label">Empenhos acompanhados*</div>
+      </div>
+      <div class="kpi-tile">
+        <div class="kpi-num">Mensal</div>
+        <div class="kpi-label">Atualização dos dados</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Municípios</span>
+      <h2 style="margin-top:16px;font-size:clamp(24px,3vw,32px)">Relatórios por município</h2>
+      <p>Municípios já com EcoControl ativo — os demais entram conforme a implantação avança.</p>
+    </div>
+
+    <div class="mun-grid">
+      <a class="mun-card active" href="ecocontrolbonito.html">
+        <span class="mun-status on"><span class="mun-status-dot"></span>Ativo</span>
+        <div class="mun-name">Bonito de Santa Fé</div>
+        <div class="mun-desc">Empenhos, receitas e quadro de servidores atualizados mensalmente.</div>
+        <span class="mun-link">Ver relatório
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <a class="mun-card active" href="ecocontrolcurraldecima.html">
+        <span class="mun-status on"><span class="mun-status-dot"></span>Ativo</span>
+        <div class="mun-name">Curral de Cima</div>
+        <div class="mun-desc">Empenhos, receitas e quadro de servidores atualizados mensalmente.</div>
+        <span class="mun-link">Ver relatório
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <a class="mun-card active" href="ecocontrolsjp.html">
+        <span class="mun-status on"><span class="mun-status-dot"></span>Ativo</span>
+        <div class="mun-name">São José de Princesa</div>
+        <div class="mun-desc">Empenhos, receitas e quadro de servidores atualizados mensalmente.</div>
+        <span class="mun-link">Ver relatório
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <div class="mun-card soon">
+        <span class="mun-status off"><span class="mun-status-dot"></span>Em implantação</span>
+        <div class="mun-name">Brejinho</div>
+        <div class="mun-desc">Integração dos dados financeiros em andamento.</div>
+        <span class="mun-link">Em breve</span>
+      </div>
+
+      <div class="mun-card soon">
+        <span class="mun-status off"><span class="mun-status-dot"></span>Em implantação</span>
+        <div class="mun-name">Catingueira</div>
+        <div class="mun-desc">Integração dos dados financeiros em andamento.</div>
+        <span class="mun-link">Em breve</span>
+      </div>
+
+      <div class="mun-card soon">
+        <span class="mun-status off"><span class="mun-status-dot"></span>Em implantação</span>
+        <div class="mun-name">Itaporanga</div>
+        <div class="mun-desc">Integração dos dados financeiros em andamento.</div>
+        <span class="mun-link">Em breve</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--surface-2);padding-top:clamp(48px,7vw,80px);padding-bottom:clamp(48px,7vw,80px)">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Como funciona</span>
+      <h2 style="margin-top:16px;font-size:clamp(24px,3vw,32px)">O que cada relatório traz</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-4"/></svg>
+        </div>
+        <h3>Empenhos e despesas</h3>
+        <p>Consolidado mensal e anual, comparável entre exercícios (2023 a 2026).</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <h3>Receitas em tempo real</h3>
+        <p>Arrecadação acompanhada período a período, com histórico de disponibilidade.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        </div>
+        <h3>Quadro de servidores</h3>
+        <p>Disponibilidade e lotação por secretaria, atualizada junto com os demais dados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <img src="../EcoplanMain/assets/logo/Logo_Ecoplan_Dark.png" alt="Ecoplan" height="26" style="margin:0 auto" />
+    <a class="footer-back2" href="../EcoplanMain/area-do-cliente.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Voltar para Área do Cliente
+    </a>
+    <div class="footer-bottom">
+      © 2025 Ecoplan Contabilidade Pública.
+      <span style="opacity:.7">*Números desta página são ilustrativos.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

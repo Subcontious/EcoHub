@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/EcoplanMain/index.html" },
+    { "source": "/sobre", "destination": "/EcoplanMain/sobre.html" },
+    { "source": "/clientes", "destination": "/EcoplanMain/clientes.html" },
+    { "source": "/area-do-cliente", "destination": "/EcoplanMain/area-do-cliente.html" },
+    { "source": "/eco-cliente", "destination": "/EcoplanMain/eco-cliente.html" },
+    { "source": "/eco-administracao", "destination": "/EcoplanMain/eco-administracao.html" },
+    { "source": "/ecoadmin", "destination": "/EcoplanMain/ecoadmin.html" }
+  ]
+}

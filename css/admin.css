@@ -16,6 +16,41 @@
   padding-top: 70px;
 }
 
+.admin-loading-overlay {
+  position: fixed;
+  inset: 70px 0 0 0;
+  z-index: var(--z-fixed);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+
+  background-color: var(--color-bg);
+  color: var(--color-text-soft);
+  font-size: var(--font-size-sm);
+}
+
+.admin-loading-overlay[hidden] {
+  display: none;
+}
+
+.admin-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-line);
+  border-top-color: var(--color-orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-loading-spinner {
+    animation: none;
+  }
+}
+
 .admin-sidebar {
   position: fixed;
   left: 0;
@@ -191,6 +226,8 @@
   background-color: var(--color-orange-tint);
   color: var(--color-orange);
   font-weight: 600;
+  /* Barra de destaque à esquerda — mais "assinatura" que um tint plano */
+  box-shadow: inset 3px 0 0 var(--color-orange);
 }
 
 .sidebar-link:focus-visible {
@@ -618,7 +655,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background-color: rgba(232, 89, 12, 0.14);
+  background-color: rgba(232, 89, 12, 0.10);
   color: var(--color-orange);
 }
 

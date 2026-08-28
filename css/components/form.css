@@ -20,6 +20,51 @@
 }
 
 /* ========================================
+   CAMPO DE SENHA (com botão de mostrar/ocultar)
+   ======================================== */
+
+.password-input-group {
+  position: relative;
+}
+
+.password-input-group .form-input {
+  padding-right: 44px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.password-toggle-btn:hover {
+  background-color: var(--color-line-soft, rgba(255,255,255,.06));
+  color: var(--color-orange);
+}
+
+.password-toggle-btn:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 2px;
+}
+
+.password-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ========================================
    INPUTS E SELECTS
    ======================================== */
 

@@ -17,6 +17,10 @@
   --color-orange-light: #F07D3A;
   --color-orange-tint: rgba(232, 89, 12, 0.08);
   --color-orange-tint-hover: rgba(232, 89, 12, 0.12);
+  /* Par usado só em preenchimentos sólidos com texto branco em cima
+     (botões, badges) — --color-orange puro falha contraste WCAG AA
+     (~3.6:1) com texto branco; este par fica acima de 4.5:1. */
+  --color-orange-btn-deep: #A63A06;
   
   /* Azul Institucional - Links e informações */
   --color-blue: #0066CC;

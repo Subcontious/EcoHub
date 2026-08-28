@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clientes Atendidos — Ecoplan Contabilidade Pública</title>
+<meta name="description" content="Conheça os municípios e órgãos públicos que confiam na Ecoplan há mais de 40 anos — prefeituras, autarquias e fundos municipais da Paraíba e Pernambuco." />
+<meta name="theme-color" content="#1B1D22" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@1,18..72,400;1,18..72,500&display=swap" rel="stylesheet" />
+<script>
+try{if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.className+=' reveal-armed';}}catch(e){}
+try{var _t=localStorage.getItem('ecoplan-theme');if(_t){document.documentElement.setAttribute('data-theme',_t);}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}
+</script>
+<style>
+:root{
+  --bg:#FBFAF8; --surface:#FFFFFF; --surface-2:#F5F3EF;
+  --ink:#16181D; --ink-soft:#494E58; --muted:#878D98;
+  --line:#E8E5DF; --line-soft:#F0EDE7;
+  --orange:#E8590C; --orange-deep:#C84A08; --orange-tint:#FCEFE6;
+  --graphite:#1A1C21; --graphite-2:#24272E; --graphite-line:rgba(255,255,255,.10);
+  --shadow-sm:0 1px 2px rgba(20,22,28,.04),0 2px 8px rgba(20,22,28,.05);
+  --shadow-md:0 4px 12px rgba(20,22,28,.06),0 16px 40px rgba(20,22,28,.08);
+  --shadow-lg:0 8px 24px rgba(20,22,28,.08),0 30px 70px rgba(20,22,28,.12);
+  --r-sm:10px;--r-md:16px;--r-lg:24px;--r-xl:32px;
+  --maxw:1200px;--pad:clamp(20px,5vw,64px);
+  --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:var(--ink)}
+::selection{background:var(--orange);color:#fff}
+:focus-visible{outline:2.5px solid var(--orange);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:0 0 10px 0;z-index:2000}
+.skip:focus{left:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--orange);display:inline-block}
+.eyebrow.center::before{display:none}
+.section{padding-block:clamp(72px,10vw,128px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15.5px;padding:15px 26px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,background .25s,color .25s;white-space:nowrap}
+.btn svg{transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 6px 18px rgba(232,89,12,.28)}
+.btn-primary:hover{background:var(--orange-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(232,89,12,.36)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-light:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.btn-outline-light{border:1.5px solid var(--graphite-line);color:#fff}
+.btn-outline-light:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+
+/* ===== HEADER ===== */
+.header{position:sticky;top:0;z-index:1000;transition:background .3s,box-shadow .3s,border-color .3s;border-bottom:1px solid transparent}
+.header.scrolled{background:rgba(251,250,248,.82);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;gap:32px;height:78px}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-links a{font-family:var(--display);font-weight:500;font-size:15px;color:var(--ink-soft);padding:9px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-links a.active{color:var(--orange);background:var(--orange-tint)}
+.nav-cta{display:flex;align-items:center;gap:14px;margin-left:8px}
+.nav-cta .btn{padding:12px 22px;font-size:14.5px}
+.nav-phone{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.nav-phone svg{color:var(--orange)}
+.menu-toggle{display:none;width:46px;height:46px;border-radius:11px;border:1.5px solid var(--line);align-items:center;justify-content:center;margin-left:auto}
+.menu-toggle span{position:relative;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.menu-toggle span::before{top:-6px}.menu-toggle span::after{top:6px}
+body.menu-open .menu-toggle span{background:transparent}
+body.menu-open .menu-toggle span::before{top:0;transform:rotate(45deg)}
+body.menu-open .menu-toggle span::after{top:0;transform:rotate(-45deg)}
+.mobile-menu{position:fixed;inset:78px 0 0;z-index:999;background:var(--bg);padding:24px var(--pad) 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+body.menu-open .mobile-menu{transform:translateX(0)}
+.mobile-menu a{font-family:var(--display);font-weight:600;font-size:21px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink)}
+.mobile-menu .btn{margin-top:24px;width:100%}
+.mobile-theme-row{display:flex;align-items:center;gap:12px;padding:16px 4px;border-bottom:1px solid var(--line-soft);color:var(--ink);font-family:var(--display);font-weight:600;font-size:18px}
+.mobile-theme-row .theme-toggle{width:36px;height:36px}
+
+/* ===== DARK MODE TOGGLE ===== */
+.theme-toggle{width:40px;height:40px;border-radius:10px;flex-shrink:0;border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);transition:border-color .2s,color .2s,background .2s}
+.theme-toggle:hover{border-color:var(--ink);color:var(--ink);background:var(--surface-2)}
+.theme-toggle .icon-sun{display:none}
+.theme-toggle .icon-moon{display:block}
+[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+[data-theme="dark"]{--bg:#0F1014;--surface:#1A1C22;--surface-2:#22252D;--ink:#F0EDE8;--ink-soft:#9BA2B0;--muted:#60656F;--line:#2A2D36;--line-soft:#1E2128;--orange-tint:rgba(232,89,12,.14);--shadow-sm:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.35);--shadow-md:0 4px 12px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.4);--shadow-lg:0 8px 24px rgba(0,0,0,.35),0 30px 70px rgba(0,0,0,.5)}
+[data-theme="dark"] .header.scrolled{background:rgba(12,13,16,.88)}
+[data-theme="dark"] .hero-clients{background:linear-gradient(160deg,#0C0E12,#16181E)}
+[data-theme="dark"] .clients-filter-bar{background:rgba(15,16,20,.9)}
+[data-theme="dark"] .regional{background:var(--graphite)}
+#clientes{background:var(--surface-2)}
+[data-theme="dark"] #clientes{background:var(--bg)}
+
+/* ===== HERO ===== */
+.hero-clients{
+  background:linear-gradient(160deg,#313131,#414141);
+  color:#fff;position:relative;overflow:hidden;
+  padding-top:clamp(80px,10vw,130px);padding-bottom:clamp(80px,10vw,130px);
+}
+.hero-clients::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 80px),
+             repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 80px);
+  pointer-events:none;
+}
+.hero-clients::after{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 80px),
+             repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 80px);
+  pointer-events:none;
+}
+.hero-clients .wrap{position:relative;z-index:1}
+.hero-clients .eyebrow{color:#FF8A4C}
+.hero-clients .eyebrow::before{background:#FF8A4C}
+.hero-clients h1{font-size:clamp(40px,6.5vw,80px);letter-spacing:-.03em;color:#fff;max-width:860px;margin-top:22px}
+.hero-clients h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:#FF8A4C}
+.hero-clients-lede{margin-top:24px;font-size:clamp(17px,2vw,20px);color:rgba(255,255,255,.68);max-width:580px;line-height:1.65}
+.hero-counters{
+  display:flex;flex-wrap:wrap;gap:0;
+  margin-top:64px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.hero-counter{
+  flex:1;min-width:160px;
+  padding:36px 0 0;
+  position:relative;
+}
+.hero-counter + .hero-counter{
+  padding-left:40px;
+  border-left:1px solid rgba(255,255,255,.12);
+  margin-left:40px;
+}
+.hero-counter b{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(42px,6vw,72px);
+  letter-spacing:-.03em;color:#fff;display:block;line-height:1;
+}
+.hero-counter b .cnt{color:var(--orange)}
+.hero-counter span{
+  display:block;margin-top:10px;
+  font-size:14px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);font-family:var(--display);font-weight:600;
+}
+.hero-badge-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+.hero-badge-item{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid rgba(255,255,255,.15);border-radius:999px;
+  padding:9px 18px;font-family:var(--display);font-weight:600;font-size:13px;
+  color:rgba(255,255,255,.75);backdrop-filter:blur(4px);background:rgba(255,255,255,.04);
+}
+.hero-badge-item svg{color:var(--orange)}
+
+/* ===== FILTER BAR ===== */
+.clients-filter-bar{
+  position:sticky;top:78px;z-index:900;
+  background:rgba(251,250,248,.94);backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);padding-block:14px;
+}
+.filter-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.filter-tabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
+.filter-tab{
+  font-family:var(--display);font-weight:600;font-size:14px;
+  padding:9px 22px;border-radius:999px;color:var(--ink-soft);
+  transition:color .25s,background .25s,box-shadow .25s;white-space:nowrap;
+}
+.filter-tab:hover{color:var(--ink)}
+.filter-tab.active{color:#fff;background:var(--orange);box-shadow:0 4px 12px rgba(232,89,12,.3)}
+.filter-count{
+  font-family:var(--display);font-size:13px;font-weight:600;color:var(--muted);
+}
+.filter-count span{color:var(--orange);font-weight:700}
+
+/* ===== SECTION LABEL ===== */
+.clients-section-label{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:36px;padding-bottom:24px;
+  border-bottom:1px solid var(--line);
+}
+.clients-section-label h2{font-size:clamp(22px,3vw,30px)}
+.clients-section-label .count-pill{
+  background:var(--orange-tint);color:var(--orange);
+  font-family:var(--display);font-weight:700;font-size:13px;
+  padding:5px 14px;border-radius:999px;
+}
+
+/* ===== PREF CARDS ===== */
+.pref-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:18px;
+}
+.pref-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px 20px 22px;text-align:center;
+  box-shadow:var(--shadow-sm);
+  transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,border-color .3s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.pref-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(180deg,transparent 50%,rgba(232,89,12,.03));
+  opacity:0;transition:opacity .3s;
+}
+.pref-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:rgba(232,89,12,.2)}
+.pref-card:hover::after{opacity:1}
+.pref-seal{
+  width:80px;height:80px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:18px;
+  color:#fff;margin:0 auto 18px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  position:relative;z-index:1;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s;
+}
+.seal-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;border-radius:50%;
+  padding:6px;background:#fff;display:block;
+}
+.seal-init{display:none;align-items:center;justify-content:center;width:100%;height:100%}
+.pref-seal.seal-err .seal-img{display:none}
+.pref-seal.seal-err .seal-init{display:flex}
+.pref-card:hover .pref-seal{transform:scale(1.08);box-shadow:0 14px 32px rgba(0,0,0,.24)}
+.pref-card h3{font-size:15px;font-weight:700;line-height:1.25;margin-bottom:10px;position:relative;z-index:1}
+.pref-card-footer{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1}
+.state-pill{
+  font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:.08em;
+  padding:4px 10px;border-radius:999px;
+}
+.state-pb{background:rgba(29,78,216,.1);color:#1D4ED8}
+.state-pe{background:rgba(5,150,105,.1);color:#059669}
+[data-theme="dark"] .state-pb{background:rgba(59,130,246,.15);color:#93C5FD}
+[data-theme="dark"] .state-pe{background:rgba(16,185,129,.15);color:#6EE7B7}
+.type-label{font-size:11.5px;color:var(--muted);font-family:var(--display);font-weight:500}
+
+/* ===== AUTARQUIA CARDS ===== */
+.aut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.aut-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:20px 22px;display:flex;align-items:flex-start;gap:16px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,border-color .3s;
+}
+.aut-card:hover{transform:translateX(6px);box-shadow:var(--shadow-md);border-color:rgba(232,89,12,.2)}
+.aut-ic{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:grid;place-items:center;color:#fff;
+  position:relative;overflow:hidden;
+  transition:transform .3s;
+}
+.aut-ic .seal-img{border-radius:10px;padding:3px}
+.aut-ic .seal-init{display:none;place-items:center;width:100%;height:100%}
+.aut-ic.seal-err .seal-img{display:none}
+.aut-ic.seal-err .seal-init{display:grid}
+.aut-card:hover .aut-ic{transform:scale(1.08)}
+.aut-body{flex:1;min-width:0}
+.aut-body b{font-family:var(--display);font-weight:700;font-size:14.5px;display:block;line-height:1.35;margin-bottom:6px}
+.aut-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.aut-type{font-family:var(--display);font-size:11.5px;font-weight:600;color:var(--muted)}
+.aut-acronym{font-family:var(--display);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;background:var(--surface-2);color:var(--ink-soft)}
+
+/* Category color variants */
+.ic-prev{background:linear-gradient(135deg,#1A4D8A,#2D5B9A)}
+.ic-saude{background:linear-gradient(135deg,#2D7D52,#3A9B67)}
+.ic-assist{background:linear-gradient(135deg,#7B3D9A,#9A52BA)}
+.ic-amb{background:linear-gradient(135deg,#2D7D7D,#3A9999)}
+.ic-cons{background:linear-gradient(135deg,var(--orange),var(--orange-deep))}
+.ic-outro{background:linear-gradient(135deg,#4A5568,#636E82)}
+
+/* ===== REGIONAL PRESENCE ===== */
+.regional{background:#414141;color:#fff;position:relative;overflow:hidden}
+.regional-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);margin-top:56px;position:relative;z-index:1}
+.regional-card{
+  border:1px solid rgba(255,255,255,.1);border-radius:var(--r-xl);
+  padding:clamp(32px,4vw,52px);position:relative;overflow:hidden;
+}
+.regional-card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255, 0, 0, 0.025)}
+.regional-card-flag{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:28px;
+}
+.regional-card-flag .flag-dot{width:10px;height:10px;border-radius:50%;background:var(--orange)}
+.regional-card h3{font-size:clamp(26px,4vw,42px);color:#fff;line-height:1}
+.regional-card-sub{margin-top:8px;font-size:15px;color:rgba(255,255,255,.5)}
+.regional-stats{margin-top:36px;display:flex;flex-direction:column;gap:18px}
+.regional-stat-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.regional-stat-row:last-child{border-bottom:none}
+.regional-stat-row .label{font-size:14.5px;color:rgba(255,255,255,.6)}
+.regional-stat-row .val{font-family:var(--display);font-weight:700;font-size:16px;color:#fff}
+.regional-card-accent{
+  position:absolute;bottom:-30px;right:-30px;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(232,89,12,.08);
+  pointer-events:none;
+}
+
+/* ===== CTA ===== */
+.cta-band{padding-block:clamp(72px,9vw,110px)}
+.cta-box{background:linear-gradient(135deg,var(--orange),var(--orange-deep));border-radius:var(--r-xl);padding:clamp(40px,6vw,72px);text-align:center;position:relative;overflow:hidden;color:#fff;box-shadow:0 30px 70px rgba(232,89,12,.3)}
+.cta-box::before,.cta-box::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.1)}
+.cta-box::before{width:340px;height:340px;top:-140px;left:-100px}
+.cta-box::after{width:280px;height:280px;bottom:-130px;right:-80px}
+.cta-box .inner{position:relative;z-index:1}
+.cta-box .eyebrow{color:rgba(255,255,255,.85)}
+.cta-box .eyebrow::before{background:rgba(255,255,255,.85)}
+.cta-box h2{color:#fff;font-size:clamp(28px,4.2vw,50px);margin-top:18px}
+.cta-box p{color:rgba(255,255,255,.9);font-size:19px;margin-top:18px;max-width:560px;margin-inline:auto}
+.cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--graphite);color:rgba(255,255,255,.7);padding-top:clamp(64px,8vw,96px)}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1.4fr;gap:40px;padding-bottom:56px;border-bottom:1px solid var(--graphite-line)}
+.footer-col-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px;margin-top:-10px}
+.footer-tce-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.footer-tce-cols h6{font-family:var(--display);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#FF8A4C;margin-bottom:12px;font-weight:700}
+.footer-about{margin-top:22px;font-size:15px;color:rgba(255,255,255,.6);max-width:320px}
+.footer-social{display:flex;gap:12px;margin-top:24px}
+.footer-social a{width:42px;height:42px;border-radius:11px;border:1px solid var(--graphite-line);display:grid;place-items:center;color:#fff;transition:background .25s,transform .25s}
+.footer-social a:hover{background:var(--orange);border-color:var(--orange);transform:translateY(-3px)}
+.footer-col h5{font-family:var(--display);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:18px;font-weight:700}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.footer-col a{font-size:14.5px;color:rgba(255,255,255,.6);transition:color .2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-block:30px}
+.footer-bottom p{font-size:13.5px;color:rgba(255,255,255,.45)}
+.footer-bottom .verse{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,.5)}
+
+/* ===== REVEAL ===== */
+@keyframes revUp{from{transform:translateY(22px)}to{transform:translateY(0)}}
+.reveal-armed .reveal{animation:revUp .65s cubic-bezier(.2,.7,.3,1) both}
+.reveal-armed .reveal.d1{animation-delay:.08s}
+.reveal-armed .reveal.d2{animation-delay:.16s}
+.reveal-armed .reveal.d3{animation-delay:.24s}
+@media(prefers-reduced-motion:reduce){.reveal-armed .reveal{animation:none}html{scroll-behavior:auto}}
+
+/* ===== HIDDEN (filter) ===== */
+.client-hidden{display:none!important}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  .menu-toggle{display:flex}
+  .regional-grid{grid-template-columns:1fr}
+  .pref-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+}
+@media(max-width:600px){
+  body{font-size:16px}
+  .hero-counter + .hero-counter{padding-left:24px;margin-left:24px}
+  .aut-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  .filter-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Navegação principal">
+      <a class="brand" href="index.html" aria-label="Ecoplan — início">
+        <img id="brandLogo" src="assets/logo/Logo_Ecoplan.png" alt="Ecoplan" style="height:44px;width:auto;display:block;">
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Início</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="clientes.html" class="active">Clientes</a>
+        <a href="index.html#familia">Família Ecoplan</a>
+        <a href="index.html#contato">Contato</a>
+      </div>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro">
+          <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Início</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="clientes.html">Clientes</a>
+  <a href="index.html#familia">Família Ecoplan</a>
+  <a href="index.html#contato">Contato</a>
+  <a class="btn btn-primary" href="area-do-cliente.html">Área do Cliente</a>
+  <div class="mobile-theme-row">
+    <button class="theme-toggle theme-toggle-mobile" aria-label="Alternar modo escuro">
+      <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <span id="themeLabel">Modo escuro</span>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ===== HERO ===== -->
+<section class="hero-clients">
+  <div class="wrap">
+    <span class="eyebrow reveal">Nossa carteira de clientes</span>
+    <h1 class="reveal d1">Órgãos públicos que confiam <em>na Ecoplan</em> há décadas</h1>
+    <p class="hero-clients-lede reveal d2">Conheça os municípios e entidades que escolheram a Ecoplan como parceira estratégica, uma carteira construída sobre entrega, confiança e excelência técnica.</p>
+    <div class="hero-badge-row reveal d2">
+      <span class="hero-badge-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Paraíba
+      </span>
+      <span class="hero-badge-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pernambuco
+      </span>
+      <span class="hero-badge-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Desde 1982
+      </span>
+    </div>
+
+    <div class="hero-counters reveal d3">
+      <div class="hero-counter">
+        <b><span class="cnt" data-count="31">0</span></b>
+        <span>Órgãos atendidos</span>
+      </div>
+      <div class="hero-counter">
+        <b><span class="cnt" data-count="14">0</span></b>
+        <span>Prefeituras</span>
+      </div>
+      <div class="hero-counter">
+        <b><span class="cnt" data-count="17">0</span></b>
+        <span>Autarquias e fundos</span>
+      </div>
+      <div class="hero-counter">
+        <b><span class="cnt" data-count="2">0</span></b>
+        <span>Estados · PB e PE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTER BAR ===== -->
+<div class="clients-filter-bar" id="filterBar">
+  <div class="wrap">
+    <div class="filter-inner">
+      <div class="filter-tabs" role="tablist" aria-label="Filtrar clientes">
+        <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">Todos</button>
+        <button class="filter-tab" data-filter="pref" role="tab" aria-selected="false">Prefeituras</button>
+        <button class="filter-tab" data-filter="aut" role="tab" aria-selected="false">Autarquias</button>
+      </div>
+      <p class="filter-count" id="filterCount">Exibindo <span>31</span> clientes</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CLIENTS ===== -->
+<section class="section" id="clientes">
+  <div class="wrap">
+
+    <!-- PREFEITURAS -->
+    <div id="secPref" class="reveal" style="margin-bottom:72px">
+      <div class="clients-section-label">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <h2>Prefeituras Municipais</h2>
+        <span class="count-pill">14 municípios</span>
+      </div>
+      <div class="pref-grid">
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#C84A08,#E8590C)">
+            <img src="assets/municipios/Bonito_de_Santa_Fe.png" alt="Bonito de Santa Fé" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">BSF</span>
+          </div>
+          <h3>Bonito de Santa Fé</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#2D5B9A,#3A72C0)">
+            <img src="assets/municipios/Brejinho.png" alt="Brejinho" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">BRJ</span>
+          </div>
+          <h3>Brejinho</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pe">PE</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#2D7D52,#3A9967)">
+            <img src="assets/municipios/Cajazeirinhas.png" alt="Cajazeirinhas" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">CAJ</span>
+          </div>
+          <h3>Cajazeirinhas</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#8A6520,#B07D28)">
+            <img src="assets/municipios/Catingueira.png" alt="Catingueira" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">CTG</span>
+          </div>
+          <h3>Catingueira</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#1A6B8A,#2388AD)">
+            <img src="assets/municipios/curraldecima.jpg" alt="Curral de Cima" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">CDC</span>
+          </div>
+          <h3>Curral de Cima</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#7B3D9A,#9A52C0)">
+            <img src="assets/municipios/curral_velho.png" alt="Curral Velho" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">CVL</span>
+          </div>
+          <h3>Curral Velho</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#9A5C0A,#C07A12)">
+            <img src="assets/municipios/diamante.png" alt="Diamante" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">DIA</span>
+          </div>
+          <h3>Diamante</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#2D4D7A,#3A6399)">
+            <img src="assets/municipios/Igaracy.png" alt="Igaracy" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">IGA</span>
+          </div>
+          <h3>Igaracy</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#7A3520,#9A4428)">
+            <img src="assets/municipios/Itaporanga.png" alt="Itaporanga" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">ITP</span>
+          </div>
+          <h3>Itaporanga</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#2D7D7D,#3A9B9B)">
+            <img src="assets/municipios/Jacarau.jpg" alt="Jacaraú" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">JAC</span>
+          </div>
+          <h3>Jacaraú</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#4A7B2D,#5E9A38)">
+            <img src="assets/municipios/mari.jpg" alt="Mari" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">MAR</span>
+          </div>
+          <h3>Mari</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#9A2D5B,#C03872)">
+            <img src="assets/municipios/passagem.png" alt="Passagem" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">PAS</span>
+          </div>
+          <h3>Passagem</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#1A4D8A,#2362AD)">
+            <img src="assets/municipios/santa_rita.png" alt="Santa Rita" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">SRT</span>
+          </div>
+          <h3>Santa Rita</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+        <div class="pref-card" data-cat="pref">
+          <div class="pref-seal" style="background:linear-gradient(135deg,#5B4020,#7A5528)">
+            <img src="assets/municipios/sao_jose_de_princesa.png" alt="São José de Princesa" class="seal-img" onerror="this.closest('.pref-seal').classList.add('seal-err')">
+            <span class="seal-init">SJP</span>
+          </div>
+          <h3>São José de Princesa</h3>
+          <div class="pref-card-footer"><span class="state-pill state-pb">PB</span><span class="type-label">Prefeitura</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- AUTARQUIAS -->
+    <div id="secAut" class="reveal d1">
+      <div class="clients-section-label">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <h2>Autarquias e Fundos Municipais</h2>
+        <span class="count-pill">17 entidades</span>
+      </div>
+      <div class="aut-grid">
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-prev">
+            <img src="assets/municipios/Bonito_de_Santa_Fe.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Previdência Social de Bonito de Santa Fé</b>
+            <div class="aut-meta"><span class="aut-acronym">IPASB</span><span class="aut-type">Previdência · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-prev">
+            <img src="assets/municipios/Brejinho.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Previdência Social de Brejinho</b>
+            <div class="aut-meta"><span class="aut-type">Previdência · PE</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/Brejinho.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de Brejinho</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PE</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/Cajazeirinhas.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de Cajazeirinhas</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/curral_velho.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de Curral Velho</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-cons seal-err" aria-hidden="true">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Consórcio Intermunicipal de Saúde — Vale do Piancó</b>
+            <div class="aut-meta"><span class="aut-acronym">CISVAP</span><span class="aut-type">Consórcio · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-prev">
+            <img src="assets/municipios/Jacarau.jpg" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Previdência Social de Jacaraú</b>
+            <div class="aut-meta"><span class="aut-type">Previdência · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/mari.jpg" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de Mari</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/sao_bentinho.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de São Bentinho</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/sao_jose_de_princesa.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de São José de Princesa</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-assist">
+            <img src="assets/municipios/santa_rita.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Assistência Social de Santa Rita</b>
+            <div class="aut-meta"><span class="aut-acronym">FMAS</span><span class="aut-type">Assistência Social · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-amb">
+            <img src="assets/municipios/santa_rita.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12C12 12 7 9 7 5a5 5 0 0 1 10 0c0 4-5 7-5 7z"/><path d="M5.5 19.5C6.5 17.5 9 16 12 16s5.5 1.5 6.5 3.5"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Defesa e Desenvolvimento Ambiental de Santa Rita</b>
+            <div class="aut-meta"><span class="aut-type">Meio Ambiente · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-saude">
+            <img src="assets/municipios/santa_rita.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Fundo Municipal de Saúde de Santa Rita</b>
+            <div class="aut-meta"><span class="aut-acronym">FMS</span><span class="aut-type">Saúde · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-prev">
+            <img src="assets/municipios/santa_rita.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Previdência do Município de Santa Rita</b>
+            <div class="aut-meta"><span class="aut-type">Previdência · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-outro seal-err" aria-hidden="true">
+            <img src="assets/municipios/procon.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Defesa e Proteção do Consumidor</b>
+            <div class="aut-meta"><span class="aut-acronym">PROCON</span><span class="aut-type">Defesa do Consumidor · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-outro seal-err" aria-hidden="true">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Superintendência Executiva de Mobilidade Urbana</b>
+            <div class="aut-meta"><span class="aut-acronym">SEMOB</span><span class="aut-type">Mobilidade Urbana · PB</span></div>
+          </div>
+        </div>
+
+        <div class="aut-card" data-cat="aut">
+          <div class="aut-ic ic-prev">
+            <img src="assets/municipios/tuparetama.png" class="seal-img" alt="" onerror="this.closest('.aut-ic').classList.add('seal-err')">
+            <span class="seal-init"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          </div>
+          <div class="aut-body">
+            <b>Instituto de Previdência do Município de Tuparetama</b>
+            <div class="aut-meta"><span class="aut-type">Previdência · PE</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRESENÇA REGIONAL ===== -->
+<section class="regional section" id="presenca">
+  <div class="wrap">
+    <div style="position:relative;z-index:1;max-width:640px">
+      <span class="eyebrow">Presença no Nordeste</span>
+      <h2 style="color:#fff;font-size:clamp(28px,4.2vw,50px);margin-top:18px">Dois estados. Uma mesma excelência.</h2>
+      <p style="color:rgba(255,255,255,.6);font-size:17px;margin-top:18px;line-height:1.7">Da Paraíba a Pernambuco, levamos a mesma qualidade técnica, o mesmo compromisso com a legalidade e a mesma dedicação à gestão pública responsável.</p>
+    </div>
+    <div class="regional-grid">
+      <div class="regional-card reveal">
+        <div class="regional-card-flag">
+          <span class="flag-dot"></span>
+          Estado da Paraíba
+        </div>
+        <h3>Paraíba</h3>
+        <p class="regional-card-sub">Principal estado de atuação desde 1982</p>
+        <div class="regional-stats">
+          <div class="regional-stat-row">
+            <span class="label">Prefeituras atendidas</span>
+            <span class="val">13 municípios</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Fundos de Saúde</span>
+            <span class="val">8 fundos</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Institutos de Previdência</span>
+            <span class="val">4 institutos</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Outros órgãos</span>
+            <span class="val">3 entidades</span>
+          </div>
+        </div>
+        <div class="regional-card-accent" aria-hidden="true"></div>
+      </div>
+
+      <div class="regional-card reveal d1">
+        <div class="regional-card-flag">
+          <span class="flag-dot" style="background:#3A9967"></span>
+          Estado de Pernambuco
+        </div>
+        <h3>Pernambuco</h3>
+        <p class="regional-card-sub">Expansão com a mesma qualidade de sempre</p>
+        <div class="regional-stats">
+          <div class="regional-stat-row">
+            <span class="label">Prefeituras atendidas</span>
+            <span class="val">1 município</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Fundos de Saúde</span>
+            <span class="val">1 fundo</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Institutos de Previdência</span>
+            <span class="val">2 institutos</span>
+          </div>
+          <div class="regional-stat-row">
+            <span class="label">Total de órgãos</span>
+            <span class="val">4 entidades</span>
+          </div>
+        </div>
+        <div class="regional-card-accent" aria-hidden="true" style="background:rgba(58,153,103,.08)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-band">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <div class="inner">
+        <span class="eyebrow center">Seja um cliente Ecoplan</span>
+        <h2>Seu município merece a melhor assessoria contábil</h2>
+        <p>Junte-se às prefeituras e órgãos públicos que já confiam na Ecoplan para garantir eficiência, legalidade e tranquilidade na gestão pública.</p>
+        <div class="cta-actions">
+          <a class="btn btn-outline-light" href="#">Falar no WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" aria-label="Ecoplan — início">
+          <img src="assets/logo/Logo_Ecoplan_Dark.png" alt="Ecoplan" style="height:40px;width:auto;display:block;">
+        </a>
+        <p class="footer-about">Desde 1982, unindo a solidez da tradição com a inovação de quem projeta o futuro da gestão pública no Nordeste.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Links Úteis</h5>
+        <p class="footer-col-sub">Certidões e portais oficiais</p>
+        <ul>
+          <li><a href="#">CRF · FGTS</a></li>
+          <li><a href="#">CND · Pedido</a></li>
+          <li><a href="#">CND · Receita Federal</a></li>
+          <li><a href="#">CNPJ · Situação</a></li>
+          <li><a href="#">CNDT · Pedido</a></li>
+          <li><a href="#">CAUC · Regul. Siafi</a></li>
+          <li><a href="#">CND · Estadual</a></li>
+          <li><a href="#">CND · João Pessoa</a></li>
+          <li><a href="#">CNJ · Pedido</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Tribunais de Contas</h5>
+        <p class="footer-col-sub">Portais de transparência e gestão</p>
+        <div class="footer-tce-cols">
+          <div>
+            <h6>TCE-PB</h6>
+            <ul>
+              <li><a href="#">Portal do Gestor</a></li>
+              <li><a href="#">Sagres Cidadão</a></li>
+              <li><a href="#">Observatório Sagres</a></li>
+              <li><a href="#">Turmalina</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>TCE-PE</h6>
+            <ul>
+              <li><a href="#">Sagres</a></li>
+              <li><a href="#">Sagres Pessoal</a></li>
+              <li><a href="#">e-TCEPE</a></li>
+              <li><a href="#">Protocolo</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year">2026</span> Ecoplan Contabilidade Pública — desde 1982. Todos os direitos reservados.</p>
+      <p class="verse">"…minha rocha…" — Salmo 144:1</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Header scroll */
+  var header=document.querySelector('.header');
+  var onScroll=function(){header.classList.toggle('scrolled',window.scrollY>12);};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* Mobile menu */
+  var toggle=document.getElementById('menuToggle');
+  var menu=document.getElementById('mobileMenu');
+  toggle.addEventListener('click',function(){
+    var open=document.body.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded',open);
+    toggle.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){document.body.classList.remove('menu-open');toggle.setAttribute('aria-expanded',false);});
+  });
+
+  /* Dark mode */
+  var root=document.documentElement;
+  var brandLogo=document.getElementById('brandLogo');
+  var themeLabel=document.getElementById('themeLabel');
+  var applyTheme=function(dark){
+    if(brandLogo)brandLogo.src=dark?"assets/logo/Logo_Ecoplan_Dark.png":"assets/logo/Logo_Ecoplan.png";
+    if(themeLabel)themeLabel.textContent=dark?'Modo claro':'Modo escuro';
+  };
+  applyTheme(root.getAttribute('data-theme')==='dark');
+  document.querySelectorAll('#themeToggle,.theme-toggle-mobile').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var isDark=root.getAttribute('data-theme')==='dark';
+      root.setAttribute('data-theme',isDark?'light':'dark');
+      try{localStorage.setItem('ecoplan-theme',isDark?'light':'dark');}catch(e){}
+      applyTheme(!isDark);
+    });
+  });
+
+  /* Filter tabs */
+  var tabs=document.querySelectorAll('.filter-tab');
+  var allCards=document.querySelectorAll('[data-cat]');
+  var secPref=document.getElementById('secPref');
+  var secAut=document.getElementById('secAut');
+  var countEl=document.getElementById('filterCount').querySelector('span');
+
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      tabs.forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected',false);});
+      tab.classList.add('active');tab.setAttribute('aria-selected',true);
+      var f=tab.getAttribute('data-filter');
+      var visible=0;
+      allCards.forEach(function(c){
+        var show=f==='all'||c.getAttribute('data-cat')===f;
+        c.classList.toggle('client-hidden',!show);
+        if(show)visible++;
+      });
+      if(f==='all'){secPref.style.display='';secAut.style.display='';}
+      else if(f==='pref'){secPref.style.display='';secAut.style.display='none';}
+      else{secPref.style.display='none';secAut.style.display='';}
+      countEl.textContent=visible;
+    });
+  });
+
+  /* Animated counters */
+  var counted=false;
+  var animateCounts=function(){
+    if(counted)return;counted=true;
+    document.querySelectorAll('.cnt[data-count]').forEach(function(el){
+      var target=parseInt(el.getAttribute('data-count'));
+      var start=performance.now(),dur=1600;
+      var tick=function(now){
+        var p=Math.min((now-start)/dur,1);
+        var eased=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*eased);
+        if(p<1)requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  };
+  var heroSection=document.querySelector('.hero-clients');
+  if(heroSection&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)animateCounts();});},{threshold:.3});
+    io.observe(heroSection);
+  } else {animateCounts();}
+
+  document.getElementById('year').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

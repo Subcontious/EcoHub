@@ -7,7 +7,8 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   box-shadow: var(--shadow-sm);
 }
 
@@ -64,24 +65,36 @@
    CÉLULAS ESPECIAIS
    ======================================== */
 
-/* Células com status */
+/* Células com status
+   Texto colorido + fundo tintado (em vez de preenchimento sólido com
+   texto branco) — mesmo padrão do .badge-master, e o texto verde em
+   cima do fundo escuro passa WCAG AA (~6.6:1); branco sobre
+   --color-success sozinho ficava em ~2.5:1. */
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  
+
   padding: 4px 12px;
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  
+
+  background-color: rgba(16, 185, 129, 0.14);
+  color: var(--color-success);
+}
+
+.status-badge .status-dot {
   background-color: var(--color-success);
-  color: white;
 }
 
 .status-badge.inactive {
   background-color: var(--color-line);
   color: var(--color-text-muted);
+}
+
+.status-badge.inactive .status-dot {
+  background-color: var(--color-text-muted);
 }
 
 .status-dot {
