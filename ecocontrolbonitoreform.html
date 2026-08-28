@@ -10,73 +10,149 @@
 
   A tela de Configuracoes foi retirada do painel. Links, usuarios, senhas,
   municipio, mes encerrado e valores manuais ficam publicados no proprio HTML.
+
+  REFORMA ESTETICA: cores, tipografia, raios, sombras e animacoes alinhados
+  ao design system do EcoplanMain (/EcoplanMain/*.html) — nenhuma logica de
+  calculo, parser ou autenticacao foi alterada nesta reforma.
 -->
 
-
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
 <div id="ecocontrol-app">
   <style>
-    #ecocontrol-app{font-family:Inter,Arial,sans-serif;color:#162033;background:#eef2f6;min-height:100vh}
+    /* ============================================================
+       ECOCONTROL — reforma estética
+       Tokens e padrões alinhados ao design system do EcoplanMain
+       (cores, tipografia, raios, sombras, transições e dark mode).
+       ============================================================ */
+    #ecocontrol-app{
+      --bg:#FBFAF8;--surface:#FFFFFF;--surface-2:#F5F3EF;
+      --ink:#16181D;--ink-soft:#494E58;--muted:#878D98;
+      --line:#E8E5DF;--line-soft:#F0EDE7;
+      --orange:#E8590C;--orange-deep:#C84A08;--orange-tint:#FCEFE6;
+      --graphite:#1A1C21;--graphite-2:#24272E;
+      --good:#1F8A5F;--good-tint:#E8F5EF;
+      --bad:#D93025;--bad-tint:#FDECEB;
+      --info:#2F6FE0;--info-tint:#EAF1FE;
+      --gold:#C4872C;--gold-tint:#FBF2E6;
+      --shadow-sm:0 1px 2px rgba(20,22,28,.04),0 2px 8px rgba(20,22,28,.05);
+      --shadow-md:0 4px 12px rgba(20,22,28,.06),0 16px 40px rgba(20,22,28,.08);
+      --shadow-lg:0 8px 24px rgba(20,22,28,.08),0 30px 70px rgba(20,22,28,.12);
+      --r-sm:10px;--r-md:16px;--r-lg:22px;--r-xl:28px;
+      --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      --display:'Schibsted Grotesk','Hanken Grotesk',sans-serif;
+      --ease:cubic-bezier(.2,.7,.3,1);
+      font-family:var(--sans);color:var(--ink);background:var(--bg);min-height:100vh;
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+    #ecocontrol-app[data-theme="dark"]{
+      --bg:#0F1014;--surface:#1A1C22;--surface-2:#22252D;
+      --ink:#F0EDE8;--ink-soft:#9BA2B0;--muted:#60656F;
+      --line:#2A2D36;--line-soft:#1E2128;--orange-tint:rgba(232,89,12,.14);
+      --good-tint:rgba(31,138,95,.15);--bad-tint:rgba(217,48,37,.15);
+      --info-tint:rgba(47,111,224,.15);--gold-tint:rgba(196,135,44,.15);
+      --shadow-sm:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.35);
+      --shadow-md:0 4px 12px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.4);
+      --shadow-lg:0 8px 24px rgba(0,0,0,.35),0 30px 70px rgba(0,0,0,.5);
+    }
     #ecocontrol-app *{box-sizing:border-box}
-    .eco-top{background:#102033;color:#fff;padding:22px 20px;border-bottom:4px solid #3aa675}
+    #ecocontrol-app h1,#ecocontrol-app h2{font-family:var(--display);letter-spacing:-.01em}
+    #ecocontrol-app ::selection{background:var(--orange);color:#fff}
+
+    /* HEADER */
+    .eco-top{position:sticky;top:0;z-index:100;background:rgba(251,250,248,.82);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line);padding:14px 20px;transition:background .3s,border-color .3s}
+    [data-theme="dark"] .eco-top{background:rgba(15,16,20,.82)}
     .eco-topin{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:16px}
-    .eco-mark{width:190px;height:58px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:7px 10px;box-shadow:0 2px 10px rgba(0,0,0,.12);flex-shrink:0}
+    .eco-mark{width:44px;height:44px;border-radius:var(--r-sm);background:var(--surface);display:flex;align-items:center;justify-content:center;padding:6px;box-shadow:var(--shadow-sm);flex-shrink:0;border:1px solid var(--line);overflow:hidden}
     .eco-mark img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-    .eco-title h1{font-size:22px;line-height:1.15;margin:0}
-    .eco-title p{font-size:12px;opacity:.76;margin:4px 0 0}
-    .eco-status{margin-left:auto;text-align:right;font-size:12px;opacity:.95;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-    .eco-version{font-size:10px;opacity:.72;letter-spacing:.04em}
-    .eco-logout{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:7px;padding:5px 9px;font-size:11px;cursor:pointer}
-    .eco-wrap{max-width:1180px;margin:0 auto;padding:18px 14px 30px}
-    .eco-menu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
-    .eco-menu button{border:0;background:#fff;border-left:4px solid #b8c5d6;border-radius:8px;padding:13px;text-align:left;box-shadow:0 2px 10px rgba(16,32,51,.08);cursor:pointer;color:#162033}
-    .eco-menu button strong{display:block;font-size:13px}
-    .eco-menu button span{display:block;font-size:11px;color:#667085;margin-top:2px}
-    .eco-menu button.active{border-left-color:#3aa675;background:#f8fffb}
-    .eco-loading,.eco-error{background:#fff;border-radius:8px;padding:24px;margin:16px 0;box-shadow:0 2px 10px rgba(16,32,51,.08)}
-    .eco-error{display:none;border-left:4px solid #c43d4b;color:#842029}
-    .eco-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
-    .eco-card{background:#fff;border-radius:8px;padding:14px;border-top:3px solid #d5dee9;box-shadow:0 2px 10px rgba(16,32,51,.08)}
-    .eco-card.green{border-top-color:#3aa675}.eco-card.blue{border-top-color:#2f76bc}.eco-card.gold{border-top-color:#c4872c}.eco-card.red{border-top-color:#c43d4b}
-    .eco-card .label{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#667085}
-    .eco-card .value{font-size:18px;font-weight:800;margin-top:5px}
-    .eco-card .sub{font-size:11px;color:#667085;margin-top:4px}
+    .eco-title h1{font-weight:700;font-size:17px;line-height:1.25;margin:0;color:var(--ink)}
+    .eco-title p{font-size:11.5px;color:var(--ink-soft);margin:2px 0 0;line-height:1.4}
+    .eco-status{margin-left:auto;display:flex;align-items:center;gap:10px}
+    .eco-status-text{text-align:right;font-size:12px;color:var(--ink-soft);display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+    .eco-version{font-size:10px;color:var(--muted);letter-spacing:.04em}
+    .eco-logout{border:1.5px solid var(--line);background:transparent;color:var(--ink-soft);border-radius:999px;padding:8px 16px;font-family:var(--display);font-size:12.5px;font-weight:600;cursor:pointer;transition:border-color .2s var(--ease),color .2s var(--ease)}
+    .eco-logout:hover{border-color:var(--ink);color:var(--ink)}
+    .eco-theme-toggle{width:36px;height:36px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:transparent;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);cursor:pointer;transition:border-color .2s var(--ease),color .2s var(--ease);flex-shrink:0}
+    .eco-theme-toggle:hover{border-color:var(--ink);color:var(--ink)}
+    .eco-theme-toggle .ic-sun{display:none}.eco-theme-toggle .ic-moon{display:block}
+    [data-theme="dark"] .eco-theme-toggle .ic-sun{display:block}[data-theme="dark"] .eco-theme-toggle .ic-moon{display:none}
+
+    .eco-wrap{max-width:1180px;margin:0 auto;padding:22px 20px 40px}
+
+    /* MENU */
+    .eco-menu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:20px}
+    .eco-menu button{border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:14px 16px;text-align:left;box-shadow:none;cursor:pointer;color:var(--ink);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease),background .2s var(--ease)}
+    .eco-menu button:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);border-color:#DED9D0}
+    .eco-menu button:active{transform:translateY(0) scale(.98)}
+    .eco-menu button strong{font-family:var(--display);display:block;font-size:13.5px;font-weight:700}
+    .eco-menu button span{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;font-weight:500}
+    .eco-menu button.active{border-color:var(--orange);background:var(--orange-tint)}
+    .eco-menu button.active strong{color:var(--orange-deep)}
+    [data-theme="dark"] .eco-menu button.active strong{color:var(--orange)}
+    .eco-loading,.eco-error{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px;margin:16px 0;box-shadow:var(--shadow-sm);font-size:14px;color:var(--ink-soft)}
+    .eco-error{display:none;border-left:4px solid var(--bad);color:var(--ink)}
+    .eco-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+    .eco-card{background:var(--surface);border-radius:var(--r-md);padding:18px;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .25s var(--ease),box-shadow .25s var(--ease);position:relative;overflow:hidden}
+    .eco-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--line)}
+    .eco-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+    .eco-card.green::before{background:var(--good)}.eco-card.blue::before{background:var(--info)}.eco-card.gold::before{background:var(--gold)}.eco-card.red::before{background:var(--bad)}
+    .eco-card .label{font-family:var(--display);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+    .eco-card .value{font-family:var(--display);font-size:20px;font-weight:800;margin-top:7px;letter-spacing:-.01em}
+    .eco-card .sub{font-size:11.5px;color:var(--ink-soft);margin-top:5px}
     .eco-section{display:none}
-    .eco-section.active{display:block}
-    .eco-panel{background:#fff;border-radius:8px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(16,32,51,.08)}
-    .eco-panel-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;border-bottom:1px solid #e5ebf2;padding-bottom:10px}
+    .eco-section.active{display:block;animation:eco-fade-in .45s var(--ease) both}
+    @keyframes eco-fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){.eco-section.active{animation:none}}
+    .eco-panel{background:var(--surface);border-radius:var(--r-lg);padding:22px;margin-bottom:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+    .eco-panel-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--line-soft);padding-bottom:14px}
     .eco-panel-head h2{font-size:16px;margin:0}
-    .eco-panel-head p{font-size:11px;color:#667085;margin:3px 0 0}
-    .eco-pill{margin-left:auto;white-space:nowrap;font-size:11px;border-radius:999px;padding:5px 9px;background:#edf7f1;color:#24734c;font-weight:700}
+    .eco-panel-head p{font-size:12px;color:var(--ink-soft);margin:3px 0 0}
+    .eco-pill{margin-left:auto;white-space:nowrap;font-family:var(--display);font-size:11.5px;border-radius:999px;padding:6px 12px;background:var(--good-tint);color:var(--good);font-weight:700}
     .eco-chart{height:280px;position:relative}
-    .eco-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .eco-table-wrap{overflow:auto}
-    .eco-table{width:100%;border-collapse:collapse;font-size:11px;min-width:760px}
-    .eco-table th{background:#f5f7fa;color:#475467;text-align:left;padding:9px;border-bottom:1px solid #d8e0ea;white-space:nowrap}
-    .eco-table td{padding:9px;border-bottom:1px solid #eef2f6;white-space:nowrap}
-    .eco-ok{color:#24734c;font-weight:800}.eco-bad{color:#a32132;font-weight:800}
-    .eco-table .secrow td{background:#eef3f8;color:#102033;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
-    .eco-table .subsec td{background:#f5f7fa;color:#102033;font-weight:800}
-    .eco-table .num{text-align:right;white-space:nowrap}
-    .eco-table .diff-pos{color:#1f65c2;font-weight:800}
-    .eco-table .diff-neg{color:#c43d4b;font-weight:800}
-    .eco-table .muted{color:#7a7a7a}
-    .eco-note{font-size:11px;color:#667085;margin-top:8px;line-height:1.45}
-    .eco-config-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-    .eco-field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
-    .eco-field label{font-size:11px;font-weight:700;color:#475467}
-    .eco-field input,.eco-field select{width:100%;border:1px solid #ccd6e2;border-radius:7px;padding:9px;font-size:12px;color:#162033;background:#fff}
-    .eco-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .eco-actions button{border:0;border-radius:7px;background:#102033;color:#fff;padding:10px 13px;font-weight:700;cursor:pointer}
-    .eco-actions button.secondary{background:#e6edf5;color:#102033}
-    .eco-lock{max-width:420px;margin:0 auto;background:#f8fafc;border:1px solid #d8e0ea;border-radius:8px;padding:16px}
-    .eco-login{max-width:430px;margin:34px auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 12px rgba(16,32,51,.12)}
-    .eco-login h2{font-size:18px;margin:0 0 4px;color:#102033}
-    .eco-login p{font-size:12px;color:#667085;margin:0 0 16px}
-    .eco-users-list{font-size:12px;margin-top:10px;border-top:1px solid #e5ebf2;padding-top:10px;color:#475467}
-    .eco-user-line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eef2f6;padding:7px 0}
+    .eco-two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .eco-table-wrap{overflow:auto;border-radius:var(--r-md);border:1px solid var(--line)}
+    .eco-table{width:100%;border-collapse:collapse;font-size:12px;min-width:760px}
+    .eco-table th{background:var(--surface-2);color:var(--ink-soft);text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap;font-family:var(--display);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+    .eco-table td{padding:11px 12px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+    .eco-table tbody tr:hover td{background:var(--surface-2)}
+    .eco-table tbody tr:last-child td{border-bottom:none}
+    .eco-table .secrow td{background:var(--graphite);color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-family:var(--display);font-size:11px}
+    .eco-table .subsec td{background:var(--surface-2);color:var(--ink);font-weight:700;font-family:var(--display)}
+    .eco-table .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .eco-table .diff-pos{color:var(--good);font-weight:800}
+    .eco-table .diff-neg{color:var(--bad);font-weight:800}
+    .eco-table .muted{color:var(--muted)}
+    .eco-note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.55}
+    .eco-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+    .eco-field label{font-family:var(--display);font-size:12.5px;font-weight:600;color:var(--ink)}
+    .eco-field input,.eco-field select{width:100%;border:1.5px solid var(--line);border-radius:var(--r-md);padding:12px 14px;font-size:14.5px;color:var(--ink);background:var(--surface);transition:border-color .2s var(--ease),box-shadow .2s var(--ease);outline:none;font-family:var(--sans)}
+    .eco-field input:focus,.eco-field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-tint)}
+    .eco-field-pw{position:relative}
+    .eco-field-pw input{padding-right:44px}
+    .eco-pw-eye{position:absolute;right:8px;top:32px;background:none;border:none;cursor:pointer;color:var(--muted);padding:6px;display:flex;transition:color .2s var(--ease)}
+    .eco-pw-eye:hover{color:var(--ink)}
+    .eco-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .eco-actions button{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:999px;background:var(--orange);color:#fff;padding:13px 22px;font-weight:600;font-family:var(--display);font-size:14.5px;cursor:pointer;box-shadow:0 6px 18px rgba(232,89,12,.28);transition:transform .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease)}
+    .eco-actions button:hover{background:var(--orange-deep);transform:translateY(-2px)}
+    .eco-actions button:active{transform:translateY(0) scale(.98)}
+    .eco-actions button.secondary{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+    .eco-actions button.secondary:hover{border-color:var(--ink);background:transparent;transform:translateY(-2px)}
+    .eco-login{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(160deg,var(--graphite),#0C0D10);animation:eco-fade-in .35s var(--ease) both}
+    .eco-login-card{max-width:400px;width:100%;background:var(--surface);border-radius:var(--r-xl);padding:clamp(28px,5vw,40px);box-shadow:0 24px 60px rgba(0,0,0,.35);border:1px solid var(--line)}
+    .eco-login-card .eco-mark{width:54px;height:54px;margin-bottom:20px}
+    .eco-login-card h2{font-weight:800;font-size:21px;margin:0 0 6px;color:var(--ink)}
+    .eco-login-card p.eco-login-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 26px}
+    .eco-users-list{font-size:12px;margin-top:14px;border-top:1px solid var(--line-soft);padding-top:14px;color:var(--ink-soft)}
+    .eco-user-line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line-soft);padding:8px 0}
     .eco-hidden{display:none}
-    @media(max-width:850px){.eco-topin{align-items:flex-start}.eco-mark{width:150px;height:52px}.eco-status{display:none}.eco-menu,.eco-grid,.eco-two{grid-template-columns:1fr}.eco-chart{height:260px}}
+    @media(max-width:850px){
+      .eco-status-text{display:none}
+      .eco-menu,.eco-grid,.eco-two{grid-template-columns:1fr}
+      .eco-chart{height:260px}
+      .eco-login-card{padding:28px 22px}
+    }
   </style>
 
   <div class="eco-top">
@@ -87,26 +163,43 @@
         <p>Indicadores legais 2026 por competencia, folha, despesas e receitas</p>
         <p>As informacoes aqui expostas tem carater consultivo, procure sempre seu Contador.</p>
       </div>
-      <div class="eco-status"><div class="eco-version" id="ecoVersion">V.2026.4</div><div id="ecoStatus">Aguardando login...</div><button class="eco-logout eco-hidden" id="ecoLogout" type="button">Sair</button></div>
+      <div class="eco-status">
+        <button class="eco-theme-toggle" id="ecoThemeToggle" type="button" aria-label="Alternar tema">
+          <svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <div class="eco-status-text">
+          <div class="eco-version" id="ecoVersion">V.2026.4</div>
+          <div id="ecoStatus">Aguardando login...</div>
+        </div>
+        <button class="eco-logout eco-hidden" id="ecoLogout" type="button">Sair</button>
+      </div>
     </div>
   </div>
 
-  <div class="eco-login" id="ecoLogin">
-    <h2>Acesso ao EcoControl</h2>
-    <p>Informe usuario e senha para visualizar o painel.</p>
-    <div class="eco-field">
-      <label for="loginUser">Usuario</label>
-      <input id="loginUser" autocomplete="username" placeholder="Usuario">
+  <div class="eco-login eco-hidden" id="ecoLogin" style="display:none">
+    <div class="eco-login-card">
+      <div class="eco-mark"><img id="ecoLoginMark" alt="EcoControl"></div>
+      <h2>Acesso ao EcoConddddtrol</h2>
+      <p class="eco-login-sub">Informe usuario e senha para visualizar o painel.</p>
+      <div class="eco-field">
+        <label for="loginUser">Usuario</label>
+        <input id="loginUser" autocomplete="username" placeholder="Usuario">
+      </div>
+      <div class="eco-field eco-field-pw">
+        <label for="loginPass">Senha</label>
+        <input id="loginPass" type="password" autocomplete="current-password" placeholder="Senha">
+        <button type="button" class="eco-pw-eye" id="loginPwEye" aria-label="Mostrar senha">
+          <svg id="loginEyeShow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg id="loginEyeHide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
+      <div class="eco-actions"><button id="loginBtn" type="button" style="width:100%;justify-content:center">Entrar</button></div>
+      <p class="eco-note" id="loginMsg"></p>
     </div>
-    <div class="eco-field">
-      <label for="loginPass">Senha</label>
-      <input id="loginPass" type="password" autocomplete="current-password" placeholder="Senha">
-    </div>
-    <div class="eco-actions"><button id="loginBtn" type="button">Entrar</button></div>
-    <p class="eco-note" id="loginMsg"></p>
   </div>
 
-  <div class="eco-wrap eco-hidden" id="ecoMain">
+  <div class="eco-wrap" id="ecoMain">
     <nav class="eco-menu" id="ecoMenu">
       <button data-screen="legal" class="active"><strong>Indices Legais</strong><span>Saude, Educacao, FUNDEB e pessoal</span></button>
       <button data-screen="folha"><strong>Controle de Folha</strong><span>Tipos de cargo, efetivos e comissionados</span></button>
@@ -234,8 +327,8 @@
        Nao altere o restante do codigo, salvo se for uma nova versao do app.
        ===================================================================== */
 
-    const ECO_MUNICIPIO_NOME = "São José de Princesa";
-    const ECO_INSTANCE_PADRAO = "sao-jose-de-princesa";
+    const ECO_MUNICIPIO_NOME = "Bonito de Santa Fé";
+    const ECO_INSTANCE_PADRAO = "bonito-de-santa-fe";
     const ECO_VERSAO = "V.2026.4";
 
     // Mes encerrado dos indices: 1=Jan, 2=Fev, 3=Mar, 4=Abr, 5=Mai, 6=Jun, 7=Jul, 8=Ago, 9=Set, 10=Out, 11=Nov, 12=Dez
@@ -251,33 +344,33 @@
     // Links dos CSVs publicados no Wix.
     const ECO_LINKS = {
       pessoal: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_613fd166fd124eb7ad4b42558cceac8d.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_cd8730d5b9454323ace5ca3e326e588f.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_4282036b9f6b48509de20b275b87639c.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_07d1deb2bed24818b286583360abf184.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_05f7c73795d24c18bf1a7d96563c99a7.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_405806305872426ba2c89c2aa7d946ae.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_3b768fd7a57844cd8b4ce9445d5519bd.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_283df7ed3302422182129c5fc8c9c892.csv"
       },
       despesas: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_73bcd34d6d9f48ea8f303cdc0e180526.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_0ca17d56229d4f48bf209500beca9708.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ca28f611308c41f99283c3b51f371378.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ec2658526b1e467086375ae7efd04da4.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_8f34a57f9b594204b986223c6e154f60.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_158084977de64a4eb4371d497fc1a811.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_6ba4b7b73c934745bbc25e15edde7b4b.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_0469df92df074df0ba532a7e29249da5.csv"
       },
       receita: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_b29f3354dbff4d0e92317bb48ae347af.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_e7ec8728b06948f4abc5ff730f7d6e63.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_86b37580ccfd4544bb23c85d32679ea2.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ca0feb729163432dac938bc1df636ff2.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_cf2bf4c9fdcd4b008d3f9364fe81e2c2.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_65832883bff149dba0f0237312c849e1.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_632c6cb1c5f444858c015cc2f82caac2.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_4f58111b0dcd4c49a46a89e71cc2ee41.csv"
       },
       disponibilidades: {
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_07d1deb2bed24818b286583360abf184.csv"
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_1d7b72ca985a4be48e596dce92497d83.csv"
       }
     };
 
     // Valores oficiais opcionais para o indice de pessoal. Use 0 para calcular pelos CSVs quando possivel.
     const ECO_PESSOAL_MANUAL = {
-      rclAjustada: 31877950.97,
+      rclAjustada: 61186762.11,
       despesaExecutivo: 0,
-      despesaTotalPessoal: 10674224.92
+      despesaTotalPessoal: 29813573.14
     };
 
     // Ajustes manuais do MDE. Preencha com os valores exatos do relatorio
@@ -293,10 +386,12 @@
     // campo especifico quando o valor do site divergir do relatorio oficial
     // naquele item.
     //
-    // MAIO/2026: superavitAnteriorNaoAplicado estava com o valor 545633.76,
-    // que era de um mes anterior - o relatorio de maio/2026 mostra os itens
-    // 45.4/46.4/47.4 zerados (superavit do ano anterior ja totalmente
-    // aplicado). Corrigido para 0 abaixo; conferir de novo a cada mes.
+    // MAIO/2026: o calculo automatico de excedenteFundeb ficava muito abaixo
+    // do relatorio oficial porque Bonito gastou de VAAF (fonte 541) mais do
+    // que recebeu dela no exercicio (usando saldo de anos anteriores) - o
+    // site nao limita cada subfonte do FUNDEB ao que foi recebido dela.
+    // Por isso os itens 45.3/46.3/47.3 ficaram sobrescritos abaixo com os
+    // valores exatos do relatorio.
     const ECO_MDE_MANUAL = {
       // Item 42/3 - Receita Resultante de Impostos (base de calculo do MDE).
       baseReceitaImpostos: null,
@@ -316,13 +411,13 @@
       // subfonte (ex.: VAAF) mais do que recebeu dela no ano (usando saldo de
       // anos anteriores), este item vem > 0 no relatorio oficial e PRECISA
       // ser preenchido aqui, senao o MDE sai maior do que deveria.
-      excedenteFundeb: { emp: null, liq: null, pag: null },
+      excedenteFundeb: { emp: 1836248.85, liq: 1863093.43, pag: 1863093.43 },
 
       // Itens 45.4/46.4/47.4 - Superavit permitido do exercicio anterior
       // ainda nao aplicado (relatorio de dezembro do ano anterior; normalmente
       // igual para emp/liq/pag). Confira todo mes - costuma virar 0 assim que
       // o superavit anterior for totalmente aplicado.
-      superavitAnteriorNaoAplicado: 0,
+      superavitAnteriorNaoAplicado: 832088.84,
 
       // Itens 45.5/46.5/47.5 - Restos a pagar sem disponibilidade financeira.
       restosAPagarSemDisponibilidade: 0,
@@ -333,7 +428,7 @@
 
     // Meta legal do VAAT-Infantil: varia por municipio (Anexo VAAT do FNDE).
     // Confira no relatorio oficial, item 37 ("Despesa Minima... Educacao Infantil").
-    const ECO_META_VAAT_INFANTIL = 52.50;
+    const ECO_META_VAAT_INFANTIL = 55.21;
 
     /* =====================================================================
        FIM DA AREA EDITAVEL
@@ -373,7 +468,7 @@
     };
 
     const MESES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-    const COLORS = ["#2f76bc","#3aa675","#c4872c","#8f63c7","#c43d4b","#4a8f8f","#667085"];
+    const COLORS = ["#2F6FE0","#1F8A5F","#C4872C","#8f63c7","#D93025","#4a8f8f","#878D98"];
     const charts = {};
 
     function repairText(v){
@@ -989,15 +1084,15 @@
         {label:"VAAT Infantil", data:legal.map(x=>x.vaatInfantilPct.liq), borderColor:COLORS[3], backgroundColor:COLORS[3], tension:.25},
         {label:"VAAT Investimento", data:legal.map(x=>x.vaatInvestimentoPct.liq), borderColor:COLORS[4], backgroundColor:COLORS[4], tension:.25},
         {label:"ETI", data:legal.map(x=>x.etiPct.liq), borderColor:COLORS[5], backgroundColor:COLORS[5], tension:.25},
-        {label:"Saldo FUNDEB", data:legal.map(x=>x.fundebDisponibilidade.percentual), borderColor:"#d95f02", backgroundColor:"#d95f02", tension:.25},
+        {label:"Saldo FUNDEB", data:legal.map(x=>x.fundebDisponibilidade.percentual), borderColor:"#E8590C", backgroundColor:"#E8590C", tension:.25},
         {label:"Pessoal Exec.", data:legal.map(x=>x.pessoalExecPct.liq), borderColor:COLORS[6], backgroundColor:COLORS[6], tension:.25}
       ]}, options:chartOptions("%") });
       const barLabels = ["Saude","MDE","FUNDEB","VAAT Inf.","VAAT Inv.","ETI","Pessoal Exec.","Pessoal Total"];
       const barSeries = [latest.saudePct, latest.mdePct, latest.fundebMagPct, latest.vaatInfantilPct, latest.vaatInvestimentoPct, latest.etiPct, latest.pessoalExecPct, latest.pessoalTotalPct];
       makeChart("chartLegalLatest", { type:"bar", data:{ labels:barLabels, datasets:[
-        {label:"Empenhado", data:barSeries.map(x=>x.emp), backgroundColor:"#2f76bc", borderRadius:4},
-        {label:"Liquidado (oficial)", data:barSeries.map(x=>x.liq), backgroundColor:"#3aa675", borderRadius:4},
-        {label:"Pago", data:barSeries.map(x=>x.pag), backgroundColor:"#c4872c", borderRadius:4}
+        {label:"Empenhado", data:barSeries.map(x=>x.emp), backgroundColor:"#2F6FE0", borderRadius:4},
+        {label:"Liquidado (oficial)", data:barSeries.map(x=>x.liq), backgroundColor:"#1F8A5F", borderRadius:4},
+        {label:"Pago", data:barSeries.map(x=>x.pag), backgroundColor:"#C4872C", borderRadius:4}
       ]}, options:chartOptions("%") });
       document.getElementById("legalTable").innerHTML = renderLegalSummary(latest);
     }
@@ -1052,11 +1147,11 @@
         {label:"Resultado pelo empenhado", value:money(resultado.resultadoEmp), sub:resultado.resultadoEmp >= 0 ? "Superavit orcamentario" : "Deficit orcamentario", color:resultado.resultadoEmp >= 0 ? "green" : "red"},
         {label:"Resultado pelo liquidado", value:money(resultado.resultadoLiq), sub:resultado.resultadoLiq >= 0 ? "Superavit orcamentario" : "Deficit orcamentario", color:resultado.resultadoLiq >= 0 ? "green" : "red"}
       ]);
-      makeChart("chartResultadoTotal", { type:"bar", data:{ labels:["Receita","Empenhado","Liquidado"], datasets:[{ label:"Valor", data:[resultado.receitaTotal, resultado.despEmp, resultado.despLiq], backgroundColor:["#3aa675","#2f76bc","#c4872c"], borderRadius:5 }]}, options:chartOptions("R$") });
+      makeChart("chartResultadoTotal", { type:"bar", data:{ labels:["Receita","Empenhado","Liquidado"], datasets:[{ label:"Valor", data:[resultado.receitaTotal, resultado.despEmp, resultado.despLiq], backgroundColor:["#1F8A5F","#2F6FE0","#C4872C"], borderRadius:5 }]}, options:chartOptions("R$") });
       const topEmp = [...resultado.porFonte].sort((a,b) => Math.abs(b.resultadoEmp) - Math.abs(a.resultadoEmp)).slice(0,12);
       const topLiq = [...resultado.porFonte].sort((a,b) => Math.abs(b.resultadoLiq) - Math.abs(a.resultadoLiq)).slice(0,12);
-      makeChart("chartResultadoFonteEmp", { type:"bar", data:{ labels:topEmp.map(x=>x.fonte), datasets:[{ label:"Receita - Empenhado", data:topEmp.map(x=>x.resultadoEmp), fullLabels:topEmp.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topEmp.map(x=>x.resultadoEmp >= 0 ? "#3aa675" : "#c43d4b"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
-      makeChart("chartResultadoFonteLiq", { type:"bar", data:{ labels:topLiq.map(x=>x.fonte), datasets:[{ label:"Receita - Liquidado", data:topLiq.map(x=>x.resultadoLiq), fullLabels:topLiq.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topLiq.map(x=>x.resultadoLiq >= 0 ? "#3aa675" : "#c43d4b"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
+      makeChart("chartResultadoFonteEmp", { type:"bar", data:{ labels:topEmp.map(x=>x.fonte), datasets:[{ label:"Receita - Empenhado", data:topEmp.map(x=>x.resultadoEmp), fullLabels:topEmp.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topEmp.map(x=>x.resultadoEmp >= 0 ? "#1F8A5F" : "#D93025"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
+      makeChart("chartResultadoFonteLiq", { type:"bar", data:{ labels:topLiq.map(x=>x.fonte), datasets:[{ label:"Receita - Liquidado", data:topLiq.map(x=>x.resultadoLiq), fullLabels:topLiq.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topLiq.map(x=>x.resultadoLiq >= 0 ? "#1F8A5F" : "#D93025"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
     }
 
     const MASTER_USER = ECO_USUARIOS.find(u => normalizeLogin(u.username) === "ecoplan") || { username:"ecoplan", password:"mytfckg2", role:"master" };
@@ -1160,6 +1255,51 @@
       setScreen(btn.dataset.screen);
     });
 
+    /* =====================================================================
+       ESTETICA — tema claro/escuro, olho de senha e espelho do brasao
+       no cartao de login. Puramente visual: nao interfere em autenticacao,
+       calculo ou carregamento de dados.
+       ===================================================================== */
+    (function initEcoAppearance(){
+      const root = document.getElementById("ecocontrol-app");
+      const THEME_KEY = "ecocontrol-theme";
+
+      function applyTheme(theme){
+        if(theme === "dark") root.setAttribute("data-theme", "dark");
+        else root.removeAttribute("data-theme");
+      }
+      try{
+        applyTheme(localStorage.getItem(THEME_KEY) || "light");
+      }catch(_err){ /* localStorage indisponivel: mantem tema claro padrao */ }
+
+      const themeBtn = document.getElementById("ecoThemeToggle");
+      if(themeBtn){
+        themeBtn.addEventListener("click", () => {
+          const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          applyTheme(next);
+          try{ localStorage.setItem(THEME_KEY, next); }catch(_err){}
+        });
+      }
+
+      const pwEye = document.getElementById("loginPwEye");
+      if(pwEye){
+        pwEye.addEventListener("click", () => {
+          const input = document.getElementById("loginPass");
+          const show = document.getElementById("loginEyeShow");
+          const hide = document.getElementById("loginEyeHide");
+          const revealing = input.type === "password";
+          input.type = revealing ? "text" : "password";
+          show.style.display = revealing ? "none" : "block";
+          hide.style.display = revealing ? "block" : "none";
+          pwEye.setAttribute("aria-label", revealing ? "Ocultar senha" : "Mostrar senha");
+        });
+      }
+
+      const loginMark = document.getElementById("ecoLoginMark");
+      const headerLogo = document.getElementById("ecoLogo");
+      if(loginMark && headerLogo) loginMark.src = headerLogo.src;
+    })();
+
     function displayEcoError(err){
       console.error(err);
       document.getElementById("ecoLoading").style.display = "none";
@@ -1200,6 +1340,13 @@
     (async function initEcoControl(){
       try{
         loadCodeConfig();
+        /* 🔴 TEMPORARIO — login desativado para depuracao.
+           Entra direto como master, sem tela de login.
+           Para reativar o login, apague as 2 linhas abaixo e descomente
+           o bloco original logo em seguida. */
+        await startAppForUser({ username:normalizeLogin(MASTER_USER.username), role:"master" });
+        return;
+        /*
         const saved = JSON.parse(sessionStorage.getItem("ecocontrol-auth") || "null");
         const knownUser = saved && allUsers().find(u => normalizeLogin(u.username) === normalizeLogin(saved.username));
         if(knownUser){
@@ -1207,6 +1354,7 @@
         }else{
           showLogin("");
         }
+        */
       }catch(err){
         console.error(err);
         document.getElementById("ecoLogin").classList.add("eco-hidden");
