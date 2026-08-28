@@ -382,8 +382,6 @@
     const ECO_USUARIOS = CONFIG.usuarios
       .filter(u => u && u.usuario)
       .map(u => ({ username:u.usuario, password:u.senha, role:u.perfil === "master" ? "master" : "user" }));
-    // ECO_LINKS.receita (singular) e o nome interno esperado por loadGroup();
-    // CONFIG.csv.receitas (plural) e o nome voltado para quem preenche a config.
     const ECO_LINKS = {
       pessoal: CONFIG.csv.pessoal,
       despesas: CONFIG.csv.despesas,
