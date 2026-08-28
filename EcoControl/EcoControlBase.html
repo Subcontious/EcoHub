@@ -1,0 +1,1334 @@
+<!--
+  ECOCONTROL BASE
+  Modelo mestre para criacao de instancias municipais.
+  Este arquivo NAO pertence a nenhum municipio - e o template.
+
+  Cole este bloco inteiro no elemento "Embed HTML" do Wix (ou abra o
+  arquivo direto no navegador para conferir localmente).
+
+  COMO CRIAR UM NOVO MUNICIPIO:
+
+  1. Duplique este arquivo (ex.: EcoControlIgaracy.html).
+  2. Abra o bloco CONFIG, logo no inicio do <script> principal.
+  3. Preencha municipio.nome.
+  4. Coloque o brasao em Municipios/NOME_DO_MUNICIPIO.png e aponte
+     municipio.brasao para esse caminho.
+  5. Configure os usuarios (a conta "ecoplan" master e padrao da
+     Ecoplan e deve continuar igual em todos os municipios).
+  6. Cole os links dos CSVs publicados no Wix em CONFIG.csv, por ano.
+  7. Ajuste periodo.anos, periodo.anoAtual e periodo.mesFiscalEncerrado.
+  8. Preencha CONFIG.manual apenas quando o relatorio oficial divergir
+     do calculo automatico (deixe null/0 para o site calcular sozinho).
+  9. Salve. Pronto.
+
+  🔴 ATENCAO: para criar um novo municipio, normalmente voce so precisa
+  alterar o objeto CONFIG. NAO ALTERE AS FUNCOES DE CALCULO abaixo dele
+  sem necessidade - elas implementam os indices fiscais (ASPS, MDE,
+  FUNDEB, VAAT, ETI, DTP/RCL etc.) e ja foram validadas contra os
+  relatorios oficiais dos municipios existentes.
+-->
+
+
+
+<div id="ecocontrol-app">
+  <style>
+    #ecocontrol-app{font-family:Inter,Arial,sans-serif;color:#162033;background:#eef2f6;min-height:100vh}
+    #ecocontrol-app *{box-sizing:border-box}
+    .eco-top{background:#102033;color:#fff;padding:22px 20px;border-bottom:4px solid #3aa675}
+    .eco-topin{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:16px}
+    .eco-mark{width:190px;height:58px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:7px 10px;box-shadow:0 2px 10px rgba(0,0,0,.12);flex-shrink:0}
+    .eco-mark img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+    .eco-title h1{font-size:22px;line-height:1.15;margin:0}
+    .eco-title p{font-size:12px;opacity:.76;margin:4px 0 0}
+    .eco-status{margin-left:auto;text-align:right;font-size:12px;opacity:.95;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+    .eco-version{font-size:10px;opacity:.72;letter-spacing:.04em}
+    .eco-logout{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:7px;padding:5px 9px;font-size:11px;cursor:pointer}
+    .eco-wrap{max-width:1180px;margin:0 auto;padding:18px 14px 30px}
+    .eco-menu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
+    .eco-menu button{border:0;background:#fff;border-left:4px solid #b8c5d6;border-radius:8px;padding:13px;text-align:left;box-shadow:0 2px 10px rgba(16,32,51,.08);cursor:pointer;color:#162033}
+    .eco-menu button strong{display:block;font-size:13px}
+    .eco-menu button span{display:block;font-size:11px;color:#667085;margin-top:2px}
+    .eco-menu button.active{border-left-color:#3aa675;background:#f8fffb}
+    .eco-loading,.eco-error{background:#fff;border-radius:8px;padding:24px;margin:16px 0;box-shadow:0 2px 10px rgba(16,32,51,.08)}
+    .eco-error{display:none;border-left:4px solid #c43d4b;color:#842029}
+    .eco-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+    .eco-card{background:#fff;border-radius:8px;padding:14px;border-top:3px solid #d5dee9;box-shadow:0 2px 10px rgba(16,32,51,.08)}
+    .eco-card.green{border-top-color:#3aa675}.eco-card.blue{border-top-color:#2f76bc}.eco-card.gold{border-top-color:#c4872c}.eco-card.red{border-top-color:#c43d4b}
+    .eco-card .label{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#667085}
+    .eco-card .value{font-size:18px;font-weight:800;margin-top:5px}
+    .eco-card .sub{font-size:11px;color:#667085;margin-top:4px}
+    .eco-section{display:none}
+    .eco-section.active{display:block}
+    .eco-panel{background:#fff;border-radius:8px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(16,32,51,.08)}
+    .eco-panel-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;border-bottom:1px solid #e5ebf2;padding-bottom:10px}
+    .eco-panel-head h2{font-size:16px;margin:0}
+    .eco-panel-head p{font-size:11px;color:#667085;margin:3px 0 0}
+    .eco-pill{margin-left:auto;white-space:nowrap;font-size:11px;border-radius:999px;padding:5px 9px;background:#edf7f1;color:#24734c;font-weight:700}
+    .eco-chart{height:280px;position:relative}
+    .eco-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .eco-table-wrap{overflow:auto}
+    .eco-table{width:100%;border-collapse:collapse;font-size:11px;min-width:760px}
+    .eco-table th{background:#f5f7fa;color:#475467;text-align:left;padding:9px;border-bottom:1px solid #d8e0ea;white-space:nowrap}
+    .eco-table td{padding:9px;border-bottom:1px solid #eef2f6;white-space:nowrap}
+    .eco-ok{color:#24734c;font-weight:800}.eco-bad{color:#a32132;font-weight:800}
+    .eco-table .secrow td{background:#eef3f8;color:#102033;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+    .eco-table .subsec td{background:#f5f7fa;color:#102033;font-weight:800}
+    .eco-table .num{text-align:right;white-space:nowrap}
+    .eco-table .diff-pos{color:#1f65c2;font-weight:800}
+    .eco-table .diff-neg{color:#c43d4b;font-weight:800}
+    .eco-table .muted{color:#7a7a7a}
+    .eco-note{font-size:11px;color:#667085;margin-top:8px;line-height:1.45}
+    .eco-config-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .eco-field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+    .eco-field label{font-size:11px;font-weight:700;color:#475467}
+    .eco-field input,.eco-field select{width:100%;border:1px solid #ccd6e2;border-radius:7px;padding:9px;font-size:12px;color:#162033;background:#fff}
+    .eco-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .eco-actions button{border:0;border-radius:7px;background:#102033;color:#fff;padding:10px 13px;font-weight:700;cursor:pointer}
+    .eco-actions button.secondary{background:#e6edf5;color:#102033}
+    .eco-lock{max-width:420px;margin:0 auto;background:#f8fafc;border:1px solid #d8e0ea;border-radius:8px;padding:16px}
+    .eco-login{max-width:430px;margin:34px auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 12px rgba(16,32,51,.12)}
+    .eco-login h2{font-size:18px;margin:0 0 4px;color:#102033}
+    .eco-login p{font-size:12px;color:#667085;margin:0 0 16px}
+    .eco-users-list{font-size:12px;margin-top:10px;border-top:1px solid #e5ebf2;padding-top:10px;color:#475467}
+    .eco-user-line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eef2f6;padding:7px 0}
+    .eco-hidden{display:none}
+    @media(max-width:850px){.eco-topin{align-items:flex-start}.eco-mark{width:150px;height:52px}.eco-status{display:none}.eco-menu,.eco-grid,.eco-two{grid-template-columns:1fr}.eco-chart{height:260px}}
+  </style>
+
+  <div class="eco-top">
+    <div class="eco-topin">
+      <div class="eco-mark"><img id="ecoLogo" src="" alt="Brasao do municipio"></div>
+      <div class="eco-title">
+        <h1 id="ecoMunicipio">EcoControl</h1>
+        <p id="ecoSubtitle">Indicadores legais por competencia, folha, despesas e receitas</p>
+        <p>As informacoes aqui expostas tem carater consultivo, procure sempre seu Contador.</p>
+      </div>
+      <div class="eco-status"><div class="eco-version" id="ecoVersion">V.2026.4</div><div id="ecoStatus">Aguardando login...</div><button class="eco-logout eco-hidden" id="ecoLogout" type="button">Sair</button></div>
+    </div>
+  </div>
+
+  <div class="eco-login" id="ecoLogin">
+    <h2>Acesso ao EcoControl</h2>
+    <p>Informe usuario e senha para visualizar o painel.</p>
+    <div class="eco-field">
+      <label for="loginUser">Usuario</label>
+      <input id="loginUser" autocomplete="username" placeholder="Usuario">
+    </div>
+    <div class="eco-field">
+      <label for="loginPass">Senha</label>
+      <input id="loginPass" type="password" autocomplete="current-password" placeholder="Senha">
+    </div>
+    <div class="eco-actions"><button id="loginBtn" type="button">Entrar</button></div>
+    <p class="eco-note" id="loginMsg"></p>
+  </div>
+
+  <div class="eco-wrap eco-hidden" id="ecoMain">
+    <nav class="eco-menu" id="ecoMenu">
+      <button data-screen="legal" class="active"><strong>Indices Legais</strong><span>Saude, Educacao, FUNDEB e pessoal</span></button>
+      <button data-screen="folha"><strong>Controle de Folha</strong><span>Tipos de cargo, efetivos e comissionados</span></button>
+      <button data-screen="despesas"><strong>Comparativo de Despesas</strong><span>Combustivel, medicamentos, doacoes e mais</span></button>
+      <button data-screen="receitas"><strong>Comparativo de Receita</strong><span>Mes a mes e ano a ano</span></button>
+      <button data-screen="resultado"><strong>Resultado Orcamentario</strong><span>Deficit ou superavit total e por fonte</span></button>
+    </nav>
+
+    <div class="eco-loading" id="ecoLoading">Carregando os CSVs enviados ao Wix...</div>
+    <div class="eco-error" id="ecoError"></div>
+    <div id="ecoContent" style="display:none">
+      <section class="eco-section active" id="screen-legal">
+        <div class="eco-grid" id="legalCards"></div>
+        <div class="eco-two">
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Indices legais mes a mes</h2><p id="legalPeriodoDesc">Ano de 2026, acumulado ate a competencia encerrada.</p></div></div>
+            <div class="eco-chart"><canvas id="chartLegalTrend"></canvas></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2 id="legalAtualizadoTitulo">Atualizado ate</h2><p>Comparacao por empenhado, liquidado e pago. Oficial: liquidado.</p></div><span class="eco-pill" id="legalAno"></span></div>
+            <div class="eco-chart"><canvas id="chartLegalLatest"></canvas></div>
+          </div>
+        </div>
+        <div class="eco-panel">
+          <div class="eco-panel-head"><div><h2 id="resumoLegalTitulo">Resumo legal 2026</h2><p>Saude 15%, Educacao 25%, FUNDEB magisterio 70%, VAAT Infantil, VAAT Investimento e ETI.</p></div></div>
+          <div class="eco-table-wrap">
+            <table class="eco-table">
+              <thead>
+                <tr><th>Indicador</th><th>Descricao</th><th>Valor minimo</th><th>Meta</th><th>Valor aplicado</th><th>% aplicado</th><th>Diferenca</th><th>Dif. %</th></tr>
+              </thead>
+              <tbody id="legalTable"></tbody>
+            </table>
+          </div>
+          <p class="eco-note">O percentual oficial exibido nos cartoes e na tabela usa a liquidacao. Nos indices de pessoal, a regra aplicada e DTP/RCL nos ultimos 12 meses: Executivo sem Camara com limite de 54% e consolidado municipal com Camara com limite de 60%. No controle de disponibilidade FUNDEB, o saldo conciliado e comparado ao limite maximo de 10% da receita FUNDEB.</p>
+        </div>
+      </section>
+
+      <section class="eco-section" id="screen-folha">
+        <div class="eco-grid" id="folhaCards"></div>
+        <div class="eco-two">
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Quantidade por tipo de cargo</h2><p>Eletivos, comissionados, contratados, efetivos e inativos/pensionistas no ultimo ano.</p></div></div>
+            <div class="eco-chart"><canvas id="chartTiposCargo"></canvas></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Crescimento de efetivos e comissionados</h2><p id="folhaPeriodoDesc">Comparativo de 2023 a 2026.</p></div></div>
+            <div class="eco-chart"><canvas id="chartEvolucaoCargos"></canvas></div>
+          </div>
+        </div>
+        <div class="eco-panel">
+          <div class="eco-panel-head"><div><h2>Cargos efetivos</h2><p>Percentual de cada cargo considerando somente servidores efetivos.</p></div></div>
+          <div class="eco-chart"><canvas id="chartCargosEfetivos"></canvas></div>
+        </div>
+      </section>
+
+      <section class="eco-section" id="screen-despesas">
+        <div class="eco-grid" id="despesaCards"></div>
+        <div class="eco-two">
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Crescimento das despesas ano a ano</h2><p>Categorias classificadas por palavras-chave do historico, elemento, subelemento e grupo de despesa.</p></div></div>
+            <div class="eco-chart"><canvas id="chartDespesas"></canvas></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Despesas mes a mes</h2><p>Comparativo mensal do ano mais recente carregado.</p></div><span class="eco-pill" id="despesaAnoMensal"></span></div>
+            <div class="eco-chart"><canvas id="chartDespesasMensal"></canvas></div>
+          </div>
+        </div>
+        <p class="eco-note">Investimentos usam principalmente "Grupo de Natureza de Despesa = Investimentos". As demais categorias usam palavras-chave configuraveis no codigo.</p>
+      </section>
+
+      <section class="eco-section" id="screen-receitas">
+        <div class="eco-grid" id="receitaCards"></div>
+        <div class="eco-two">
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Receita mes a mes</h2><p>Ultimo ano disponivel.</p></div><span class="eco-pill" id="receitaAno"></span></div>
+            <div class="eco-chart"><canvas id="chartReceitaMensal"></canvas></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Receita ano a ano</h2><p>Total de Valor Ajustado por exercicio.</p></div></div>
+            <div class="eco-chart"><canvas id="chartReceitaAnual"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="eco-section" id="screen-resultado">
+        <div class="eco-grid" id="resultadoCards"></div>
+        <div class="eco-panel">
+          <div class="eco-panel-head"><div><h2>Resultado orcamentario total</h2><p>Receita comparada com despesa empenhada e liquidada no exercicio.</p></div><span class="eco-pill" id="resultadoAno"></span></div>
+          <div class="eco-chart"><canvas id="chartResultadoTotal"></canvas></div>
+        </div>
+        <div class="eco-two">
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Resultado por fonte - empenhado</h2><p>Superavit ou deficit por fonte de recurso, considerando a despesa empenhada.</p></div></div>
+            <div class="eco-chart"><canvas id="chartResultadoFonteEmp"></canvas></div>
+          </div>
+          <div class="eco-panel">
+            <div class="eco-panel-head"><div><h2>Resultado por fonte - liquidado</h2><p>Superavit ou deficit por fonte de recurso, considerando a despesa liquidada.</p></div></div>
+            <div class="eco-chart"><canvas id="chartResultadoFonteLiq"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script>
+    /* =====================================================================
+       ECOPLAN — ECOCONTROL
+       CONFIGURACAO PRINCIPAL DO MUNICIPIO
+       =====================================================================
+
+       🔴 Esta e a UNICA area que normalmente voce precisa editar ao
+       duplicar este arquivo para outra prefeitura.
+
+       1. municipio: nome e caminho do brasao.
+       2. usuarios: mantenha a conta "ecoplan" (master, padrao Ecoplan em
+          todos os municipios) e configure a conta do proprio municipio.
+       3. periodo: anos com CSV disponivel, ano de referencia dos indices
+          e o mes encerrado.
+       4. csv: links dos CSVs publicados no Wix, por grupo e por ano.
+       5. manual: so preencha quando o relatorio oficial (SisContabil)
+          divergir do calculo automatico. Deixe null/0 para o site
+          calcular sozinho a partir dos CSVs.
+
+       NAO ALTERE AS FUNCOES DE CALCULO SEM NECESSIDADE — elas ficam
+       logo apos "FIM DA AREA EDITAVEL", mais abaixo.
+       ===================================================================== */
+
+    const CONFIG = {
+
+      // ==========================================
+      // 🔴 IDENTIDADE DO MUNICIPIO
+      // ==========================================
+      municipio: {
+        nome: "NOME DO MUNICÍPIO",
+        // Arquivo externo (nao incorpore base64) — ex.: "Municipios/Igaracy.png"
+        brasao: "Municipios/NOME_DO_MUNICIPIO.png"
+      },
+
+      // ==========================================
+      // 🔴 PERIODO
+      // ==========================================
+      periodo: {
+        // Todos os anos com CSV disponivel, do mais antigo ao mais recente.
+        // Para adicionar 2027, inclua aqui e crie a chave 2027 em cada
+        // grupo de CONFIG.csv abaixo.
+        anos: [2023, 2024, 2025, 2026],
+        // Ano de referencia dos indices legais/graficos "do exercicio".
+        anoAtual: 2026,
+        // Mes encerrado dos indices: 1=Jan, 2=Fev, 3=Mar, 4=Abr, 5=Mai,
+        // 6=Jun, 7=Jul, 8=Ago, 9=Set, 10=Out, 11=Nov, 12=Dez
+        mesFiscalEncerrado: 1
+      },
+
+      // ==========================================
+      // 🔴 ACESSO
+      // ==========================================
+      // Login e apenas uma camada de frontend (senha fica visivel no
+      // codigo-fonte do HTML) — nao e autenticacao segura de backend.
+      // Perfil "master" acessa como administrador; "user" so visualiza.
+      //
+      // A conta "ecoplan" abaixo e o master padrao da Ecoplan e e igual
+      // em todos os municipios — mantenha-a. Troque apenas a(s) conta(s)
+      // do proprio municipio.
+      usuarios: [
+        { usuario: "ecoplan", senha: "mytfckg2", perfil: "master" },
+        { usuario: "", senha: "", perfil: "user" }
+      ],
+
+      // ==========================================
+      // 🔴 CSVs — links publicados no Wix, por ano
+      // ==========================================
+      csv: {
+        pessoal: { 2023: "", 2024: "", 2025: "", 2026: "" },
+        despesas: { 2023: "", 2024: "", 2025: "", 2026: "" },
+        receitas: { 2023: "", 2024: "", 2025: "", 2026: "" },
+        disponibilidades: { 2026: "" }
+      },
+
+      // ==========================================
+      // 🔴 VALORES MANUAIS (opcional)
+      // ==========================================
+      // Preencha somente quando o relatorio oficial (SisContabil,
+      // "Demonstrativo de Aplicacoes dos Recursos em Educacao, Saude e
+      // Pessoal") divergir do calculo automatico do site. Comece com
+      // tudo em null/0 — assim o site calcula sozinho pelos CSVs.
+      manual: {
+        rclAjustada: 0,
+        despesaExecutivo: 0,
+        despesaTotalPessoal: 0,
+
+        // Meta legal do VAAT-Infantil: varia por municipio (Anexo VAAT do
+        // FNDE). Confira no relatorio oficial, item 37 ("Despesa Minima...
+        // Educacao Infantil"). Preencha antes de usar — 0 fica sinalizado
+        // como pendente pela validacao de configuracao.
+        metaVaatInfantil: 0,
+
+        // Ajustes do MDE (itens 45/46/47 do relatorio oficial —
+        // empenhado/liquidado/pago). Cada campo aceita "null" (calculo
+        // automatico) ou um numero (sobrescreve com o valor oficial).
+        mde: {
+          // Item 42/3 - Receita Resultante de Impostos (base do MDE).
+          baseReceitaImpostos: null,
+
+          // Itens 45.1/46.1/47.1 - Despesas tipicas de MDE (Educacao
+          // Infantil + Ensino Fundamental, exceto FUNDEB).
+          despesaTipicaMDE: { emp: null, liq: null, pag: null },
+
+          // Itens 45.2/46.2/47.2 - Valor lancado destinado ao FUNDEB no
+          // mes (4.1).
+          deducaoFundebLancada: null,
+
+          // Itens 45.3/46.3/47.3 - Valor excedente ao superavit de 10% do
+          // FUNDEB nao aplicado no exercicio. ATENCAO: o calculo
+          // automatico do site soma toda despesa com fonte do FUNDEB sem
+          // limitar por subfonte (impostos/VAAF/VAAT/VAAR/ETI); o
+          // relatorio oficial limita cada subfonte ao que foi recebido
+          // dela no proprio exercicio. Se o municipio gastou de uma
+          // subfonte (ex.: VAAF) mais do que recebeu dela no ano (usando
+          // saldo de anos anteriores), este item vem > 0 no relatorio
+          // oficial e PRECISA ser preenchido aqui, senao o MDE sai maior
+          // do que deveria.
+          excedenteFundeb: { emp: null, liq: null, pag: null },
+
+          // Itens 45.4/46.4/47.4 - Superavit permitido do exercicio
+          // anterior ainda nao aplicado (relatorio de dezembro do ano
+          // anterior; normalmente igual para emp/liq/pag). Confira todo
+          // mes - costuma virar 0 assim que o superavit anterior for
+          // totalmente aplicado.
+          superavitAnteriorNaoAplicado: 0,
+
+          // Itens 45.5/46.5/47.5 - Restos a pagar sem disponibilidade
+          // financeira.
+          restosAPagarSemDisponibilidade: 0,
+
+          // Itens 45.6/46.6/47.6 - Cancelamento de restos a pagar.
+          cancelamentoRestosAPagar: 0
+        }
+      }
+
+    };
+
+    /* =====================================================================
+       FIM DA AREA EDITAVEL
+
+       Daqui para baixo: variaveis internas derivadas de CONFIG (compatveis
+       com os nomes que as funcoes de calculo ja usam) e as proprias
+       funcoes de calculo/renderizacao. NAO E CONFIGURACAO — nao precisa
+       mexer aqui para cadastrar um municipio novo.
+       ===================================================================== */
+
+    const ECO_VERSAO = "V.2026.4"; // versao do sistema EcoControl (nao e dado do municipio)
+    const ECO_MUNICIPIO_NOME = CONFIG.municipio.nome;
+    const ECO_INSTANCE_PADRAO = CONFIG.municipio.nome; // usado so como identificador interno de fallback (ver pageInstance())
+    const ECO_MES_ENCERRADO_INDICES = CONFIG.periodo.mesFiscalEncerrado;
+    const ECO_USUARIOS = CONFIG.usuarios
+      .filter(u => u && u.usuario)
+      .map(u => ({ username:u.usuario, password:u.senha, role:u.perfil === "master" ? "master" : "user" }));
+    // ECO_LINKS.receita (singular) e o nome interno esperado por loadGroup();
+    // CONFIG.csv.receitas (plural) e o nome voltado para quem preenche a config.
+    const ECO_LINKS = {
+      pessoal: CONFIG.csv.pessoal,
+      despesas: CONFIG.csv.despesas,
+      receita: CONFIG.csv.receitas,
+      disponibilidades: CONFIG.csv.disponibilidades
+    };
+    const ECO_PESSOAL_MANUAL = {
+      rclAjustada: CONFIG.manual.rclAjustada,
+      despesaExecutivo: CONFIG.manual.despesaExecutivo,
+      despesaTotalPessoal: CONFIG.manual.despesaTotalPessoal
+    };
+    const ECO_MDE_MANUAL = CONFIG.manual.mde;
+    const ECO_META_VAAT_INFANTIL = CONFIG.manual.metaVaatInfantil;
+
+    // Validacao da configuracao — roda antes de tentar carregar qualquer
+    // CSV. So aponta o que falta; nao altera nenhum calculo.
+    function validateConfig(){
+      const problemas = [];
+      if(!CONFIG.municipio.nome || /NOME DO MUNIC/i.test(CONFIG.municipio.nome)){
+        problemas.push("Nome do municipio (CONFIG.municipio.nome)");
+      }
+      if(!CONFIG.municipio.brasao || /NOME_DO_MUNICIPIO/i.test(CONFIG.municipio.brasao)){
+        problemas.push("Brasao (CONFIG.municipio.brasao)");
+      }
+      ["pessoal", "despesas", "receitas"].forEach(grupo => {
+        const anos = CONFIG.periodo.anos || [];
+        const semLink = anos.filter(ano => !(CONFIG.csv[grupo] && CONFIG.csv[grupo][ano]));
+        if(semLink.length) problemas.push(`CSV de ${grupo} sem link para: ${semLink.join(", ")}`);
+      });
+      if(!CONFIG.manual.metaVaatInfantil){
+        problemas.push("Meta legal do VAAT-Infantil (CONFIG.manual.metaVaatInfantil)");
+      }
+      (CONFIG.usuarios || []).forEach(u => {
+        if(u && u.usuario && !u.senha) problemas.push(`Senha do usuario "${u.usuario}"`);
+      });
+      return problemas;
+    }
+    function showConfigWarning(problemas){
+      document.getElementById("ecoLogin").classList.add("eco-hidden");
+      document.getElementById("ecoMain").classList.remove("eco-hidden");
+      document.getElementById("ecoLoading").style.display = "none";
+      const el = document.getElementById("ecoError");
+      el.style.display = "block";
+      el.innerHTML = "<strong>⚠ Configuracao incompleta</strong><br>O EcoControl ainda nao esta configurado para um municipio.<br><br>Verifique:<br>" +
+        problemas.map(p => "• " + p).join("<br>");
+    }
+
+    const ECO_CONFIG = {
+      anos: [2023, 2024, 2025, 2026],
+      anoIndices: 2026,
+      mesEncerradoIndices: ECO_MES_ENCERRADO_INDICES,
+      metas: { saude: 15, mde: 25, fundebMagisterio: 70, vaatInfantil: ECO_META_VAAT_INFANTIL, vaatInvestimento: 15, eti: 4, pessoal: 54 },
+      codigosBaseASPS: ["111", "17115111", "17215001", "17215201", "17115201", "17215101"],
+      codigosBaseMDE: ["111", "17115111", "17115121", "17215001", "17215201", "17115201", "17215101"],
+      fontesFundeb: ["540", "541", "542", "543", "546"],
+      fontesVAAT: ["542"],
+      fontesETI: ["546"],
+      fontesFundebVAAR: ["543"],
+      cosMagisterio: ["1070", "1072"],
+      cosVAATInfantil: ["1074"],
+      cosVAATInvestimento: ["1075"],
+      cosETI: ["1080"],
+      // Cada categoria classifica pela COLUNA ESTRUTURADA do empenho (Elemento,
+      // Subelemento ou Grupo de Natureza de Despesa), nunca pelo texto livre do
+      // Historico - o Historico e escrito livremente por cada servidor e gera
+      // falsos positivos (ex.: um empenho de servico terceirizado cujo texto
+      // menciona "diaria" nao e uma diaria do elemento 33.90.14).
+      // modo "prefix" compara o inicio do valor do campo (codigo do elemento/
+      // grupo); modo "includes" procura a palavra dentro do valor do campo.
+      categoriasDespesa: {
+        combustivel:   { campo: "subelemento", modo: "includes", valores: ["combust"] },
+        medicamentos:  { campo: "subelemento", modo: "includes", valores: ["farmacol", "hospitalar"] },
+        doacoes:       { campo: "elemento", modo: "prefix", valores: ["32", "48"] },
+        diarias:       { campo: "elemento", modo: "prefix", valores: ["14"] },
+        investimentos: { campo: "grupo de natureza de despesa", modo: "prefix", valores: ["4"] }
+      },
+      pessoalManual: ECO_PESSOAL_MANUAL,
+      mdeManual: ECO_MDE_MANUAL
+    };
+
+    const MESES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    const COLORS = ["#2f76bc","#3aa675","#c4872c","#8f63c7","#c43d4b","#4a8f8f","#667085"];
+    const charts = {};
+
+    function repairText(v){
+      v = String(v == null ? "" : v).replace(/^\uFEFF/, "").replace(/^ï»¿/, "").replace(/^"|"$/g, "").trim();
+      const map = [["Ã¡","á"],["Ã ","à"],["Ã¢","â"],["Ã£","ã"],["Ã©","é"],["Ãª","ê"],["Ã­","í"],["Ã³","ó"],["Ã´","ô"],["Ãµ","õ"],["Ãº","ú"],["Ã§","ç"],["Ã","Ç"],["Ã‰","É"],["Ã","Í"],["Ã“","Ó"],["Ã","Ã"],["Âº","º"],["Âª","ª"],["Â",""]];
+      map.forEach(([a,b]) => v = v.split(a).join(b));
+      return v;
+    }
+    function norm(v){
+      return repairText(v).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+    }
+    function money(v){
+      return "R$ " + (v || 0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+    }
+    function pct(v){ return (v || 0).toFixed(2).replace(".", ",") + "%"; }
+    function numberValue(v){
+      if(v == null || v === "") return 0;
+      let s = String(v).replace(/[^\d,.-]/g, "");
+      if(s.includes(",") && s.lastIndexOf(",") > s.lastIndexOf(".")) s = s.replace(/\./g,"").replace(",",".");
+      return parseFloat(s) || 0;
+    }
+    function firstPrefix(text, prefixes){ return prefixes.some(p => repairText(text).trim().startsWith(p)); }
+    function includesAny(text, keys){ const n = norm(text); return keys.some(k => n.includes(norm(k))); }
+    function monthIndex(row){
+      const raw = col(row, "mes") || col(row, "mês") || col(row, "mes ano") || col(row, "mês/ano") || col(row, "data");
+      const m = String(raw).match(/(\d{1,2})/);
+      return m ? Math.max(0, Math.min(11, parseInt(m[1],10)-1)) : 0;
+    }
+    function monthNameFromNumber(m){
+      return MESES[Math.max(0, Math.min(11, m - 1))];
+    }
+    function col(row, name){
+      const key = norm(name);
+      return row.__norm[key] || "";
+    }
+    function parseCSV(text){
+      text = text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");
+      const rows = [], out = [];
+      let cur = "", line = [], q = false;
+      for(let i=0;i<text.length;i++){
+        const ch = text[i], next = text[i+1];
+        if(ch === '"' && q && next === '"'){ cur += '"'; i++; }
+        else if(ch === '"'){ q = !q; }
+        else if(ch === "," && !q){ line.push(cur); cur = ""; }
+        else if(ch === "\n" && !q){ line.push(cur); rows.push(line); line = []; cur = ""; }
+        else cur += ch;
+      }
+      if(cur || line.length){ line.push(cur); rows.push(line); }
+      const headers = (rows.shift() || []).map(repairText);
+      rows.forEach(r => {
+        const obj = { __norm: {} };
+        headers.forEach((h,i) => {
+          const val = repairText(r[i] || "");
+          obj[h] = val;
+          obj.__norm[norm(h)] = val;
+        });
+        out.push(obj);
+      });
+      return out;
+    }
+    async function fetchCSV(url){
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("HTTP " + res.status + " em " + url);
+      return parseCSV(await res.text());
+    }
+    async function loadGroup(group){
+      const entries = ECO_CONFIG.anos.map(ano => [ano, ECO_LINKS[group][ano]]).filter(x => x[1]);
+      const result = {};
+      await Promise.all(entries.map(async ([ano,url]) => { result[ano] = await fetchCSV(url); }));
+      return result;
+    }
+    function makeChart(id, config){
+      if(charts[id]) charts[id].destroy();
+      charts[id] = new Chart(document.getElementById(id), config);
+    }
+    function chartOptions(prefix){
+      const fmt = v => prefix === "R$" ? money(v) : prefix === "%" ? pct(v) : Number(v).toLocaleString("pt-BR");
+      return { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom", labels:{ boxWidth:12, font:{ size:11 }}}, tooltip:{ callbacks:{ label:c => " " + c.dataset.label + ": " + fmt(c.chart.options.indexAxis === "y" ? c.parsed.x : c.parsed.y) }}}, scales:{ x:{ grid:{ display:false }}, y:{ beginAtZero:true, ticks:{ callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(16,32,51,.07)" }}}};
+    }
+    function horizontalChartOptions(prefix){
+      const fmt = v => prefix === "R$" ? money(v) : prefix === "%" ? pct(v) : Number(v).toLocaleString("pt-BR");
+      return { responsive:true, maintainAspectRatio:false, indexAxis:"y", plugins:{ legend:{ position:"bottom", labels:{ boxWidth:12, font:{ size:11 }}}, tooltip:{ callbacks:{
+        title:items => {
+          const item = items && items[0];
+          return item && item.dataset.fullLabels ? item.dataset.fullLabels[item.dataIndex] : item.label;
+        },
+        label:c => " " + c.dataset.label + ": " + fmt(c.parsed.x)
+      }}}, scales:{ x:{ beginAtZero:true, ticks:{ callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(16,32,51,.07)" }}, y:{ grid:{ display:false }}}};
+    }
+    function cards(el, items){
+      document.getElementById(el).innerHTML = items.map((c,i) => `<div class="eco-card ${c.color || ["blue","green","gold","red"][i%4]}"><div class="label">${c.label}</div><div class="value">${c.value}</div><div class="sub">${c.sub || ""}</div></div>`).join("");
+    }
+    function slugInstance(value){
+      return normalizeLogin(value || "").replace(/[^a-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "instancia-padrao";
+    }
+    function prettyInstance(value){
+      return repairText(value || "").trim();
+    }
+    function pageInstance(){
+      return slugInstance(ECO_INSTANCE_PADRAO || ECO_MUNICIPIO_NOME || "instancia-padrao");
+    }
+    function pageMunicipioNome(){
+      return prettyInstance(ECO_MUNICIPIO_NOME || pageInstance().replace(/-/g, " "));
+    }
+    function setPageMunicipio(_value){
+      // Configuracao fixa no codigo: altere CONFIG.municipio.nome no bloco principal.
+    }
+    function storageScope(){
+      return "ecocontrol-config-fixo-" + pageInstance();
+    }
+    function configStorageKey(){
+      return storageScope();
+    }
+    function loadCodeConfig(){
+      setMunicipioHeader(pageMunicipioNome());
+      const versionEl = document.getElementById("ecoVersion");
+      if(versionEl) versionEl.textContent = ECO_VERSAO;
+
+      const anoIni = ECO_CONFIG.anos[0], anoFim = ECO_CONFIG.anos[ECO_CONFIG.anos.length - 1];
+      const subtitleEl = document.getElementById("ecoSubtitle");
+      if(subtitleEl) subtitleEl.textContent = `Indicadores legais ${ECO_CONFIG.anoIndices} por competencia, folha, despesas e receitas`;
+      const legalDescEl = document.getElementById("legalPeriodoDesc");
+      if(legalDescEl) legalDescEl.textContent = `Ano de ${ECO_CONFIG.anoIndices}, acumulado ate a competencia encerrada.`;
+      const resumoTituloEl = document.getElementById("resumoLegalTitulo");
+      if(resumoTituloEl) resumoTituloEl.textContent = `Resumo legal ${ECO_CONFIG.anoIndices}`;
+      const folhaDescEl = document.getElementById("folhaPeriodoDesc");
+      if(folhaDescEl) folhaDescEl.textContent = `Comparativo de ${anoIni} a ${anoFim}.`;
+
+      const logoEl = document.getElementById("ecoLogo");
+      if(logoEl && logoEl.getAttribute("src") !== CONFIG.municipio.brasao){
+        logoEl.onerror = () => { logoEl.style.opacity = "0.25"; logoEl.alt = "Brasao nao encontrado em " + CONFIG.municipio.brasao; };
+        logoEl.src = CONFIG.municipio.brasao;
+      }
+    }
+    function municipioFromRows(rows){
+      const counts = new Map();
+      (rows || []).forEach(row => {
+        const value = repairText(col(row, "municipio") || col(row, "nome municipio") || col(row, "município"));
+        if(!value) return;
+        const key = norm(value);
+        if(!key) return;
+        const item = counts.get(key) || { name:value, count:0 };
+        item.count++;
+        counts.set(key, item);
+      });
+      return Array.from(counts.entries()).sort((a,b) => b[1].count - a[1].count)[0]?.[1].name || "";
+    }
+    function setMunicipioHeader(nome){
+      const label = prettyInstance(nome) || "Municipio nao configurado";
+      document.getElementById("ecoMunicipio").textContent = "Prefeitura Municipal de " + label;
+    }
+    function validateMunicipios(groups){
+      const found = [];
+      Object.entries(groups).forEach(([grupo, anos]) => {
+        Object.entries(anos || {}).forEach(([ano, rows]) => {
+          const municipio = municipioFromRows(rows);
+          if(municipio) found.push({ grupo, ano, municipio, key:norm(municipio) });
+        });
+      });
+      const configurado = pageMunicipioNome();
+      if(!found.length) return configurado || "Municipio nao configurado";
+      const base = found[0];
+      const divergentes = found.filter(item => item.key !== base.key);
+      if(configurado && norm(configurado) !== base.key){
+        divergentes.unshift({ grupo:"configuracao", ano:"", municipio:configurado, key:norm(configurado) });
+      }
+      if(divergentes.length){
+        const detalhes = divergentes.map(item => `${item.grupo} ${item.ano}: ${repairText(item.municipio)}`).join("<br>");
+        const err = new Error(`Tabela pertence a outro municipio.<br><br>Municipio dos CSVs: <strong>${repairText(base.municipio)}</strong><br><br>Dados divergentes:<br>${detalhes}`);
+        err.ecoMunicipioMismatch = true;
+        throw err;
+      }
+      return base.municipio;
+    }
+    function renderConfigPanel(){
+      // A tela de Configuracoes foi removida. Configure tudo no bloco CONFIGURACAO PRINCIPAL.
+    }
+    function readConfigPanel(){
+      // A tela de Configuracoes foi removida. Configure tudo no bloco CONFIGURACAO PRINCIPAL.
+    }
+    function vals3(row){
+      return {
+        emp: numberValue(col(row, "valor empenhado")),
+        liq: numberValue(col(row, "valor liquidado")),
+        pag: numberValue(col(row, "valor pago"))
+      };
+    }
+    function fonteLabel(row, tipo){
+      return repairText(tipo === "receita" ? col(row, "fonte de recurso") : col(row, "fonte do recurso")) || "Fonte nao informada";
+    }
+    function shortFonte(text){
+      const t = repairText(text || "Fonte nao informada").trim();
+      const m = t.match(/^(\d{3,4})/);
+      return m ? m[1] : t.slice(0, 28);
+    }
+    function add3(a,b){
+      a.emp += b.emp || 0;
+      a.liq += b.liq || 0;
+      a.pag += b.pag || 0;
+      return a;
+    }
+    function pct3(vals, base){
+      return {
+        emp: base ? vals.emp / base * 100 : 0,
+        liq: base ? vals.liq / base * 100 : 0,
+        pag: base ? vals.pag / base * 100 : 0
+      };
+    }
+    function empty3(){ return { emp:0, liq:0, pag:0 }; }
+    function isCamara(row){
+      return includesAny([col(row,"unidade gestora"), col(row,"unidade orcamentaria"), col(row,"unidade orçamentária")].join(" "), ["camara municipal"]);
+    }
+    function isDespesaPessoal(row){
+      const texto = [col(row,"grupo de natureza de despesa"), col(row,"elemento"), col(row,"subelemento"), col(row,"historico")].join(" ");
+      if(includesAny(texto, ["indenizacao por demissao", "incentivo a demissao", "decisao judicial periodo anterior", "exercicios anteriores"])) return false;
+      return includesAny(texto, ["pessoal e encargos sociais", "vencimentos", "obrigacoes patronais", "contratacao por tempo determinado", "aposentadorias", "pensoes", "subsidios", "salario familia", "outros beneficios previdenciarios", "outras despesas de pessoal decorrentes de contratos", "mao de obra", "terceirizacao"]);
+    }
+    function isReceitaCorrente(row){
+      return firstPrefix(col(row, "categoria"), ["10000000"]) || firstPrefix(col(row, "fonte"), ["1"]);
+    }
+    function isDeducaoRCL(row){
+      const texto = [col(row,"descricao"), col(row,"categoria"), col(row,"fonte"), col(row,"subfonte")].join(" ");
+      return includesAny(texto, ["deducao", "retificacao", "contribuicao do servidor", "compensacao financeira entre regimes"]);
+    }
+    function sumRclRows(rows){
+      let total = 0;
+      (rows || []).forEach(r => {
+        const val = numberValue(col(r, "valor ajustado"));
+        if(isReceitaCorrente(r)) total += val;
+        if(isDeducaoRCL(r)) total -= Math.max(0, val);
+      });
+      return total;
+    }
+    function rowsAteMes(rows, mesLimite){
+      return (rows || []).filter(r => monthIndex(r) <= mesLimite);
+    }
+    function rowsPeriodo12(byYear, ano, mesLimite){
+      const atual = (byYear[ano] || []).filter(r => monthIndex(r) <= mesLimite);
+      const anterior = (byYear[ano - 1] || []).filter(r => monthIndex(r) > mesLimite);
+      return anterior.concat(atual);
+    }
+    function calcPessoalIndices(ano, mesLimite, receitaByYear, despesaByYear){
+      const receitaExercicio = rowsAteMes(receitaByYear[ano], mesLimite);
+      const receita12 = rowsPeriodo12(receitaByYear, ano, mesLimite);
+      const despesaExercicio = rowsAteMes(despesaByYear[ano], mesLimite).filter(isDespesaPessoal);
+      const despesa12 = rowsPeriodo12(despesaByYear, ano, mesLimite).filter(isDespesaPessoal);
+      const calcDtp = rows => rows.reduce((acc, r) => {
+        const v = vals3(r);
+        add3(acc.total, v);
+        if(!isCamara(r)) add3(acc.exec, v);
+        return acc;
+      }, { exec: empty3(), total: empty3() });
+      const rclExercicio = sumRclRows(receitaExercicio);
+      const rcl12Calculada = sumRclRows(receita12);
+      const rcl12 = ECO_CONFIG.pessoalManual.rclAjustada || rcl12Calculada;
+      const dtpExercicio = calcDtp(despesaExercicio);
+      const dtp12 = calcDtp(despesa12);
+      if(ECO_CONFIG.pessoalManual.despesaExecutivo){
+        dtp12.exec.liq = ECO_CONFIG.pessoalManual.despesaExecutivo;
+      }
+      if(ECO_CONFIG.pessoalManual.despesaTotalPessoal){
+        dtp12.total.liq = ECO_CONFIG.pessoalManual.despesaTotalPessoal;
+      }
+      return {
+        exercicio: {
+          exec: pct3(dtpExercicio.exec, rclExercicio),
+          total: pct3(dtpExercicio.total, rclExercicio),
+          values: { exec: dtpExercicio.exec, total: dtpExercicio.total },
+          rcl: rclExercicio
+        },
+        ultimos12: {
+          exec: pct3(dtp12.exec, rcl12),
+          total: pct3(dtp12.total, rcl12),
+          values: { exec: dtp12.exec, total: dtp12.total },
+          rcl: rcl12 || rcl12Calculada
+        }
+      };
+    }
+
+    function calcDisponibilidadeFundeb(rows, fundebRec, mesLimite){
+      const fundebRows = (rows || []).filter(r => monthIndex(r) <= mesLimite && includesAny(col(r, "descricao da conta"), ["fundeb"]));
+      const maxMes = fundebRows.reduce((m,r) => Math.max(m, monthIndex(r)), -1);
+      const usados = fundebRows.filter(r => monthIndex(r) === maxMes);
+      const saldo = usados.reduce((s,r) => s + numberValue(col(r, "conciliado") || col(r, "saldo") || col(r, "extrato")), 0);
+      const limite = fundebRec * 0.10;
+      const percentual = fundebRec ? saldo / fundebRec * 100 : 0;
+      return { saldo, limite, percentual, ok: saldo <= limite, mes: maxMes + 1 };
+    }
+
+    function calcLegalFromRows(ano, mesLimite, rec, desp, disp, receitaByYear, despesaByYear){
+      rec = (rec || []).filter(r => monthIndex(r) <= mesLimite);
+      desp = (desp || []).filter(r => monthIndex(r) <= mesLimite);
+      let baseAspsNet = 0, baseMdeNet = 0, deducaoFundebLancada = 0, fundebRec = 0, fundebVaarRec = 0, vaatRec = 0, etiRec = 0;
+      rec.forEach(r => {
+        const fonte = col(r, "fonte de recurso"), desc = col(r, "descricao"), val = numberValue(col(r, "valor ajustado"));
+        // O CSV traz uma linha propria (Tipo = "Deducao de Receita do Fundeb")
+        // com o valor ja deduzido do FPM/ICMS/etc para o FUNDEB. A base legal
+        // do ASPS/MDE usa a receita BRUTA (antes dessa deducao), entao essas
+        // linhas ficam de fora da soma da base e viram o "valor ja deduzido"
+        // que o relatorio oficial soma de volta na despesa do MDE (item 4.1).
+        if(includesAny(col(r, "tipo"), ["deducao de receita do fundeb"])){
+          deducaoFundebLancada += Math.max(0, -val);
+          return;
+        }
+        if(firstPrefix(desc, ECO_CONFIG.codigosBaseASPS)) baseAspsNet += val;
+        if(firstPrefix(desc, ECO_CONFIG.codigosBaseMDE)) baseMdeNet += val;
+        if(firstPrefix(fonte, ECO_CONFIG.fontesFundeb)) fundebRec += val;
+        if(firstPrefix(fonte, ECO_CONFIG.fontesFundebVAAR)) fundebVaarRec += val;
+        if(firstPrefix(fonte, ECO_CONFIG.fontesVAAT)) vaatRec += val;
+        if(firstPrefix(fonte, ECO_CONFIG.fontesETI)) etiRec += val;
+      });
+      const saude = empty3(), mde = empty3(), fundebTotal = empty3(), fundebMag = empty3(), vaatInf = empty3(), vaatInv = empty3(), eti = empty3();
+      desp.forEach(d => {
+        const func = col(d, "funcao"), sub = col(d, "subfuncao"), fonte = col(d, "fonte do recurso"), co = col(d, "co");
+        const grupo = col(d, "grupo de natureza de despesa"), elemento = col(d, "elemento");
+        const v = vals3(d);
+        if(includesAny(func, ["10 - saude"]) && firstPrefix(fonte, ["500"])) add3(saude, v);
+        if(includesAny(func, ["12 - educacao"]) && firstPrefix(fonte, ["500"])) add3(mde, v);
+        if(firstPrefix(fonte, ECO_CONFIG.fontesFundeb)){
+          add3(fundebTotal, v);
+          if(ECO_CONFIG.cosMagisterio.some(x => co.includes(x))) add3(fundebMag, v);
+        }
+        if(firstPrefix(fonte, ECO_CONFIG.fontesVAAT)){
+          const infantil = ECO_CONFIG.cosVAATInfantil.some(x => co.includes(x)) || includesAny(sub + " " + func, ["educacao infantil", "creche", "pre escola"]);
+          const investimento = ECO_CONFIG.cosVAATInvestimento.some(x => co.includes(x)) || includesAny(grupo + " " + elemento, ["investimentos", "despesa de capital", "obras e instalacoes", "equipamentos"]);
+          if(infantil) add3(vaatInf, v);
+          if(investimento) add3(vaatInv, v);
+        }
+        if(firstPrefix(fonte, ECO_CONFIG.fontesETI) || ECO_CONFIG.cosETI.some(x => co.includes(x))) add3(eti, v);
+      });
+      const baseAsps = baseAspsNet;
+      const mdeAjustes = ECO_CONFIG.mdeManual || {};
+      // Todo valor abaixo pode ser sobrescrito em CONFIG.manual.mde com o
+      // numero exato do relatorio oficial (SisContabil), sem precisar mexer
+      // nesta funcao. Veja os comentarios em CONFIG.manual.mde para o que
+      // cada campo representa.
+      const baseMde = mdeAjustes.baseReceitaImpostos != null ? mdeAjustes.baseReceitaImpostos : baseMdeNet;
+      const despesaTipicaOverride = mdeAjustes.despesaTipicaMDE || {};
+      const mdeTipica = {
+        emp: despesaTipicaOverride.emp != null ? despesaTipicaOverride.emp : mde.emp,
+        liq: despesaTipicaOverride.liq != null ? despesaTipicaOverride.liq : mde.liq,
+        pag: despesaTipicaOverride.pag != null ? despesaTipicaOverride.pag : mde.pag
+      };
+      const deducaoFundebFinal = mdeAjustes.deducaoFundebLancada != null ? mdeAjustes.deducaoFundebLancada : deducaoFundebLancada;
+      // Formula oficial do MDE (relatorio SisContabil, itens 45/46/47):
+      // despesas tipicas de MDE (exceto FUNDEB) + deducao do FUNDEB lancada
+      // no mes - valor excedente aos 10% de superavit do FUNDEB nao aplicado
+      // - superavit permitido do exercicio anterior nao aplicado - ajustes
+      // manuais de restos a pagar.
+      const limiteSuperavitFundeb = fundebRec * 0.10;
+      const excedenteFundebCalc = {
+        emp: Math.max(0, Math.max(0, fundebRec - fundebTotal.emp) - limiteSuperavitFundeb),
+        liq: Math.max(0, Math.max(0, fundebRec - fundebTotal.liq) - limiteSuperavitFundeb),
+        pag: Math.max(0, Math.max(0, fundebRec - fundebTotal.pag) - limiteSuperavitFundeb)
+      };
+      // O calculo automatico acima NAO reproduz o limite por subfonte do
+      // FUNDEB do SisContabil (cada subfonte - impostos/VAAF/VAAT/VAAR/ETI -
+      // so conta como "aplicada no exercicio" ate o valor recebido dela no
+      // ano). Se o relatorio oficial mostrar este item maior que o calculado
+      // aqui, preencha CONFIG.manual.mde.excedenteFundeb com o valor oficial.
+      const excedenteOverride = mdeAjustes.excedenteFundeb || {};
+      const excedenteFundeb = {
+        emp: excedenteOverride.emp != null ? excedenteOverride.emp : excedenteFundebCalc.emp,
+        liq: excedenteOverride.liq != null ? excedenteOverride.liq : excedenteFundebCalc.liq,
+        pag: excedenteOverride.pag != null ? excedenteOverride.pag : excedenteFundebCalc.pag
+      };
+      const mdeAjustesFixos = (mdeAjustes.superavitAnteriorNaoAplicado || 0) + (mdeAjustes.restosAPagarSemDisponibilidade || 0) + (mdeAjustes.cancelamentoRestosAPagar || 0);
+      const mdeComDed = {
+        emp: mdeTipica.emp + deducaoFundebFinal - excedenteFundeb.emp - mdeAjustesFixos,
+        liq: mdeTipica.liq + deducaoFundebFinal - excedenteFundeb.liq - mdeAjustesFixos,
+        pag: mdeTipica.pag + deducaoFundebFinal - excedenteFundeb.pag - mdeAjustesFixos
+      };
+      // A Complementacao da Uniao - VAAR (fonte 543) entra na base do ETI 4%,
+      // mas nao integra a base dos 70% de Magisterio.
+      const fundebRecMagisterio = fundebRec - fundebVaarRec;
+      const pessoal = calcPessoalIndices(ano, mesLimite, receitaByYear, despesaByYear);
+      const saudePct = pct3(saude, baseAsps);
+      const mdePct = pct3(mdeComDed, baseMde);
+      const fundebMagPct = pct3(fundebMag, fundebRecMagisterio);
+      const vaatInfantilPct = pct3(vaatInf, vaatRec);
+      const vaatInvestimentoPct = pct3(vaatInv, vaatRec);
+      const etiPct = pct3(eti, fundebRec);
+      const fundebDisponibilidade = calcDisponibilidadeFundeb(disp || [], fundebRec, mesLimite);
+      const summaryItems = [
+        { name:"SAUDE - ASPS", desc:"Despesa com ASPS", base:baseAsps, minPct:15, values:saude, pct:saudePct },
+        { name:"MDE", desc:"Despesa com MDE", base:baseMde, minPct:25, values:mdeComDed, pct:mdePct },
+        { name:"FUNDEB Magisterio", desc:"Despesa com FUNDEB", base:fundebRecMagisterio, minPct:70, values:fundebMag, pct:fundebMagPct },
+        { name:"VAAT - Infantil", desc:"Despesa com VAAT", base:vaatRec, minPct:ECO_CONFIG.metas.vaatInfantil, values:vaatInf, pct:vaatInfantilPct },
+        { name:"VAAT - Capital", desc:"Despesa com VAAT", base:vaatRec, minPct:15, values:vaatInv, pct:vaatInvestimentoPct },
+        { name:"FUNDEB ETI 4%", desc:"Despesa FUNDEB ETI 4%", base:fundebRec, minPct:4, values:eti, pct:etiPct }
+      ];
+      return {
+        ano,
+        mes: mesLimite + 1,
+        label: monthNameFromNumber(mesLimite + 1),
+        base: baseAsps,
+        baseMde,
+        fundebRec,
+        vaatRec,
+        etiRec,
+        saudePct,
+        mdePct,
+        fundebMagPct,
+        vaatInfantilPct,
+        vaatInvestimentoPct,
+        etiPct,
+        fundebDisponibilidade,
+        summaryItems,
+        pessoalExecPct: pessoal.ultimos12.exec,
+        pessoalTotalPct: pessoal.ultimos12.total,
+        pessoalExercicioExecPct: pessoal.exercicio.exec,
+        pessoalExercicioTotalPct: pessoal.exercicio.total,
+        pessoal
+      };
+    }
+    function calcLegalMonthly(receitaByYear, despesaByYear, disponibilidadeByYear){
+      const ano = ECO_CONFIG.anoIndices;
+      const maxMes = Math.max(1, Math.min(12, ECO_CONFIG.mesEncerradoIndices));
+      const rec = receitaByYear[ano] || [];
+      const desp = despesaByYear[ano] || [];
+      const disp = (disponibilidadeByYear && disponibilidadeByYear[ano]) || [];
+      return Array.from({length:maxMes}, (_,i) => calcLegalFromRows(ano, i, rec, desp, disp, receitaByYear, despesaByYear));
+    }
+    function calcFolha(pessoalByYear){
+      const data = {};
+      ECO_CONFIG.anos.forEach(ano => {
+        const rows = pessoalByYear[ano] || [];
+        const seen = new Set(), tipo = {}, cargoEfetivo = {};
+        rows.forEach(r => {
+          const key = col(r,"matricula") || col(r,"cpf") + "|" + col(r,"servidor");
+          if(seen.has(key)) return;
+          seen.add(key);
+          const tipoRaw = norm(col(r,"tipo de cargo"));
+          let t = "Outros";
+          if(tipoRaw.includes("eletiv")) t = "Eletivos";
+          else if(tipoRaw.includes("comission")) t = "Comissionados";
+          else if(tipoRaw.includes("contrat")) t = "Contratados";
+          else if(tipoRaw.includes("inativ") || tipoRaw.includes("pension")) t = "Inativos/Pensionistas";
+          else if(tipoRaw.includes("efetiv")) t = "Efetivos";
+          tipo[t] = (tipo[t] || 0) + 1;
+          if(t === "Efetivos"){
+            const cargo = repairText(col(r,"cargo")).toUpperCase() || "NAO INFORMADO";
+            cargoEfetivo[cargo] = (cargoEfetivo[cargo] || 0) + 1;
+          }
+        });
+        data[ano] = { total: seen.size, tipo, cargoEfetivo };
+      });
+      return data;
+    }
+    function calcDespesas(despesaByYear){
+      const out = {};
+      // No ano corrente (ECO_CONFIG.anoIndices), corta no mesmo "mes encerrado"
+      // usado pelos indices legais (MDE/ASPS/FUNDEB), para bater com relatorios
+      // oficiais "ate o mes X". Anos anteriores ja estao fechados e entram
+      // inteiros, sem corte.
+      const mesLimite = Math.max(0, Math.min(11, ECO_CONFIG.mesEncerradoIndices - 1));
+      ECO_CONFIG.anos.forEach(ano => {
+        out[ano] = { combustivel:0, medicamentos:0, doacoes:0, diarias:0, investimentos:0, months:{} };
+        Object.keys(ECO_CONFIG.categoriasDespesa).forEach(cat => out[ano].months[cat] = Array(12).fill(0));
+        const rows = ano === ECO_CONFIG.anoIndices ? rowsAteMes(despesaByYear[ano] || [], mesLimite) : (despesaByYear[ano] || []);
+        rows.forEach(d => {
+          const val = numberValue(col(d,"valor empenhado"));
+          const m = monthIndex(d);
+          Object.entries(ECO_CONFIG.categoriasDespesa).forEach(([cat, regra]) => {
+            const valorCampo = col(d, regra.campo);
+            const bateu = regra.modo === "prefix" ? firstPrefix(valorCampo, regra.valores) : includesAny(valorCampo, regra.valores);
+            if(bateu){
+              out[ano][cat] += val;
+              out[ano].months[cat][m] += val;
+            }
+          });
+        });
+      });
+      return out;
+    }
+    function calcReceitas(receitaByYear){
+      const out = {};
+      ECO_CONFIG.anos.forEach(ano => {
+        const months = Array(12).fill(0);
+        let total = 0;
+        (receitaByYear[ano] || []).forEach(r => {
+          const val = numberValue(col(r,"valor ajustado"));
+          months[monthIndex(r)] += val;
+          total += val;
+        });
+        out[ano] = { total, months };
+      });
+      return out;
+    }
+    function calcResultadoOrcamentario(receitaByYear, despesaByYear){
+      const ano = ECO_CONFIG.anoIndices;
+      const mesLimite = Math.max(0, Math.min(11, ECO_CONFIG.mesEncerradoIndices - 1));
+      const rec = rowsAteMes(receitaByYear[ano] || [], mesLimite);
+      const desp = rowsAteMes(despesaByYear[ano] || [], mesLimite);
+      const receitaTotal = rec.reduce((s,r) => s + numberValue(col(r, "valor ajustado")), 0);
+      const despEmp = desp.reduce((s,r) => s + numberValue(col(r, "valor empenhado")), 0);
+      const despLiq = desp.reduce((s,r) => s + numberValue(col(r, "valor liquidado")), 0);
+      const fontes = {};
+      rec.forEach(r => {
+        const full = fonteLabel(r, "receita");
+        const key = shortFonte(full);
+        fontes[key] = fontes[key] || { fonte:key, fonteCompleta:full, receita:0, emp:0, liq:0 };
+        fontes[key].receita += numberValue(col(r, "valor ajustado"));
+      });
+      desp.forEach(r => {
+        const full = fonteLabel(r, "despesa");
+        const key = shortFonte(full);
+        fontes[key] = fontes[key] || { fonte:key, fonteCompleta:full, receita:0, emp:0, liq:0 };
+        if(!fontes[key].fonteCompleta || fontes[key].fonteCompleta === "Fonte nao informada") fontes[key].fonteCompleta = full;
+        fontes[key].emp += numberValue(col(r, "valor empenhado"));
+        fontes[key].liq += numberValue(col(r, "valor liquidado"));
+      });
+      const porFonte = Object.values(fontes).map(f => ({
+        ...f,
+        resultadoEmp: f.receita - f.emp,
+        resultadoLiq: f.receita - f.liq
+      }));
+      return {
+        ano,
+        mes: mesLimite + 1,
+        receitaTotal,
+        despEmp,
+        despLiq,
+        resultadoEmp: receitaTotal - despEmp,
+        resultadoLiq: receitaTotal - despLiq,
+        porFonte
+      };
+    }
+    function fmtBR(v){
+      return (v || 0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+    }
+    function diffClass(v){
+      if(v > 0.004) return "diff-pos";
+      if(v < -0.004) return "diff-neg";
+      return "muted";
+    }
+    function summaryRow(item, mode){
+      const minValue = item.base * item.minPct / 100;
+      const applied = item.values[mode] || 0;
+      const pctVal = item.pct[mode] || 0;
+      const diff = applied - minValue;
+      const diffPct = pctVal - item.minPct;
+      const cls = diffClass(diff);
+      return `<tr>
+        <td><strong>${item.name}</strong></td>
+        <td>${item.desc}</td>
+        <td class="num">${fmtBR(minValue)}</td>
+        <td class="num">${pct(item.minPct)}</td>
+        <td class="num ${cls}">${fmtBR(applied)}</td>
+        <td class="num ${cls}">${pct(pctVal)}</td>
+        <td class="num ${cls}">${fmtBR(diff)}</td>
+        <td class="num ${cls}">${pct(diffPct)}</td>
+      </tr>`;
+    }
+    function renderLegalSummary(latest){
+      const sections = [
+        ["DESPESA EMPENHADA", "emp"],
+        ["DESPESA LIQUIDADA", "liq"],
+        ["DESPESA PAGA", "pag"]
+      ];
+      let html = sections.map(([title, mode]) => {
+        return `<tr class="secrow"><td colspan="8">${title}</td></tr>` + latest.summaryItems.map(item => summaryRow(item, mode)).join("");
+      }).join("");
+      const disp = latest.fundebDisponibilidade || { saldo:0, limite:0, percentual:0, ok:true };
+      const dispDiff = disp.limite - disp.saldo;
+      const dispCls = disp.ok ? "diff-pos" : "diff-neg";
+      html += `<tr class="subsec"><td colspan="8">DISPONIBILIDADE DE SALDO FUNDEB - LIMITE MAXIMO DE 10%</td></tr>`;
+      html += `<tr>
+        <td><strong>SALDO FUNDEB</strong></td>
+        <td>Saldo conciliado das contas FUNDEB</td>
+        <td class="num">${fmtBR(disp.limite)}</td>
+        <td class="num">10,00%</td>
+        <td class="num ${dispCls}">${fmtBR(disp.saldo)}</td>
+        <td class="num ${dispCls}">${pct(disp.percentual)}</td>
+        <td class="num ${dispCls}">${fmtBR(dispDiff)}</td>
+        <td class="num ${dispCls}">${pct(10 - disp.percentual)}</td>
+      </tr>`;
+      const p = latest.pessoal;
+      const pessoalRows = [
+        { name:"PESSOAL EXECUTIVO", limitPct:54, pctObj:latest.pessoalExecPct, values:p.ultimos12.values.exec, rcl:p.ultimos12.rcl },
+        { name:"PESSOAL TOTAL", limitPct:60, pctObj:latest.pessoalTotalPct, values:p.ultimos12.values.total, rcl:p.ultimos12.rcl }
+      ];
+      html += `<tr class="subsec"><td colspan="8">DESPESA COM PESSOAL ULTIMOS 12 MESES - ATE ${latest.label}/${latest.ano}</td></tr>`;
+      html += `<tr><td><strong>RCL AJUSTADA</strong></td><td>Base de calculo</td><td class="num" colspan="2">${fmtBR(p.ultimos12.rcl)}</td><td colspan="4"></td></tr>`;
+      html += pessoalRows.map(row => {
+        const minValue = row.rcl * row.limitPct / 100;
+        const applied = row.values.liq || 0;
+        const pctVal = row.pctObj.liq || 0;
+        const diff = minValue - applied;
+        const diffPct = row.limitPct - pctVal;
+        const cls = diffClass(diff);
+        return `<tr>
+          <td><strong>${row.name}</strong></td>
+          <td>DTP / RCL</td>
+          <td class="num">${fmtBR(minValue)}</td>
+          <td class="num">${pct(row.limitPct)}</td>
+          <td class="num ${cls}">${fmtBR(applied)}</td>
+          <td class="num ${cls}">${pct(pctVal)}</td>
+          <td class="num ${cls}">${fmtBR(diff)}</td>
+          <td class="num ${cls}">${pct(diffPct)}</td>
+        </tr>`;
+      }).join("");
+      return html;
+    }
+
+    function renderLegal(legal){
+      const latest = legal.filter(x => x.base || x.fundebRec).slice(-1)[0] || legal[legal.length-1];
+      document.getElementById("legalAno").textContent = latest.label + "/" + latest.ano;
+      document.getElementById("legalAtualizadoTitulo").textContent = "Atualizado ate " + latest.label + "/" + latest.ano;
+      document.getElementById("ecoStatus").textContent = "Atualizado ate " + latest.label + "/" + latest.ano;
+      cards("legalCards", [
+        {label:"Saude ASPS", value:pct(latest.saudePct.liq), sub:"Oficial liquidado - meta 15%", color: latest.saudePct.liq >= 15 ? "green" : "red"},
+        {label:"Educacao MDE", value:pct(latest.mdePct.liq), sub:"Oficial liquidado - meta 25%", color: latest.mdePct.liq >= 25 ? "green" : "red"},
+        {label:"FUNDEB Magisterio", value:pct(latest.fundebMagPct.liq), sub:"Oficial liquidado - meta 70%", color: latest.fundebMagPct.liq >= 70 ? "green" : "red"},
+        {label:"VAAT Infantil", value:pct(latest.vaatInfantilPct.liq), sub:"Oficial liquidado - meta " + pct(ECO_CONFIG.metas.vaatInfantil), color: latest.vaatInfantilPct.liq >= ECO_CONFIG.metas.vaatInfantil ? "green" : "red"},
+        {label:"VAAT Investimento", value:pct(latest.vaatInvestimentoPct.liq), sub:"Oficial liquidado - meta 15%", color: latest.vaatInvestimentoPct.liq >= 15 ? "green" : "red"},
+        {label:"ETI", value:pct(latest.etiPct.liq), sub:"Oficial liquidado - meta 4%", color: latest.etiPct.liq >= 4 ? "green" : "red"},
+        {label:"Saldo FUNDEB", value:pct(latest.fundebDisponibilidade.percentual), sub:"Disponibilidade maxima 10% da receita", color: latest.fundebDisponibilidade.ok ? "green" : "red"},
+        {label:"Pessoal Exec. 12m", value:pct(latest.pessoalExecPct.liq), sub:"Sem Camara - limite 54%", color: latest.pessoalExecPct.liq <= 54 ? "green" : "red"},
+        {label:"Pessoal Total 12m", value:pct(latest.pessoalTotalPct.liq), sub:"Com Camara - limite 60%", color: latest.pessoalTotalPct.liq <= 60 ? "green" : "red"},
+        {label:"Pessoal Exec. exercicio", value:pct(latest.pessoalExercicioExecPct.liq), sub:"Jan ate competencia"},
+        {label:"Pessoal Total exercicio", value:pct(latest.pessoalExercicioTotalPct.liq), sub:"Jan ate competencia"}
+      ]);
+      const labels = legal.map(x => x.label);
+      makeChart("chartLegalTrend", { type:"line", data:{ labels, datasets:[
+        {label:"Saude ASPS", data:legal.map(x=>x.saudePct.liq), borderColor:COLORS[0], backgroundColor:COLORS[0], tension:.25},
+        {label:"MDE", data:legal.map(x=>x.mdePct.liq), borderColor:COLORS[1], backgroundColor:COLORS[1], tension:.25},
+        {label:"FUNDEB Magisterio", data:legal.map(x=>x.fundebMagPct.liq), borderColor:COLORS[2], backgroundColor:COLORS[2], tension:.25},
+        {label:"VAAT Infantil", data:legal.map(x=>x.vaatInfantilPct.liq), borderColor:COLORS[3], backgroundColor:COLORS[3], tension:.25},
+        {label:"VAAT Investimento", data:legal.map(x=>x.vaatInvestimentoPct.liq), borderColor:COLORS[4], backgroundColor:COLORS[4], tension:.25},
+        {label:"ETI", data:legal.map(x=>x.etiPct.liq), borderColor:COLORS[5], backgroundColor:COLORS[5], tension:.25},
+        {label:"Saldo FUNDEB", data:legal.map(x=>x.fundebDisponibilidade.percentual), borderColor:"#d95f02", backgroundColor:"#d95f02", tension:.25},
+        {label:"Pessoal Exec.", data:legal.map(x=>x.pessoalExecPct.liq), borderColor:COLORS[6], backgroundColor:COLORS[6], tension:.25}
+      ]}, options:chartOptions("%") });
+      const barLabels = ["Saude","MDE","FUNDEB","VAAT Inf.","VAAT Inv.","ETI","Pessoal Exec.","Pessoal Total"];
+      const barSeries = [latest.saudePct, latest.mdePct, latest.fundebMagPct, latest.vaatInfantilPct, latest.vaatInvestimentoPct, latest.etiPct, latest.pessoalExecPct, latest.pessoalTotalPct];
+      makeChart("chartLegalLatest", { type:"bar", data:{ labels:barLabels, datasets:[
+        {label:"Empenhado", data:barSeries.map(x=>x.emp), backgroundColor:"#2f76bc", borderRadius:4},
+        {label:"Liquidado (oficial)", data:barSeries.map(x=>x.liq), backgroundColor:"#3aa675", borderRadius:4},
+        {label:"Pago", data:barSeries.map(x=>x.pag), backgroundColor:"#c4872c", borderRadius:4}
+      ]}, options:chartOptions("%") });
+      document.getElementById("legalTable").innerHTML = renderLegalSummary(latest);
+    }
+    function renderFolha(folha){
+      const latestYear = ECO_CONFIG.anos.filter(a => folha[a] && folha[a].total).slice(-1)[0] || ECO_CONFIG.anos[ECO_CONFIG.anos.length-1];
+      const latest = folha[latestYear];
+      const tipos = ["Eletivos","Comissionados","Contratados","Efetivos","Inativos/Pensionistas","Outros"];
+      cards("folhaCards", [
+        {label:"Ano analisado", value:latestYear, sub:"Ultimo CSV disponivel"},
+        {label:"Total de servidores", value:latest.total.toLocaleString("pt-BR"), sub:"Matriculas/CPFs unicos"},
+        {label:"Efetivos", value:(latest.tipo.Efetivos||0).toLocaleString("pt-BR"), sub:pct(latest.total ? (latest.tipo.Efetivos||0)/latest.total*100 : 0)},
+        {label:"Comissionados", value:(latest.tipo.Comissionados||0).toLocaleString("pt-BR"), sub:pct(latest.total ? (latest.tipo.Comissionados||0)/latest.total*100 : 0)}
+      ]);
+      makeChart("chartTiposCargo", { type:"doughnut", data:{ labels:tipos, datasets:[{ data:tipos.map(t=>latest.tipo[t]||0), backgroundColor:COLORS }]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom"}}} });
+      makeChart("chartEvolucaoCargos", { type:"line", data:{ labels:ECO_CONFIG.anos, datasets:tipos.map((t,i) => ({
+        label:t,
+        data:ECO_CONFIG.anos.map(a=>folha[a].tipo[t]||0),
+        borderColor:COLORS[i],
+        backgroundColor:COLORS[i],
+        tension:.25
+      }))}, options:chartOptions("") });
+      const cargos = Object.entries(latest.cargoEfetivo).sort((a,b)=>b[1]-a[1]).slice(0,12);
+      const totalEf = cargos.reduce((s,x)=>s+x[1],0) || 1;
+      makeChart("chartCargosEfetivos", { type:"bar", data:{ labels:cargos.map(x=>x[0]), datasets:[{ label:"% dos efetivos", data:cargos.map(x=>x[1]/totalEf*100), backgroundColor:COLORS[0], borderRadius:5 }]}, options:{...chartOptions("%"), indexAxis:"y"} });
+    }
+    function renderDespesas(desp){
+      const cats = ["combustivel","medicamentos","doacoes","diarias","investimentos"];
+      const latestYear = ECO_CONFIG.anos.filter(a => desp[a]).slice(-1)[0] || ECO_CONFIG.anos[ECO_CONFIG.anos.length-1], latest = desp[latestYear] || {};
+      document.getElementById("despesaAnoMensal").textContent = latestYear;
+      cards("despesaCards", cats.slice(0,4).map(cat => ({label:cat.toUpperCase(), value:money(latest[cat]||0), sub:"Empenhado em " + latestYear})));
+      makeChart("chartDespesas", { type:"line", data:{ labels:ECO_CONFIG.anos, datasets:cats.map((cat,i)=>({ label:cat[0].toUpperCase()+cat.slice(1), data:ECO_CONFIG.anos.map(a=>desp[a][cat]||0), borderColor:COLORS[i], backgroundColor:COLORS[i], tension:.25 }))}, options:chartOptions("R$") });
+      makeChart("chartDespesasMensal", { type:"line", data:{ labels:MESES, datasets:cats.map((cat,i)=>({ label:cat[0].toUpperCase()+cat.slice(1), data:(latest.months && latest.months[cat]) || Array(12).fill(0), borderColor:COLORS[i], backgroundColor:COLORS[i], tension:.25 }))}, options:chartOptions("R$") });
+    }
+    function renderReceitas(receita){
+      const latestYear = ECO_CONFIG.anos.filter(a => receita[a] && receita[a].total).slice(-1)[0] || ECO_CONFIG.anos[ECO_CONFIG.anos.length-1];
+      document.getElementById("receitaAno").textContent = latestYear;
+      const latest = receita[latestYear];
+      cards("receitaCards", [
+        {label:"Receita do ultimo ano", value:money(latest.total), sub:String(latestYear), color:"green"},
+        {label:"Maior mes", value:money(Math.max(...latest.months)), sub:MESES[latest.months.indexOf(Math.max(...latest.months))]},
+        {label:`Receita ${ECO_CONFIG.anos[0]}-${ECO_CONFIG.anos[ECO_CONFIG.anos.length-1]}`, value:money(ECO_CONFIG.anos.reduce((s,a)=>s+receita[a].total,0)), sub:"Soma dos CSVs ativos"},
+        {label:"Media mensal", value:money(latest.total / Math.max(1, latest.months.filter(v=>v>0).length)), sub:"Ultimo ano"}
+      ]);
+      makeChart("chartReceitaMensal", { type:"bar", data:{ labels:MESES, datasets:[{label:"Receita", data:latest.months, backgroundColor:COLORS[1], borderRadius:5}]}, options:chartOptions("R$") });
+      makeChart("chartReceitaAnual", { type:"bar", data:{ labels:ECO_CONFIG.anos, datasets:[{label:"Receita anual", data:ECO_CONFIG.anos.map(a=>receita[a].total), backgroundColor:COLORS[0], borderRadius:5}]}, options:chartOptions("R$") });
+    }
+    function renderResultado(resultado){
+      document.getElementById("resultadoAno").textContent = monthNameFromNumber(resultado.mes) + "/" + resultado.ano;
+      cards("resultadoCards", [
+        {label:"Receita realizada", value:money(resultado.receitaTotal), sub:"Ate " + monthNameFromNumber(resultado.mes), color:"green"},
+        {label:"Despesa empenhada", value:money(resultado.despEmp), sub:"Ate " + monthNameFromNumber(resultado.mes), color:"blue"},
+        {label:"Resultado pelo empenhado", value:money(resultado.resultadoEmp), sub:resultado.resultadoEmp >= 0 ? "Superavit orcamentario" : "Deficit orcamentario", color:resultado.resultadoEmp >= 0 ? "green" : "red"},
+        {label:"Resultado pelo liquidado", value:money(resultado.resultadoLiq), sub:resultado.resultadoLiq >= 0 ? "Superavit orcamentario" : "Deficit orcamentario", color:resultado.resultadoLiq >= 0 ? "green" : "red"}
+      ]);
+      makeChart("chartResultadoTotal", { type:"bar", data:{ labels:["Receita","Empenhado","Liquidado"], datasets:[{ label:"Valor", data:[resultado.receitaTotal, resultado.despEmp, resultado.despLiq], backgroundColor:["#3aa675","#2f76bc","#c4872c"], borderRadius:5 }]}, options:chartOptions("R$") });
+      const topEmp = [...resultado.porFonte].sort((a,b) => Math.abs(b.resultadoEmp) - Math.abs(a.resultadoEmp)).slice(0,12);
+      const topLiq = [...resultado.porFonte].sort((a,b) => Math.abs(b.resultadoLiq) - Math.abs(a.resultadoLiq)).slice(0,12);
+      makeChart("chartResultadoFonteEmp", { type:"bar", data:{ labels:topEmp.map(x=>x.fonte), datasets:[{ label:"Receita - Empenhado", data:topEmp.map(x=>x.resultadoEmp), fullLabels:topEmp.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topEmp.map(x=>x.resultadoEmp >= 0 ? "#3aa675" : "#c43d4b"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
+      makeChart("chartResultadoFonteLiq", { type:"bar", data:{ labels:topLiq.map(x=>x.fonte), datasets:[{ label:"Receita - Liquidado", data:topLiq.map(x=>x.resultadoLiq), fullLabels:topLiq.map(x=>x.fonteCompleta || x.fonte), backgroundColor:topLiq.map(x=>x.resultadoLiq >= 0 ? "#3aa675" : "#c43d4b"), borderRadius:5 }]}, options:horizontalChartOptions("R$") });
+    }
+
+    const MASTER_USER = ECO_USUARIOS.find(u => normalizeLogin(u.username) === "ecoplan") || { username:"ecoplan", password:"mytfckg2", role:"master" };
+    let CURRENT_USER = null;
+
+    function normalizeLogin(value){
+      return String(value || "").trim().toLowerCase();
+    }
+    function storedUsers(){
+      return ECO_USUARIOS
+        .filter(u => u && normalizeLogin(u.username) && u.password && normalizeLogin(u.username) !== normalizeLogin(MASTER_USER.username))
+        .map(u => ({ username:normalizeLogin(u.username), password:String(u.password), role:u.role === "master" ? "master" : "user" }));
+    }
+    function allUsers(){
+      const users = ECO_USUARIOS
+        .filter(u => u && normalizeLogin(u.username) && u.password)
+        .map(u => ({ username:normalizeLogin(u.username), password:String(u.password), role:u.role === "master" ? "master" : "user" }));
+      return users.some(u => normalizeLogin(u.username) === normalizeLogin(MASTER_USER.username)) ? users : [MASTER_USER, ...users];
+    }
+    function saveStoredUsers(_users){
+      // Configuracao fixa no codigo: para alterar usuarios, edite CONFIG.usuarios no bloco principal.
+    }
+    function isMaster(){
+      return CURRENT_USER && CURRENT_USER.username === MASTER_USER.username;
+    }
+    function setScreen(screen){
+      const btn = document.querySelector(`#ecoMenu button[data-screen="${screen}"]`);
+      if(!btn) return;
+      document.querySelectorAll("#ecoMenu button").forEach(b => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".eco-section").forEach(s => s.classList.toggle("active", s.id === "screen-" + screen));
+    }
+    function renderUsersPanel(){
+      const list = document.getElementById("cfgUsersList");
+      if(!list) return;
+      const users = storedUsers();
+      if(!users.length){
+        list.innerHTML = "<span>Nenhum usuario adicional cadastrado.</span>";
+        return;
+      }
+      list.innerHTML = users.map(u => `<div class="eco-user-line"><span><strong>${u.username}</strong><br><small>${u.role === "master" ? "Master" : "Usuario comum"}</small></span><button type="button" data-remove-user="${u.username}">Remover</button></div>`).join("");
+    }
+    function applyUserAccess(){
+      document.querySelectorAll(".master-only").forEach(el => el.classList.toggle("eco-hidden", !isMaster()));
+    }
+    function showLogin(message){
+      CURRENT_USER = null;
+      document.getElementById("ecoLogin").classList.remove("eco-hidden");
+      document.getElementById("ecoMain").classList.add("eco-hidden");
+      document.getElementById("ecoLogout").classList.add("eco-hidden");
+      document.getElementById("ecoStatus").textContent = "Aguardando login...";
+      document.getElementById("loginMsg").textContent = message || "";
+      document.getElementById("loginPass").value = "";
+      document.getElementById("loginUser").focus();
+    }
+    async function startAppForUser(user){
+      CURRENT_USER = user;
+      sessionStorage.setItem("ecocontrol-auth", JSON.stringify({ username:user.username, role:user.role }));
+      document.getElementById("ecoLogin").classList.add("eco-hidden");
+      document.getElementById("ecoMain").classList.remove("eco-hidden");
+      document.getElementById("ecoLogout").classList.remove("eco-hidden");
+      document.getElementById("ecoStatus").textContent = "Usuario: " + user.username;
+      applyUserAccess();
+      setScreen("legal");
+      loadCodeConfig();
+      await reloadEcoControl();
+      applyUserAccess();
+      renderUsersPanel();
+    }
+    async function tryLogin(){
+      const username = normalizeLogin(document.getElementById("loginUser").value);
+      const password = document.getElementById("loginPass").value;
+      const user = allUsers().find(u => normalizeLogin(u.username) === username && String(u.password) === password);
+      if(!user){
+        document.getElementById("loginMsg").textContent = "Usuario ou senha incorretos.";
+        return;
+      }
+      await startAppForUser({ username:normalizeLogin(user.username), role:user.role || "user" });
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      tryLogin().catch(err => {
+        console.error(err);
+        document.getElementById("loginMsg").textContent = "Nao foi possivel abrir o painel. Confira os links configurados.";
+      });
+    });
+    document.getElementById("loginPass").addEventListener("keydown", e => {
+      if(e.key === "Enter") document.getElementById("loginBtn").click();
+    });
+    document.getElementById("ecoLogout").addEventListener("click", () => {
+      sessionStorage.removeItem("ecocontrol-auth");
+      showLogin("");
+    });
+
+    document.getElementById("ecoMenu").addEventListener("click", e => {
+      const btn = e.target.closest("button[data-screen]");
+      if(!btn) return;
+      if(btn.dataset.screen === "config" && !isMaster()){
+        setScreen("legal");
+        return;
+      }
+      setScreen(btn.dataset.screen);
+    });
+
+    function displayEcoError(err){
+      console.error(err);
+      document.getElementById("ecoLoading").style.display = "none";
+      document.getElementById("ecoContent").style.display = "block";
+      const el = document.getElementById("ecoError");
+      el.style.display = "block";
+      if(err && err.ecoMunicipioMismatch){
+        el.innerHTML = `<strong>Erro de municipio nas tabelas.</strong><br>${err.message}<br><br>Corrija o link da tabela indicada na area CONFIGURACAO PRINCIPAL do codigo.`;
+      }else{
+        el.innerHTML = "<strong>Erro ao carregar o EcoControl.</strong><br>" + (err && err.message ? err.message : err) + "<br><br>Confira se os links dos CSVs estao corretos e se os arquivos permitem acesso publico.";
+      }
+      try{ renderConfigPanel(); renderUsersPanel(); applyUserAccess(); }catch(_err){}
+    }
+
+    async function reloadEcoControl(){
+      try{
+        document.getElementById("ecoLoading").style.display = "block";
+        document.getElementById("ecoContent").style.display = "none";
+        document.getElementById("ecoError").style.display = "none";
+        const [pessoal, despesas, receita, disponibilidades] = await Promise.all([loadGroup("pessoal"), loadGroup("despesas"), loadGroup("receita"), loadGroup("disponibilidades")]);
+        const municipio = validateMunicipios({ pessoal, despesas, receita, disponibilidades });
+        setMunicipioHeader(municipio);
+        renderLegal(calcLegalMonthly(receita, despesas, disponibilidades));
+        renderFolha(calcFolha(pessoal));
+        renderDespesas(calcDespesas(despesas));
+        renderReceitas(calcReceitas(receita));
+        renderResultado(calcResultadoOrcamentario(receita, despesas));
+        renderConfigPanel();
+        document.getElementById("ecoLoading").style.display = "none";
+        document.getElementById("ecoContent").style.display = "block";
+        return true;
+      }catch(err){
+        displayEcoError(err);
+        return false;
+      }
+    }
+
+    (async function initEcoControl(){
+      try{
+        loadCodeConfig();
+        const problemasConfig = validateConfig();
+        if(problemasConfig.length){
+          showConfigWarning(problemasConfig);
+          return;
+        }
+        const saved = JSON.parse(sessionStorage.getItem("ecocontrol-auth") || "null");
+        const knownUser = saved && allUsers().find(u => normalizeLogin(u.username) === normalizeLogin(saved.username));
+        if(knownUser){
+          await startAppForUser({ username:normalizeLogin(knownUser.username), role:knownUser.role || "user" });
+        }else{
+          showLogin("");
+        }
+      }catch(err){
+        console.error(err);
+        document.getElementById("ecoLogin").classList.add("eco-hidden");
+        document.getElementById("ecoMain").classList.remove("eco-hidden");
+        document.getElementById("ecoLoading").style.display = "none";
+        const el = document.getElementById("ecoError");
+        el.style.display = "block";
+        el.innerHTML = "<strong>Erro ao carregar o EcoControl.</strong><br>" + err.message + "<br><br>Confira se os links dos CSVs estao corretos e se os arquivos permitem acesso publico.";
+      }
+    })();
+  </script>
+</div>
