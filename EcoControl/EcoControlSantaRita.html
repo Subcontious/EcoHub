@@ -16,6 +16,7 @@
 
 <div id="ecocontrol-app">
   <style>
+    html,body{margin:0;padding:0;min-height:100%;background:#15171b}
     #ecocontrol-app{font-family:Inter,Arial,sans-serif;color:#162033;background:#eef2f6;min-height:100vh}
     #ecocontrol-app *{box-sizing:border-box}
     .eco-top{background:#102033;color:#fff;padding:22px 20px;border-bottom:4px solid #3aa675}
@@ -77,6 +78,69 @@
     .eco-user-line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eef2f6;padding:7px 0}
     .eco-hidden{display:none}
     @media(max-width:850px){.eco-topin{align-items:flex-start}.eco-mark{width:150px;height:52px}.eco-status{display:none}.eco-menu,.eco-grid,.eco-two{grid-template-columns:1fr}.eco-chart{height:260px}}
+    /* Camada visual EcoControl — superfícies contábeis, sóbrias e fluidas */
+    #ecocontrol-app{
+      --eco-ink:#19251f;--eco-ink-soft:#5b6a61;--eco-muted:#849087;
+      --eco-bg:#f5f7f4;--eco-surface:rgba(255,255,255,.82);--eco-line:rgba(25,37,31,.10);
+      --eco-green:#167c55;--eco-green-dark:#0d5d3e;--eco-green-tint:#e5f4ec;
+      --eco-blue:#276f9f;--eco-gold:#b7791f;--eco-red:#bd3f4a;
+      --eco-shadow:0 1px 2px rgba(22,38,30,.03),0 12px 35px rgba(22,38,30,.07);
+      --eco-shadow-lg:0 20px 60px rgba(20,45,32,.15);
+      --eco-ease:cubic-bezier(.23,1,.32,1);
+      font-family:"Hanken Grotesk",Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--eco-ink);background:
+        radial-gradient(circle at 10% -10%,rgba(52,151,102,.16),transparent 27rem),
+        radial-gradient(circle at 95% 6%,rgba(219,183,111,.16),transparent 24rem),var(--eco-bg);
+      min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;
+    }
+    #ecocontrol-app button,#ecocontrol-app input{font:inherit}
+    #ecocontrol-app button:focus-visible,#ecocontrol-app input:focus-visible{outline:3px solid rgba(22,124,85,.28);outline-offset:3px}
+    .eco-top{position:relative;overflow:hidden;background:linear-gradient(112deg,#1a1c21 0%,#25272e 58%,#1d1f24 100%);border:0;padding:24px 20px;color:#fff;box-shadow:0 8px 28px rgba(20,22,28,.20)}
+    .eco-top::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 76% 10%,rgba(232,89,12,.20),transparent 17rem),linear-gradient(90deg,transparent 55%,rgba(255,255,255,.025));pointer-events:none}
+    .eco-top::after{content:"";position:absolute;width:28rem;height:28rem;right:-12rem;top:-18rem;border:1px solid rgba(232,89,12,.30);border-radius:50%;box-shadow:0 0 0 4.8rem rgba(232,89,12,.035),0 0 0 9.6rem rgba(255,255,255,.018);pointer-events:none}
+    .eco-topin{position:relative;z-index:1;max-width:1240px;gap:18px}
+    .eco-mark{width:176px;height:58px;padding:9px 13px;border:1px solid rgba(255,255,255,.44);border-radius:18px;background:linear-gradient(145deg,#fff,#f3f1ee);box-shadow:0 10px 26px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.9)}
+    .eco-title h1{font-size:clamp(22px,2.4vw,29px);letter-spacing:-.035em;font-weight:750;line-height:1.1}
+    .eco-title p{font-size:12px;max-width:650px;opacity:.77;margin-top:5px}
+    .eco-status{padding:9px 0 9px 22px;border-left:1px solid rgba(255,255,255,.16);font-size:12px;gap:7px}
+    .eco-version{font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#ffad7b;opacity:1}
+    .eco-logout{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);border-radius:999px;padding:6px 12px;transition:transform 150ms var(--eco-ease),background 180ms ease,border-color 180ms ease}
+    .eco-logout:active,.eco-actions button:active,.eco-menu button:active{transform:scale(.97)}
+    .eco-logout:hover{border-color:rgba(232,89,12,.72);background:rgba(232,89,12,.22)}
+    .eco-wrap{max-width:1240px;padding:28px 20px 56px}
+    .eco-menu{position:relative;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:7px;margin:0 0 24px;border:1px solid rgba(255,255,255,.75);border-radius:22px;background:rgba(255,255,255,.62);backdrop-filter:blur(18px) saturate(140%);box-shadow:var(--eco-shadow)}
+    .eco-menu button{position:relative;isolation:isolate;min-height:76px;border:1px solid transparent;border-left:1px solid transparent;border-radius:16px;padding:12px 13px;background:transparent;box-shadow:none;color:var(--eco-ink);transition:background 180ms ease,box-shadow 180ms ease,transform 150ms var(--eco-ease),color 180ms ease}
+    .eco-menu button strong{font-size:13px;letter-spacing:-.01em}.eco-menu button span{font-size:10.5px;line-height:1.35;color:var(--eco-ink-soft);margin-top:4px}
+    .eco-menu button.active{border-left-color:transparent;background:#fff;color:var(--eco-green-dark);box-shadow:0 2px 8px rgba(25,50,35,.06),0 10px 22px rgba(25,50,35,.06)}
+    .eco-menu button.active::before{content:"";position:absolute;left:13px;right:13px;bottom:7px;height:3px;border-radius:99px;background:var(--eco-green)}
+    @media (hover:hover) and (pointer:fine){.eco-menu button:not(.active):hover{background:rgba(255,255,255,.62);transform:translateY(-1px)}}
+    .eco-loading,.eco-error{border:1px solid var(--eco-line);border-radius:20px;padding:22px;background:var(--eco-surface);box-shadow:var(--eco-shadow)}
+    .eco-error{border-left:4px solid var(--eco-red);color:#8f2634}
+    .eco-grid{gap:14px;margin-bottom:18px}.eco-card{position:relative;overflow:hidden;min-height:130px;border:1px solid rgba(25,37,31,.08);border-top:1px solid rgba(255,255,255,.96);border-radius:20px;padding:18px;background:var(--eco-surface);box-shadow:var(--eco-shadow);transition:transform 180ms var(--eco-ease),box-shadow 180ms ease}
+    .eco-card::after{content:"";position:absolute;width:52px;height:52px;top:-20px;right:-16px;border-radius:50%;background:currentColor;opacity:.08}
+    .eco-card.green{color:var(--eco-green);border-top-color:rgba(22,124,85,.32)}.eco-card.blue{color:var(--eco-blue);border-top-color:rgba(39,111,159,.30)}.eco-card.gold{color:var(--eco-gold);border-top-color:rgba(183,121,31,.3)}.eco-card.red{color:var(--eco-red);border-top-color:rgba(189,63,74,.28)}
+    .eco-card .label{font-size:10px;letter-spacing:.1em;font-weight:750;color:var(--eco-ink-soft)}.eco-card .value{font-size:clamp(21px,2vw,27px);font-weight:750;letter-spacing:-.045em;color:var(--eco-ink);margin-top:9px;line-height:1.15}.eco-card .sub{font-size:11px;color:var(--eco-ink-soft);margin-top:8px}
+    @media (hover:hover) and (pointer:fine){.eco-card:hover{transform:translateY(-3px);box-shadow:0 16px 35px rgba(22,48,33,.11)}}
+    .eco-section.active{animation:eco-enter 260ms var(--eco-ease) both}.eco-panel{border:1px solid rgba(25,37,31,.08);border-radius:22px;padding:20px;background:var(--eco-surface);box-shadow:var(--eco-shadow);margin-bottom:18px}.eco-panel-head{align-items:center;gap:12px;border-bottom:1px solid var(--eco-line);padding-bottom:14px;margin-bottom:16px}.eco-panel-head h2{font-size:16px;letter-spacing:-.025em;font-weight:750;color:var(--eco-ink)}.eco-panel-head p{font-size:11px;color:var(--eco-ink-soft);margin-top:4px}.eco-pill{font-size:10px;letter-spacing:.04em;padding:6px 10px;background:var(--eco-green-tint);color:var(--eco-green-dark);border:1px solid rgba(22,124,85,.12)}
+    .eco-chart{height:300px}.eco-two{gap:18px}.eco-table-wrap{margin:0 -5px;border:1px solid var(--eco-line);border-radius:14px}.eco-table{font-size:11px;overflow:hidden}.eco-table th{position:sticky;top:0;background:#edf3ee;color:#425448;padding:11px 10px;border-bottom:1px solid var(--eco-line);font-size:10px;letter-spacing:.035em}.eco-table td{padding:11px 10px;border-bottom:1px solid rgba(25,37,31,.065);color:#394940}.eco-table tbody tr:last-child td{border-bottom:0}.eco-table tbody tr:not(.secrow):not(.subsec):hover td{background:rgba(22,124,85,.035)}.eco-table .secrow td{background:#e2eee6;color:#17442f}.eco-table .subsec td{background:#f3f7f3;color:#314a3b}.eco-ok{color:var(--eco-green-dark)}.eco-bad{color:#a42e3d}.eco-table .diff-pos{color:var(--eco-blue)}.eco-table .diff-neg{color:var(--eco-red)}.eco-note{font-size:11px;line-height:1.6;color:var(--eco-ink-soft);margin-top:13px}
+    .eco-login{position:relative;overflow:hidden;max-width:440px;margin:clamp(44px,9vh,96px) auto;padding:28px;border:1px solid rgba(255,255,255,.8);border-radius:28px;background:rgba(255,255,255,.83);box-shadow:var(--eco-shadow-lg);backdrop-filter:blur(20px) saturate(140%)}
+    .eco-login::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--eco-green),#61b98a)}.eco-login h2{font-size:24px;letter-spacing:-.035em;color:var(--eco-ink);margin:0 0 6px}.eco-login p{font-size:12px;line-height:1.55;color:var(--eco-ink-soft);margin:0 0 20px}.eco-field{gap:6px;margin-bottom:14px}.eco-field label{font-size:11px;letter-spacing:.02em;color:#405147}.eco-field input,.eco-field select{border:1px solid rgba(25,37,31,.14);border-radius:12px;padding:11px 12px;color:var(--eco-ink);background:rgba(255,255,255,.94);transition:border-color 160ms ease,box-shadow 160ms ease}.eco-field input:focus,.eco-field select:focus{border-color:var(--eco-green);box-shadow:0 0 0 4px rgba(22,124,85,.12);outline:0}.eco-actions{margin-top:18px}.eco-actions button{border-radius:12px;background:linear-gradient(135deg,var(--eco-green),var(--eco-green-dark));padding:11px 16px;box-shadow:0 8px 18px rgba(13,93,62,.22);transition:transform 150ms var(--eco-ease),box-shadow 180ms ease}.eco-actions button:hover{box-shadow:0 12px 24px rgba(13,93,62,.28)}
+    @keyframes eco-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:850px){.eco-top{padding:19px 16px}.eco-topin{gap:13px}.eco-mark{width:132px;height:50px;border-radius:14px}.eco-title h1{font-size:21px}.eco-title p{font-size:11px}.eco-wrap{padding:18px 14px 42px}.eco-menu{grid-template-columns:1fr 1fr;padding:6px;border-radius:18px}.eco-menu button{min-height:68px;padding:10px}.eco-grid{grid-template-columns:1fr 1fr;gap:10px}.eco-card{min-height:116px;padding:15px;border-radius:17px}.eco-two{grid-template-columns:1fr;gap:14px}.eco-panel{padding:16px;border-radius:19px}.eco-chart{height:260px}.eco-panel-head{align-items:flex-start}.eco-pill{margin-left:auto}.eco-login{margin:36px 14px;padding:23px;border-radius:23px}}
+    @media(max-width:520px){.eco-menu{grid-template-columns:1fr}.eco-grid{grid-template-columns:1fr}.eco-menu button{min-height:58px}.eco-menu button.active::before{left:11px;right:auto;top:15px;bottom:15px;width:3px;height:auto}.eco-menu button.active{padding-left:17px}.eco-panel-head{flex-wrap:wrap}.eco-pill{margin-left:0}.eco-chart{height:235px}}
+    @media(prefers-reduced-motion:reduce){#ecocontrol-app *,#ecocontrol-app *::before,#ecocontrol-app *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.eco-section.active{animation:none}}
+
+    /* Dark mode — superfícies de grafite e laranja Ecoplan como foco visual. */
+    #ecocontrol-app{--eco-ink:#f5f6f7;--eco-ink-soft:#abb3bc;--eco-muted:#77808a;--eco-bg:#15171b;--eco-surface:rgba(31,34,40,.88);--eco-line:rgba(255,255,255,.095);--eco-green:#70ce9e;--eco-blue:#91b0d4;--eco-gold:#e6b769;--eco-red:#ff8b94;--eco-shadow:0 1px 1px rgba(0,0,0,.22),0 16px 42px rgba(0,0,0,.26);--eco-shadow-lg:0 28px 75px rgba(0,0,0,.48);color:var(--eco-ink);background:radial-gradient(circle at 8% -8%,rgba(232,89,12,.17),transparent 26rem),radial-gradient(circle at 100% 15%,rgba(100,112,128,.15),transparent 28rem),#15171b}
+    #ecocontrol-app button:focus-visible,#ecocontrol-app input:focus-visible{outline-color:rgba(232,89,12,.65)}
+    #ecocontrol-app .eco-menu{border-color:rgba(255,255,255,.10);background:rgba(35,38,45,.78);box-shadow:var(--eco-shadow)}#ecocontrol-app .eco-menu button{color:#e0e4e7}#ecocontrol-app .eco-menu button span{color:#98a1ab}#ecocontrol-app .eco-menu button.active{background:linear-gradient(145deg,#383b43,#2b2e35);color:#fff;box-shadow:inset 0 1px rgba(255,255,255,.10),0 9px 20px rgba(0,0,0,.24)}#ecocontrol-app .eco-menu button.active::before{background:#e8590c;box-shadow:0 0 12px rgba(232,89,12,.55)}
+    @media (hover:hover) and (pointer:fine){#ecocontrol-app .eco-menu button:not(.active):hover{background:rgba(255,255,255,.055)}}
+    #ecocontrol-app .eco-loading,#ecocontrol-app .eco-error,#ecocontrol-app .eco-panel{border-color:var(--eco-line);background:var(--eco-surface)}#ecocontrol-app .eco-error{border-left-color:var(--eco-red);color:#ffc0c5}
+    #ecocontrol-app .eco-card{border-color:rgba(255,255,255,.085);border-top-color:rgba(255,255,255,.15);background:linear-gradient(145deg,rgba(43,46,54,.92),rgba(28,31,37,.92))}#ecocontrol-app .eco-card.green{color:#3aa675;border-top-color:#3aa675}#ecocontrol-app .eco-card.blue{color:#2f76bc;border-top-color:#2f76bc}#ecocontrol-app .eco-card.gold{color:#c4872c;border-top-color:#c4872c}#ecocontrol-app .eco-card.red{color:#c43d4b;border-top-color:#c43d4b}#ecocontrol-app .eco-card .label{color:#aab1b9}#ecocontrol-app .eco-card .value{color:#fbfbfc}#ecocontrol-app .eco-card .sub{color:#9ca5ae}
+    @media (hover:hover) and (pointer:fine){#ecocontrol-app .eco-card:hover{box-shadow:0 20px 40px rgba(0,0,0,.34)}}
+    #ecocontrol-app .eco-panel-head{border-color:var(--eco-line)}#ecocontrol-app .eco-panel-head h2{color:#f7f7f8}#ecocontrol-app .eco-panel-head p,#ecocontrol-app .eco-note{color:#aab2bb}#ecocontrol-app .eco-pill{background:rgba(232,89,12,.15);border-color:rgba(232,89,12,.26);color:#ffad7b}
+    #ecocontrol-app .eco-table-wrap{border-color:var(--eco-line)}#ecocontrol-app .eco-table th{background:#292c33;color:#c7cdd3;border-color:var(--eco-line)}#ecocontrol-app .eco-table td{border-color:rgba(255,255,255,.065);color:#d5d9dd}#ecocontrol-app .eco-table tbody tr:not(.secrow):not(.subsec):hover td{background:rgba(232,89,12,.075)}#ecocontrol-app .eco-table .secrow td{background:#34363e;color:#fff0e7}#ecocontrol-app .eco-table .subsec td{background:#282b32;color:#d7dce0}#ecocontrol-app .eco-ok{color:#3aa675}#ecocontrol-app .eco-bad,#ecocontrol-app .eco-table .diff-neg{color:#c43d4b}#ecocontrol-app .eco-table .diff-pos{color:#1f65c2}
+    #ecocontrol-app .eco-login{border-color:rgba(255,255,255,.11);background:rgba(38,41,48,.90)}#ecocontrol-app .eco-login::before{background:linear-gradient(90deg,#e8590c,#ff9a5c)}#ecocontrol-app .eco-login h2{color:#fff}#ecocontrol-app .eco-login p{color:#aab2bb}#ecocontrol-app .eco-field label{color:#c1c7ce}#ecocontrol-app .eco-field input,#ecocontrol-app .eco-field select{border-color:rgba(255,255,255,.14);background:#1d2026;color:#f5f6f7}#ecocontrol-app .eco-field input::placeholder{color:#6f7882}#ecocontrol-app .eco-field input:focus,#ecocontrol-app .eco-field select:focus{border-color:#e8590c;box-shadow:0 0 0 4px rgba(232,89,12,.17)}#ecocontrol-app .eco-actions button{background:linear-gradient(135deg,#f16b25,#c94706);box-shadow:0 10px 24px rgba(232,89,12,.23)}#ecocontrol-app .eco-actions button:hover{box-shadow:0 14px 28px rgba(232,89,12,.32)}
   </style>
 
   <div class="eco-top">
@@ -234,12 +298,12 @@
        Nao altere o restante do codigo, salvo se for uma nova versao do app.
        ===================================================================== */
 
-    const ECO_MUNICIPIO_NOME = "São José de Princesa";
-    const ECO_INSTANCE_PADRAO = "sao-jose-de-princesa";
+    const ECO_MUNICIPIO_NOME = "Santa Rita";
+    const ECO_INSTANCE_PADRAO = "santa-rita";
     const ECO_VERSAO = "V.2026.4";
 
     // Mes encerrado dos indices: 1=Jan, 2=Fev, 3=Mar, 4=Abr, 5=Mai, 6=Jun, 7=Jul, 8=Ago, 9=Set, 10=Out, 11=Nov, 12=Dez
-    const ECO_MES_ENCERRADO_INDICES = 5;
+    const ECO_MES_ENCERRADO_INDICES = 7;
 
     // Usuarios do painel. Perfil "master" acessa como administrador; perfil "user" apenas visualiza o painel.
     // Observacao: senhas dentro do HTML nao sao seguras contra usuarios tecnicos, mas ficam iguais para todos os computadores.
@@ -251,33 +315,33 @@
     // Links dos CSVs publicados no Wix.
     const ECO_LINKS = {
       pessoal: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_613fd166fd124eb7ad4b42558cceac8d.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_cd8730d5b9454323ace5ca3e326e588f.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_4282036b9f6b48509de20b275b87639c.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_07d1deb2bed24818b286583360abf184.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_3565816630d44761b6af031796b1c81d.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ba8f8de3531842349cdfd3433cdec571.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_deff60dd42b449299a3ef5a6e1526562.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_72ef306b70804452ac64bd760021602a.csv"
       },
       despesas: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_73bcd34d6d9f48ea8f303cdc0e180526.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_0ca17d56229d4f48bf209500beca9708.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ca28f611308c41f99283c3b51f371378.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ec2658526b1e467086375ae7efd04da4.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_7cdb102d05394044b99b8c1c4b690867.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_30288f6cdc614470b91a1aa8255b5ec2.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_62e7a8566d824391bfe0a5bcbe9a1f2a.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_f65230f0830741398af5cbf2e23cd767.csv"
       },
       receita: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_b29f3354dbff4d0e92317bb48ae347af.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_e7ec8728b06948f4abc5ff730f7d6e63.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_86b37580ccfd4544bb23c85d32679ea2.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_ca0feb729163432dac938bc1df636ff2.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_c13fc62b2d834468a0b30cf84e7eff75.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_64be9cab47b64eea9bf5c421b94795da.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_9157d8a8b0af40cca4c5ce087cbb48ed.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_edff827e62f44732a3703e4fe3c5079b.csv"
       },
       disponibilidades: {
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_07d1deb2bed24818b286583360abf184.csv"
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_00cc70d78467426f87cef772bfd8618b.csv"
       }
     };
 
     // Valores oficiais opcionais para o indice de pessoal. Use 0 para calcular pelos CSVs quando possivel.
     const ECO_PESSOAL_MANUAL = {
-      rclAjustada: 31877950.97,
+      rclAjustada: 0,
       despesaExecutivo: 0,
-      despesaTotalPessoal: 10674224.92
+      despesaTotalPessoal: 0
     };
 
     // Ajustes manuais do MDE. Preencha com os valores exatos do relatorio
@@ -292,11 +356,6 @@
     // valor oficial). Comece sempre com tudo em "null"/0 e so preencha um
     // campo especifico quando o valor do site divergir do relatorio oficial
     // naquele item.
-    //
-    // MAIO/2026: superavitAnteriorNaoAplicado estava com o valor 545633.76,
-    // que era de um mes anterior - o relatorio de maio/2026 mostra os itens
-    // 45.4/46.4/47.4 zerados (superavit do ano anterior ja totalmente
-    // aplicado). Corrigido para 0 abaixo; conferir de novo a cada mes.
     const ECO_MDE_MANUAL = {
       // Item 42/3 - Receita Resultante de Impostos (base de calculo do MDE).
       baseReceitaImpostos: null,
@@ -333,7 +392,7 @@
 
     // Meta legal do VAAT-Infantil: varia por municipio (Anexo VAAT do FNDE).
     // Confira no relatorio oficial, item 37 ("Despesa Minima... Educacao Infantil").
-    const ECO_META_VAAT_INFANTIL = 52.50;
+    const ECO_META_VAAT_INFANTIL = 52.5;
 
     /* =====================================================================
        FIM DA AREA EDITAVEL
@@ -373,7 +432,7 @@
     };
 
     const MESES = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-    const COLORS = ["#2f76bc","#3aa675","#c4872c","#8f63c7","#c43d4b","#4a8f8f","#667085"];
+    const COLORS = ["#2f76bc","#3aa675","#c4872c","#7761ad","#c43d4b","#3f8c85","#718078"];
     const charts = {};
 
     function repairText(v){
@@ -451,17 +510,17 @@
     }
     function chartOptions(prefix){
       const fmt = v => prefix === "R$" ? money(v) : prefix === "%" ? pct(v) : Number(v).toLocaleString("pt-BR");
-      return { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom", labels:{ boxWidth:12, font:{ size:11 }}}, tooltip:{ callbacks:{ label:c => " " + c.dataset.label + ": " + fmt(c.chart.options.indexAxis === "y" ? c.parsed.x : c.parsed.y) }}}, scales:{ x:{ grid:{ display:false }}, y:{ beginAtZero:true, ticks:{ callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(16,32,51,.07)" }}}};
+      return { responsive:true, maintainAspectRatio:false, layout:{padding:{top:4}}, plugins:{ legend:{ position:"bottom", labels:{ boxWidth:10, boxHeight:10, usePointStyle:true, pointStyle:"circle", padding:18, color:"#b4bbc3", font:{ family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif", size:11, weight:"600" }}}, tooltip:{ backgroundColor:"rgba(22,24,29,.98)", padding:11, cornerRadius:10, titleFont:{family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",weight:"700"}, bodyFont:{family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"}, callbacks:{ label:c => " " + c.dataset.label + ": " + fmt(c.chart.options.indexAxis === "y" ? c.parsed.x : c.parsed.y) }}}, scales:{ x:{ border:{display:false}, ticks:{color:"#8f99a3",font:{size:10}}, grid:{ display:false }}, y:{ border:{display:false}, beginAtZero:true, ticks:{ color:"#8f99a3", font:{size:10}, callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(255,255,255,.08)", drawTicks:false }}}};
     }
     function horizontalChartOptions(prefix){
       const fmt = v => prefix === "R$" ? money(v) : prefix === "%" ? pct(v) : Number(v).toLocaleString("pt-BR");
-      return { responsive:true, maintainAspectRatio:false, indexAxis:"y", plugins:{ legend:{ position:"bottom", labels:{ boxWidth:12, font:{ size:11 }}}, tooltip:{ callbacks:{
+      return { responsive:true, maintainAspectRatio:false, indexAxis:"y", layout:{padding:{right:4}}, plugins:{ legend:{ position:"bottom", labels:{ boxWidth:10, boxHeight:10, usePointStyle:true, pointStyle:"circle", padding:18, color:"#b4bbc3", font:{ family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif", size:11, weight:"600" }}}, tooltip:{ backgroundColor:"rgba(22,24,29,.98)", padding:11, cornerRadius:10, titleFont:{family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",weight:"700"}, bodyFont:{family:"Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"}, callbacks:{
         title:items => {
           const item = items && items[0];
           return item && item.dataset.fullLabels ? item.dataset.fullLabels[item.dataIndex] : item.label;
         },
         label:c => " " + c.dataset.label + ": " + fmt(c.parsed.x)
-      }}}, scales:{ x:{ beginAtZero:true, ticks:{ callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(16,32,51,.07)" }}, y:{ grid:{ display:false }}}};
+      }}}, scales:{ x:{ border:{display:false}, beginAtZero:true, ticks:{ color:"#8f99a3",font:{size:10}, callback:v => prefix === "R$" ? "R$ " + Number(v).toLocaleString("pt-BR") : prefix === "%" ? v + "%" : Number(v).toLocaleString("pt-BR") }, grid:{ color:"rgba(255,255,255,.08)",drawTicks:false }}, y:{ border:{display:false}, ticks:{color:"#b4bbc3",font:{size:10}}, grid:{ display:false }}}};
     }
     function cards(el, items){
       document.getElementById(el).innerHTML = items.map((c,i) => `<div class="eco-card ${c.color || ["blue","green","gold","red"][i%4]}"><div class="label">${c.label}</div><div class="value">${c.value}</div><div class="sub">${c.sub || ""}</div></div>`).join("");

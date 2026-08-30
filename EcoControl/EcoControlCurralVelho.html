@@ -298,12 +298,12 @@
        Nao altere o restante do codigo, salvo se for uma nova versao do app.
        ===================================================================== */
 
-    const ECO_MUNICIPIO_NOME = "Bonito de Santa Fé";
-    const ECO_INSTANCE_PADRAO = "bonito-de-santa-fe";
+    const ECO_MUNICIPIO_NOME = "Curral Velho";
+    const ECO_INSTANCE_PADRAO = "curral-velho";
     const ECO_VERSAO = "V.2026.4";
 
     // Mes encerrado dos indices: 1=Jan, 2=Fev, 3=Mar, 4=Abr, 5=Mai, 6=Jun, 7=Jul, 8=Ago, 9=Set, 10=Out, 11=Nov, 12=Dez
-    const ECO_MES_ENCERRADO_INDICES = 5;
+    const ECO_MES_ENCERRADO_INDICES = 7;
 
     // Usuarios do painel. Perfil "master" acessa como administrador; perfil "user" apenas visualiza o painel.
     // Observacao: senhas dentro do HTML nao sao seguras contra usuarios tecnicos, mas ficam iguais para todos os computadores.
@@ -315,33 +315,33 @@
     // Links dos CSVs publicados no Wix.
     const ECO_LINKS = {
       pessoal: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_05f7c73795d24c18bf1a7d96563c99a7.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_405806305872426ba2c89c2aa7d946ae.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_3b768fd7a57844cd8b4ce9445d5519bd.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_283df7ed3302422182129c5fc8c9c892.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_a120109581404dfc9eb830094ff8d0cc.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_0adca84206a7434ab90f64c2ee1b37c6.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_3841baf36f6743c1bec39efd3154b014.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_3589dca0c62843dbb218b303447b53cf.csv"
       },
       despesas: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_8f34a57f9b594204b986223c6e154f60.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_158084977de64a4eb4371d497fc1a811.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_6ba4b7b73c934745bbc25e15edde7b4b.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_0469df92df074df0ba532a7e29249da5.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_89dc8621d42945718e6edbcd988226ff.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_5c619da5fe1a4c818c6f3fe609d7fec1.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_e8b1e1edf0624478b7f106f620c4405e.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_420a000a7fe54e97bea49fb8dee6a8f0.csv"
       },
       receita: {
-        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_cf2bf4c9fdcd4b008d3f9364fe81e2c2.csv",
-        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_65832883bff149dba0f0237312c849e1.csv",
-        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_632c6cb1c5f444858c015cc2f82caac2.csv",
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_4f58111b0dcd4c49a46a89e71cc2ee41.csv"
+        2023: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_528f6875f01e42629c040c82fb2a31cb.csv",
+        2024: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_97ce7de9e42d41dca3af0cde36bac661.csv",
+        2025: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_4a9572d2eaed41e981a74280a3ac0e84.csv",
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_1c2378c8001a4826a2be191c0d3041f6.csv"
       },
       disponibilidades: {
-        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_1d7b72ca985a4be48e596dce92497d83.csv"
+        2026: "https://78b6efd9-f3c5-4714-889f-12781b9c6bb5.usrfiles.com/ugd/78b6ef_6a00968bcd1a44cdab38a67e8de33ec4.csv"
       }
     };
 
     // Valores oficiais opcionais para o indice de pessoal. Use 0 para calcular pelos CSVs quando possivel.
     const ECO_PESSOAL_MANUAL = {
-      rclAjustada: 61186762.11,
+      rclAjustada: 0,
       despesaExecutivo: 0,
-      despesaTotalPessoal: 29813573.14
+      despesaTotalPessoal: 0
     };
 
     // Ajustes manuais do MDE. Preencha com os valores exatos do relatorio
@@ -356,13 +356,6 @@
     // valor oficial). Comece sempre com tudo em "null"/0 e so preencha um
     // campo especifico quando o valor do site divergir do relatorio oficial
     // naquele item.
-    //
-    // MAIO/2026: o calculo automatico de excedenteFundeb ficava muito abaixo
-    // do relatorio oficial porque Bonito gastou de VAAF (fonte 541) mais do
-    // que recebeu dela no exercicio (usando saldo de anos anteriores) - o
-    // site nao limita cada subfonte do FUNDEB ao que foi recebido dela.
-    // Por isso os itens 45.3/46.3/47.3 ficaram sobrescritos abaixo com os
-    // valores exatos do relatorio.
     const ECO_MDE_MANUAL = {
       // Item 42/3 - Receita Resultante de Impostos (base de calculo do MDE).
       baseReceitaImpostos: null,
@@ -382,13 +375,13 @@
       // subfonte (ex.: VAAF) mais do que recebeu dela no ano (usando saldo de
       // anos anteriores), este item vem > 0 no relatorio oficial e PRECISA
       // ser preenchido aqui, senao o MDE sai maior do que deveria.
-      excedenteFundeb: { emp: 1836248.85, liq: 1863093.43, pag: 1863093.43 },
+      excedenteFundeb: { emp: null, liq: null, pag: null },
 
       // Itens 45.4/46.4/47.4 - Superavit permitido do exercicio anterior
       // ainda nao aplicado (relatorio de dezembro do ano anterior; normalmente
       // igual para emp/liq/pag). Confira todo mes - costuma virar 0 assim que
       // o superavit anterior for totalmente aplicado.
-      superavitAnteriorNaoAplicado: 832088.84,
+      superavitAnteriorNaoAplicado: 0,
 
       // Itens 45.5/46.5/47.5 - Restos a pagar sem disponibilidade financeira.
       restosAPagarSemDisponibilidade: 0,
@@ -399,7 +392,7 @@
 
     // Meta legal do VAAT-Infantil: varia por municipio (Anexo VAAT do FNDE).
     // Confira no relatorio oficial, item 37 ("Despesa Minima... Educacao Infantil").
-    const ECO_META_VAAT_INFANTIL = 55.21;
+    const ECO_META_VAAT_INFANTIL = 52.5;
 
     /* =====================================================================
        FIM DA AREA EDITAVEL
